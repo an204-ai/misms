@@ -1,0 +1,234 @@
+/* ==============================================================================
+   CloudSms Light & Vibrant Design System (Matching CloudSms Blue & Orange Logo)
+   - Primary: #0284c7 / #0088b6 (Cloud Cyan Blue)
+   - Accent: #f97316 / #ea580c (Sms Vibrant Orange)
+   - Header: Pristine Crisp White with high contrast & crisp logo visibility
+   ============================================================================== */
+
+::selection {
+    background: #0284c7;
+    color: #ffffff;
+}
+
+#copyright p a,
+#loginForm p.help-block a:hover,
+#primaryMenu .nav>li>a:focus,
+#primaryMenu .nav>li>a:hover,
+#promo a.btn,
+.about-desc-content a:hover,
+.accordion .panel-heading a.collapsed h4 i.fa-minus,
+.blog-item-content a:hover,
+.blog-item.full-post .post-author-metadata a:hover,
+.blog-item.full-post:hover a.btn-custom:hover,
+.blog-item:hover .blog-item-content h2 a,
+.ca-holder a.btn:focus,
+.ca-holder a.btn:hover,
+.ca-icon i.fa,
+.comment-thumb a,
+.counter-icon i.fa,
+.features-tab--content a:hover,
+.features-tab--content ul li .fa,
+.off-canvas-menu .nav>li.active>a,
+.off-canvas-menu .nav>li.active>a:focus,
+.off-canvas-menu .nav>li.active>a:hover,
+.off-canvas-menu .nav>li>a:focus,
+.off-canvas-menu .nav>li>a:hover,
+.post-author a:hover,
+.post-author-content h4 a:hover,
+.post-author-content p a:hover,
+.post-comments ul li .comment-content a:hover,
+.post-comments ul li .comment-content h4 a:hover,
+.post-content a:hover,
+.post-content blockquote:before,
+.post-info a:hover,
+.post-meta-data a:hover,
+.post-social-share a:hover,
+.post-tags a:hover,
+.pricing-item .pricing-price .price,
+.primary-menu-links.nav>li>span i,
+.secondary-menu-links>li.active>a,
+.secondary-menu-links>li>a:hover,
+.sidebar-widget .tagcloud a:hover,
+.sidebar-widget ul li a:hover,
+.sidebar-widget.widget--categories ul li.active a,
+.tab-content .features-tab--content h3,
+.team-social-links a:hover,
+.testimonial-item blockquote:before,
+.testimonial-item.owl-item.active.center .testimonial-content:before,
+a,
+a:focus,
+a:hover {
+    color: #0284c7;
+}
+
+.faq-categories ul li.active a,
+.faq-categories ul li a:hover {
+    background-color: #0284c7;
+    color: #fff;
+}
+
+.faq-categories ul li a {
+    border-left: 3px solid #0284c7;
+}
+
+.faq-categories ul li.active a:before,
+.faq-categories ul li a:hover:before {
+    border-left-color: #0284c7;
+}
+
+/* Primary Top Menu Bar */
+#primaryMenu {
+    background: #f8fafc !important;
+    border-bottom: 1px solid #e2e8f0;
+    color: #475569;
+}
+#primaryMenu .primary-menu-links li span,
+#primaryMenu .primary-menu-links li a,
+#primaryMenu .primary-social-menu-links li a {
+    color: #475569 !important;
+    font-size: 13px;
+    font-weight: 500;
+}
+#primaryMenu .primary-menu-links li span i {
+    color: #0284c7 !important;
+    margin-right: 5px;
+}
+#primaryMenu .primary-menu-links li a:hover,
+#primaryMenu .primary-social-menu-links li a:hover {
+    color: #f97316 !important;
+}
+
+/* Secondary Main Navigation Bar (Clean White Background for Sharp Logo) */
+#secondaryMenu {
+    background: #ffffff !important;
+    box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.08);
+    border-bottom: 1px solid #f1f5f9;
+    transition: all 0.3s ease;
+}
+
+#secondaryMenu .secondary-menu-links > li > a {
+    color: #1e293b !important;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 0.02em;
+    padding: 24px 14px;
+    transition: all 0.2s ease;
+}
+
+#secondaryMenu .secondary-menu-links > li > a:hover,
+#secondaryMenu .secondary-menu-links > li.active > a {
+    color: #0284c7 !important;
+    background: transparent;
+}
+
+/* CTA "LIÊN HỆ" Button in Menu */
+#secondaryMenu .secondary-menu-links > li > a.btn-success,
+.btn-menu-secondary-custom {
+    background: linear-gradient(135deg, #f97316 0%, #ea580c 100%) !important;
+    border-color: #ea580c !important;
+    color: #ffffff !important;
+    font-weight: 700 !important;
+    border-radius: 6px !important;
+    padding: 10px 22px !important;
+    margin-top: 14px;
+    margin-left: 10px;
+    box-shadow: 0 4px 14px 0 rgba(249, 115, 22, 0.39);
+    transition: all 0.25s ease !important;
+}
+
+#secondaryMenu .secondary-menu-links > li > a.btn-success:hover,
+.btn-menu-secondary-custom:hover {
+    background: linear-gradient(135deg, #ea580c 0%, #c2410c 100%) !important;
+    box-shadow: 0 6px 20px rgba(234, 88, 12, 0.45) !important;
+    transform: translateY(-1px);
+}
+
+/* Hero Banner & Overlay */
+.bg--overlay:before {
+    background: linear-gradient(135deg, rgba(2, 132, 199, 0.92) 0%, rgba(3, 105, 161, 0.95) 60%, rgba(12, 74, 110, 0.98) 100%) !important;
+}
+
+.banner-item-content h2 span {
+    color: #fdba74 !important; /* Soft energetic orange highlight in banner */
+}
+
+/* Action Buttons */
+a.btn-custom,
+.btn-banner-slide-custom,
+.btn-custom {
+    background: linear-gradient(135deg, #f97316 0%, #ea580c 100%) !important;
+    border: none !important;
+    color: #ffffff !important;
+    font-weight: 700;
+    box-shadow: 0 4px 14px rgba(249, 115, 22, 0.4);
+    border-radius: 6px;
+    transition: all 0.25s ease;
+}
+
+a.btn-custom:hover,
+.btn-banner-slide-custom:hover,
+.btn-custom:hover {
+    background: linear-gradient(135deg, #ea580c 0%, #c2410c 100%) !important;
+    box-shadow: 0 6px 20px rgba(234, 88, 12, 0.5) !important;
+    transform: translateY(-2px);
+}
+
+/* Section Titles & Highlights */
+.section-title h2:before {
+    background: linear-gradient(to right, #0284c7, #f97316) !important;
+    height: 3px;
+    border-radius: 2px;
+}
+
+/* Tabs Navigation */
+.features-tab--nav ul li.active a {
+    background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%) !important;
+    color: #fff !important;
+    box-shadow: 0 4px 12px rgba(2, 132, 199, 0.35);
+}
+
+.features-tab--nav ul li.active:before {
+    border-top-color: #0369a1 !important;
+}
+
+.title-content-dynamic-scroll {
+    color: #0284c7 !important;
+}
+
+/* Pricing Table Header */
+.pt-head {
+    background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%) !important;
+}
+
+/* Footer & Widgets */
+.footer-widget h4:before {
+    background: #f97316 !important;
+}
+
+.footer--subscribe-widget .btn {
+    background: #f97316 !important;
+    border-color: #ea580c !important;
+}
+
+#backToTop a {
+    background: #0284c7 !important;
+    box-shadow: 0 4px 12px rgba(2, 132, 199, 0.35);
+}
+
+#backToTop a:hover {
+    background: #f97316 !important;
+}
+
+/* Accordions */
+#accordion_new .panel-heading a h4 i {
+    background: #0284c7 !important;
+}
+
+#accordion_new .panel-heading a:not(.collapsed) h4 i {
+    background: #f97316 !important;
+}
+
+/* Left quick nav */
+.title-fixed-left_custom {
+    color: #0284c7 !important;
+}

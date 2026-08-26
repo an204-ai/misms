@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CloudSms™ Admin Dashboard | Trình Chỉnh Sửa Trực Tiếp Website</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="../css/font-awesome.min.css">
+    
+    <!-- Custom Admin Styling -->
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+
+    <!-- LOGIN SCREEN OVERLAY -->
+    <div id="loginOverlay" class="login-overlay active">
+        <div class="login-card">
+            <div class="login-header">
+                <img src="../images/upload/logo.png" alt="CloudSms Logo" class="login-logo">
+                <h2>Quản Trị Hệ Thống</h2>
+                <p>Đăng nhập để chỉnh sửa trực tiếp trang web và quản lý liên hệ</p>
+            </div>
+            <form id="loginForm" class="login-form">
+                <div class="form-group">
+                    <label for="loginUsername"><i class="fa fa-user"></i> Tên đăng nhập</label>
+                    <input type="text" id="loginUsername" class="form-control" placeholder="Nhập tài khoản (vd: admin)" required value="admin">
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword"><i class="fa fa-lock"></i> Mật khẩu</label>
+                    <div class="input-password-wrapper">
+                        <input type="password" id="loginPassword" class="form-control" placeholder="Nhập mật khẩu" required value="123">
+                        <button type="button" class="btn-toggle-password" id="togglePasswordBtn"><i class="fa fa-eye"></i></button>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block btn-lg" id="loginSubmitBtn">
+                    <i class="fa fa-sign-in"></i> Đăng Nhập Vào Hệ Thống
+                </button>
+                <div class="login-footer">
+                    <span>Mật khẩu mặc định: <strong>123</strong> (hoặc cloudsms@2026)</span>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MAIN ADMIN APP WRAPPER -->
+    <div id="adminApp" class="admin-wrapper">
+        
+        <!-- SIDEBAR -->
+        <aside class="admin-sidebar" id="adminSidebar">
+            <div class="sidebar-brand">
+                <img src="../images/upload/logo.png" alt="CloudSms Logo" class="sidebar-logo">
+                <span class="badge-admin">43toWeb Editor</span>
+            </div>
+
+            <nav class="sidebar-nav">
+                <div class="nav-section-label">CHỈNH SỬA TRANG WEB</div>
+                <button class="nav-item active" data-tab="liveEditor">
+                    <i class="fa fa-magic"></i> <span>Sửa Trực Tiếp Trang</span>
+                </button>
+
+                <div class="nav-section-label">KHÁCH HÀNG & LIÊN HỆ</div>
+                <button class="nav-item" data-tab="contacts">
+                    <i class="fa fa-envelope-o"></i> <span>Hộp Thư Liên Hệ</span>
+                    <span class="badge-count" id="pendingContactsBadge">0</span>
+                </button>
+
+                <div class="nav-section-label">HỆ THỐNG</div>
+                <button class="nav-item" data-tab="account">
+                    <i class="fa fa-user-circle-o"></i> <span>Tài Khoản Admin</span>
+                </button>
+            </nav>
+
+            <div class="sidebar-footer">
+                <a href="../index.html" target="_blank" class="btn btn-outline-light btn-block btn-sm">
+                    <i class="fa fa-external-link"></i> Xem Website Ngoài
+                </a>
+                <button class="btn btn-danger-soft btn-block btn-sm" id="logoutBtn">
+                    <i class="fa fa-power-off"></i> Đăng Xuất
+                </button>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT AREA -->
+        <div class="admin-main">
+            
+            <!-- TOPBAR -->
+            <header class="admin-topbar">
+                <div class="topbar-left">
+                    <button class="btn-sidebar-toggle" id="sidebarToggleBtn">
+                        <i class="fa fa-bars"></i>
+                    </button>
+                    <div class="page-title-box">
+                        <h1 id="currentSectionTitle">Chỉnh Sửa Trực Tiếp Trang Web</h1>
+                        <p id="currentSectionDesc">Click trực tiếp vào chữ và hình ảnh trên trang web để sửa theo thời gian thực</p>
+                    </div>
+                </div>
+                
+                <div class="topbar-right">
+                    <div class="system-status-indicator">
+                        <span class="status-dot online"></span>
+                        <span class="status-text">Backend API: Online</span>
+                    </div>
+                    <div class="user-profile-chip">
+                        <div class="user-avatar"><i class="fa fa-user"></i></div>
+                        <div class="user-info">
+                            <span class="user-name" id="topbarAdminName">Quản Trị Viên</span>
+                            <span class="user-role">Super Admin</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- TAB CONTENTS -->
+            <main class="admin-content-body">
+
+                <!-- 0. LIVE VISUAL WEBSITE EDITOR TAB (43toWeb Standard) -->
+                <section id="tab-liveEditor" class="tab-panel active">
+                    
+                    <!-- Floating Visual Toolbar -->
+                    <div class="live-editor-toolbar">
+                        
+                        <div class="let-group page-selector-group">
+                            <label><i class="fa fa-file-code-o"></i> Chọn Trang Sửa:</label>
+                            <select id="selectLivePage" class="form-control-sm select-page-dropdown">
+                                <option value="index.html">Trang Chủ</option>
+                                <option value="gioi-thieu.html">Giới Thiệu</option>
+                                <option value="dich-vu-sms-brandname.html">Dịch Vụ SMS Brandname</option>
+                                <option value="giai-phap-gui-tin-nhan-cham-soc-khach-hang-zns.html">Giải Pháp Zalo ZNS</option>
+                                <option value="bao-gia-sms.html">Bảng Báo Giá</option>
+                                <option value="dang-ky-va-quy-dinh-su-dung-sms.html">Hướng Dẫn Đăng Ký</option>
+                                <option value="lien-he.html">Liên Hệ</option>
+                            </select>
+                        </div>
+
+                        <!-- Toggle Chế Độ Chỉnh Sửa Trực Tiếp -->
+                        <div class="let-group edit-toggle-switch-group">
+                            <span class="switch-label"><i class="fa fa-pencil-square-o"></i> Chế độ sửa:</span>
+                            <label class="switch-ui">
+                                <input type="checkbox" id="toggleLiveEditMode" checked onchange="toggleInlineEditState(this.checked)">
+                                <span class="slider-round"></span>
+                            </label>
+                            <span id="editModeStatusText" class="badge-status-edit active">ĐANG BẬT</span>
+                        </div>
+
+                        <!-- Mode Switcher (Visual vs Code) -->
+                        <div class="let-group editor-mode-group">
+                            <button type="button" class="btn-mode-toggle active" id="btnModeVisual" onclick="setEditorMode('visual')">
+                                <i class="fa fa-eye"></i> Sửa Trực Tiếp
+                            </button>
+                            <button type="button" class="btn-mode-toggle" id="btnModeCode" onclick="setEditorMode('code')">
+                                <i class="fa fa-code"></i> Sửa Mã HTML
+                            </button>
+                        </div>
+
+                        <!-- Viewport Device Switcher -->
+                        <div class="let-group viewport-group" id="viewportGroup">
+                            <button type="button" class="btn-vp-toggle active" title="Màn hình Máy tính" onclick="setLiveViewport('desktop')">
+                                <i class="fa fa-desktop"></i>
+                            </button>
+                            <button type="button" class="btn-vp-toggle" title="Máy tính bảng Tablet" onclick="setLiveViewport('tablet')">
+                                <i class="fa fa-tablet"></i>
+                            </button>
+                            <button type="button" class="btn-vp-toggle" title="Điện thoại Di động" onclick="setLiveViewport('mobile')">
+                                <i class="fa fa-mobile-phone"></i>
+                            </button>
+                        </div>
+
+                        <!-- Main Actions -->
+                        <div class="let-group actions-group">
+                            <button type="button" class="btn btn-outline-light btn-sm" onclick="reloadLiveFrame()" title="Hoàn tác thay đổi">
+                                <i class="fa fa-undo"></i> Tải Lại
+                            </button>
+                            <a id="btnPreviewExternal" href="../index.html" target="_blank" class="btn btn-outline-light btn-sm" title="Mở trang trong tab mới">
+                                <i class="fa fa-external-link"></i> Mở Ngoài
+                            </a>
+                            <button type="button" class="btn btn-success btn-sm" id="btnSaveLiveHtml" onclick="saveCurrentLiveHtml()">
+                                <i class="fa fa-save"></i> <strong>LƯU TRANG TRỰC TIẾP</strong>
+                            </button>
+                        </div>
+
+                    </div>
+
+                    <!-- Visual Editor Helper Banner -->
+                    <div class="visual-editor-hint-banner" id="visualHintBanner">
+                        <div class="hint-content">
+                            <i class="fa fa-info-circle text-primary"></i>
+                            <span><strong>Hướng dẫn:</strong> Bạn chỉ cần <u>click chuột trực tiếp vào bất kỳ dòng chữ nào</u> trên trang bên dưới để gõ chỉnh sửa nội dung. Click đúp vào ảnh để đổi hình ảnh mới. Sau khi sửa xong, nhấn nút <strong>LƯU TRANG TRỰC TIẾP</strong> để lưu thay đổi!</span>
+                        </div>
+                    </div>
+
+                    <!-- Editor Canvas Container -->
+                    <div class="live-editor-canvas-wrap" id="editorCanvasWrap">
+                        
+                        <!-- Visual Iframe Preview Mode -->
+                        <div class="canvas-viewport desktop" id="canvasViewport">
+                            <iframe id="liveFrame" src="../index.html" frameborder="0"></iframe>
+                        </div>
+
+                        <!-- Source Code Mode -->
+                        <div class="source-code-editor-wrap" id="sourceCodeWrap" style="display: none;">
+                            <div class="code-editor-header">
+                                <span id="codeEditorFilename">index.html</span>
+                                <span class="code-editor-hint">Chỉnh sửa trực tiếp mã nguồn HTML</span>
+                            </div>
+                            <textarea id="rawHtmlTextarea" class="code-textarea" spellcheck="false"></textarea>
+                        </div>
+
+                    </div>
+
+                </section>
+
+                <!-- 2. CONTACTS INBOX TAB -->
+                <section id="tab-contacts" class="tab-panel">
+                    <div class="card">
+                        <div class="card-header">
+                            <div>
+                                <h3><i class="fa fa-envelope"></i> Hộp Thư Khách Hàng Yêu Cầu Tư Vấn & Báo Giá</h3>
+                                <p class="card-subtitle">Dữ liệu liên hệ gửi từ các form trên website CloudSms</p>
+                            </div>
+                            <div class="header-actions">
+                                <div class="filter-group">
+                                    <label>Lọc trạng thái:</label>
+                                    <select id="filterContactStatus" class="form-control-sm">
+                                        <option value="all">Tất cả liên hệ</option>
+                                        <option value="pending">Chờ xử lý (Mới)</option>
+                                        <option value="processing">Đang tư vấn</option>
+                                        <option value="completed">Đã hoàn tất</option>
+                                    </select>
+                                </div>
+                                <button class="btn btn-primary-soft btn-sm" id="btnRefreshContacts">
+                                    <i class="fa fa-refresh"></i> Làm Mới
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="table-responsive">
+                                <table class="crm-table" id="contactsFullTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Khách Hàng</th>
+                                            <th>Thông Tin Liên Hệ</th>
+                                            <th>Nhu Cầu & Nội Dung Yêu Cầu</th>
+                                            <th>Thời Gian Gửi</th>
+                                            <th>Trạng Thái Xử Lý</th>
+                                            <th>Ghi Chú CSKH</th>
+                                            <th style="text-align: center;">Thao Tác</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="contactsTableBody">
+                                        <!-- Rendered dynamically -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 4. ACCOUNT PROFILE TAB -->
+                <section id="tab-account" class="tab-panel">
+                    <div class="card max-w-700">
+                        <div class="card-header">
+                            <h3><i class="fa fa-user-shield"></i> Thông Tin Tài Khoản Quản Trị Viên</h3>
+                        </div>
+                        <div class="card-body">
+                            <form id="formAccount">
+                                <div class="form-group">
+                                    <label>Tên đăng nhập</label>
+                                    <input type="text" id="accUsername" class="form-control" disabled value="admin">
+                                    <small class="form-hint">Tên đăng nhập mặc định của hệ thống</small>
+                                </div>
+                                <div class="form-group">
+                                    <label>Họ và tên hiển thị</label>
+                                    <input type="text" id="accName" class="form-control" placeholder="Quản Trị Viên CloudSms">
+                                </div>
+                                <div class="form-group">
+                                    <label>Email quản trị</label>
+                                    <input type="email" id="accEmail" class="form-control" placeholder="hello@mediatoday.com.vn">
+                                </div>
+                                
+                                <hr class="form-divider">
+                                <h4><i class="fa fa-key"></i> Đổi Mật Khẩu Đăng Nhập</h4>
+                                <div class="form-group">
+                                    <label>Mật khẩu hiện tại</label>
+                                    <input type="password" id="accCurrentPassword" class="form-control" placeholder="Nhập mật khẩu hiện tại nếu muốn đổi">
+                                </div>
+                                <div class="form-group">
+                                    <label>Mật khẩu mới</label>
+                                    <input type="password" id="accNewPassword" class="form-control" placeholder="Nhập mật khẩu mới">
+                                </div>
+
+                                <button type="submit" class="btn btn-primary" id="btnSaveAccount">
+                                    <i class="fa fa-save"></i> Cập Nhật Thông Tin Tài Khoản
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </section>
+
+            </main>
+
+        </div>
+    </div>
+
+    <!-- IMAGE EDIT MODAL -->
+    <div id="imageEditModal" class="modal-backdrop-custom" style="display: none;">
+        <div class="modal-dialog-custom">
+            <div class="modal-header-custom">
+                <h4><i class="fa fa-image"></i> Thay Đổi Hình Ảnh Trực Tiếp</h4>
+                <button type="button" class="btn-close-modal" onclick="closeImageEditModal()">&times;</button>
+            </div>
+            <div class="modal-body-custom">
+                <div class="form-group">
+                    <label>Đường dẫn hình ảnh (URL / Path)</label>
+                    <input type="text" id="modalImgSrcInput" class="form-control" placeholder="images/upload/ten_anh.png">
+                </div>
+                <div class="form-group">
+                    <label>Hoặc Tải ảnh mới từ máy tính</label>
+                    <div class="file-upload-box">
+                        <input type="file" id="modalImgFileInput" accept="image/*">
+                        <div class="upload-placeholder">
+                            <i class="fa fa-upload"></i>
+                            <span>Chọn file ảnh mới để thay thế</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-img-preview" style="text-align: center; margin-top: 15px;">
+                    <img id="modalImgPreview" src="" alt="Preview" style="max-height: 140px; max-width: 100%; border-radius: 6px; border: 1px solid #e2e8f0; object-fit: contain;">
+                </div>
+            </div>
+            <div class="modal-footer-custom">
+                <button type="button" class="btn btn-outline-light btn-sm" onclick="closeImageEditModal()">Hủy Bỏ</button>
+                <button type="button" class="btn btn-success btn-sm" onclick="applyImageModalChanges()">
+                    <i class="fa fa-check"></i> Áp Dụng Thay Đổi
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION CONTAINER -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <!-- SCRIPT -->
+    <script src="js/admin.js"></script>
+</body>
+</html>
