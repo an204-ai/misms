@@ -1,9 +1,7 @@
 {
   "admin": {
     "username": "admin",
-    "passwordHash": "123",
-    "name": "Quản Trị Viên CloudSms",
-    "email": "hello@mediatoday.com.vn"
+    "passwordHash": "$2b$10$UyZxX/X6.NBDctFrYUUDpuI26itnDmHoFgaA37iuR8T0WCiEEfGUS"
   },
   "contacts": []
 }

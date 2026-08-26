@@ -35,7 +35,14 @@ exports.createContact = (req, res) => {
 
   if (!db.contacts) db.contacts = [];
   db.contacts.unshift(newContact);
-  writeDb(db);
+  
+  const saved = writeDb(db);
+  if (!saved) {
+    return res.status(500).json({
+      success: false,
+      message: 'Lỗi máy chủ khi lưu liên hệ mới!'
+    });
+  }
 
   res.json({
     success: true,
@@ -57,7 +64,14 @@ exports.updateContactStatus = (req, res) => {
   if (status) contact.status = status;
   if (typeof notes === 'string') contact.notes = notes;
 
-  writeDb(db);
+  const saved = writeDb(db);
+  if (!saved) {
+    return res.status(500).json({
+      success: false,
+      message: 'Lỗi máy chủ khi cập nhật thông tin liên hệ!'
+    });
+  }
+
   res.json({
     success: true,
     message: 'Cập nhật trạng thái liên hệ thành công!',
@@ -76,7 +90,14 @@ exports.deleteContact = (req, res) => {
     return res.status(404).json({ success: false, message: 'Không tìm thấy liên hệ cần xóa!' });
   }
 
-  writeDb(db);
+  const saved = writeDb(db);
+  if (!saved) {
+    return res.status(500).json({
+      success: false,
+      message: 'Lỗi máy chủ khi xóa liên hệ!'
+    });
+  }
+
   res.json({
     success: true,
     message: 'Đã xóa liên hệ thành công!'

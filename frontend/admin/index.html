@@ -1,67 +1,53 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
+    <link rel="icon" type="image/svg+xml" href="../images/favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="../images/favicon.png">
+    <link rel="shortcut icon" href="../images/favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="../images/favicon.png">
+                    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CloudSms™ Admin Dashboard | Trình Chỉnh Sửa Trực Tiếp Website</title>
     
-    <!-- Google Fonts -->
+    <!-- Google Fonts (Full Vietnamese Support: Be Vietnam Pro & Inter) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Inter:wght@400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
     
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="../css/font-awesome.min.css">
     
     <!-- Custom Admin Styling -->
     <link rel="stylesheet" href="css/admin.css">
+
+    <!-- Instant Auth Guard: If not logged in, redirect to login.html immediately -->
+    <script>
+        if (!localStorage.getItem('cloudsms_admin_token')) {
+            window.location.replace('login.html');
+        }
+    </script>
 </head>
 <body>
 
-    <!-- LOGIN SCREEN OVERLAY -->
-    <div id="loginOverlay" class="login-overlay active">
-        <div class="login-card">
-            <div class="login-header">
-                <img src="../images/upload/logo.png" alt="CloudSms Logo" class="login-logo">
-                <h2>Quản Trị Hệ Thống</h2>
-                <p>Đăng nhập để chỉnh sửa trực tiếp trang web và quản lý liên hệ</p>
-            </div>
-            <form id="loginForm" class="login-form">
-                <div class="form-group">
-                    <label for="loginUsername"><i class="fa fa-user"></i> Tên đăng nhập</label>
-                    <input type="text" id="loginUsername" class="form-control" placeholder="Nhập tài khoản (vd: admin)" required value="admin">
-                </div>
-                <div class="form-group">
-                    <label for="loginPassword"><i class="fa fa-lock"></i> Mật khẩu</label>
-                    <div class="input-password-wrapper">
-                        <input type="password" id="loginPassword" class="form-control" placeholder="Nhập mật khẩu" required value="123">
-                        <button type="button" class="btn-toggle-password" id="togglePasswordBtn"><i class="fa fa-eye"></i></button>
-                    </div>
-                </div>
-                <button type="submit" class="btn btn-primary btn-block btn-lg" id="loginSubmitBtn">
-                    <i class="fa fa-sign-in"></i> Đăng Nhập Vào Hệ Thống
-                </button>
-                <div class="login-footer">
-                    <span>Mật khẩu mặc định: <strong>123</strong> (hoặc cloudsms@2026)</span>
-                </div>
-            </form>
-        </div>
-    </div>
-
     <!-- MAIN ADMIN APP WRAPPER -->
     <div id="adminApp" class="admin-wrapper">
+        <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
         
         <!-- SIDEBAR -->
         <aside class="admin-sidebar" id="adminSidebar">
             <div class="sidebar-brand">
                 <img src="../images/upload/logo.png" alt="CloudSms Logo" class="sidebar-logo">
-                <span class="badge-admin">43toWeb Editor</span>
+                <span class="badge-admin">Admin</span>
             </div>
 
             <nav class="sidebar-nav">
-                <div class="nav-section-label">CHỈNH SỬA TRANG WEB</div>
+                <div class="nav-section-label">QUẢN LÝ NỘI DUNG</div>
                 <button class="nav-item active" data-tab="liveEditor">
-                    <i class="fa fa-magic"></i> <span>Sửa Trực Tiếp Trang</span>
+                    <i class="fa fa-desktop"></i> <span>Xem Trang Web</span>
+                </button>
+                <button class="nav-item" data-tab="mediaLibrary">
+                    <i class="fa fa-picture-o"></i> <span>Thư Viện Ảnh</span>
+                    <span class="badge-count" id="totalMediaBadge" style="display:none;">0</span>
                 </button>
 
                 <div class="nav-section-label">KHÁCH HÀNG & LIÊN HỆ</div>
@@ -72,7 +58,7 @@
 
                 <div class="nav-section-label">HỆ THỐNG</div>
                 <button class="nav-item" data-tab="account">
-                    <i class="fa fa-user-circle-o"></i> <span>Tài Khoản Admin</span>
+                    <i class="fa fa-key"></i> <span>Đổi Mật Khẩu</span>
                 </button>
             </nav>
 
@@ -96,8 +82,8 @@
                         <i class="fa fa-bars"></i>
                     </button>
                     <div class="page-title-box">
-                        <h1 id="currentSectionTitle">Chỉnh Sửa Trực Tiếp Trang Web</h1>
-                        <p id="currentSectionDesc">Click trực tiếp vào chữ và hình ảnh trên trang web để sửa theo thời gian thực</p>
+                        <h1 id="currentSectionTitle">Xem & Quản Lý Trang Web</h1>
+                        <p id="currentSectionDesc">Xem trước giao diện website và mở trình chỉnh sửa trực quan</p>
                     </div>
                 </div>
                 
@@ -119,46 +105,21 @@
             <!-- TAB CONTENTS -->
             <main class="admin-content-body">
 
-                <!-- 0. LIVE VISUAL WEBSITE EDITOR TAB (43toWeb Standard) -->
+                <!-- 0. PAGE PREVIEW TAB -->
                 <section id="tab-liveEditor" class="tab-panel active">
                     
-                    <!-- Floating Visual Toolbar -->
+                    <!-- Floating Preview Toolbar -->
                     <div class="live-editor-toolbar">
                         
+                        <!-- Left: Page Selector -->
                         <div class="let-group page-selector-group">
-                            <label><i class="fa fa-file-code-o"></i> Chọn Trang Sửa:</label>
-                            <select id="selectLivePage" class="form-control-sm select-page-dropdown">
-                                <option value="index.html">Trang Chủ</option>
-                                <option value="gioi-thieu.html">Giới Thiệu</option>
-                                <option value="dich-vu-sms-brandname.html">Dịch Vụ SMS Brandname</option>
-                                <option value="giai-phap-gui-tin-nhan-cham-soc-khach-hang-zns.html">Giải Pháp Zalo ZNS</option>
-                                <option value="bao-gia-sms.html">Bảng Báo Giá</option>
-                                <option value="dang-ky-va-quy-dinh-su-dung-sms.html">Hướng Dẫn Đăng Ký</option>
-                                <option value="lien-he.html">Liên Hệ</option>
-                            </select>
+                            <label for="selectLivePage"><i class="fa fa-file-text-o"></i> <span>Trang:</span></label>
+                            <select id="selectLivePage" class="select-page-dropdown">
+                                <option value="">Đang tải danh sách trang...</option>
+                            </select>       
                         </div>
 
-                        <!-- Toggle Chế Độ Chỉnh Sửa Trực Tiếp -->
-                        <div class="let-group edit-toggle-switch-group">
-                            <span class="switch-label"><i class="fa fa-pencil-square-o"></i> Chế độ sửa:</span>
-                            <label class="switch-ui">
-                                <input type="checkbox" id="toggleLiveEditMode" checked onchange="toggleInlineEditState(this.checked)">
-                                <span class="slider-round"></span>
-                            </label>
-                            <span id="editModeStatusText" class="badge-status-edit active">ĐANG BẬT</span>
-                        </div>
-
-                        <!-- Mode Switcher (Visual vs Code) -->
-                        <div class="let-group editor-mode-group">
-                            <button type="button" class="btn-mode-toggle active" id="btnModeVisual" onclick="setEditorMode('visual')">
-                                <i class="fa fa-eye"></i> Sửa Trực Tiếp
-                            </button>
-                            <button type="button" class="btn-mode-toggle" id="btnModeCode" onclick="setEditorMode('code')">
-                                <i class="fa fa-code"></i> Sửa Mã HTML
-                            </button>
-                        </div>
-
-                        <!-- Viewport Device Switcher -->
+                        <!-- Center: Viewport Switcher -->
                         <div class="let-group viewport-group" id="viewportGroup">
                             <button type="button" class="btn-vp-toggle active" title="Màn hình Máy tính" onclick="setLiveViewport('desktop')">
                                 <i class="fa fa-desktop"></i>
@@ -171,51 +132,123 @@
                             </button>
                         </div>
 
-                        <!-- Main Actions -->
+                        <!-- Right: Main Actions -->
                         <div class="let-group actions-group">
-                            <button type="button" class="btn btn-outline-light btn-sm" onclick="reloadLiveFrame()" title="Hoàn tác thay đổi">
-                                <i class="fa fa-undo"></i> Tải Lại
+                            <button type="button" class="btn btn-outline-light btn-sm" onclick="reloadLiveFrame()" title="Tải lại trang">
+                                <i class="fa fa-refresh"></i> <span>Tải Lại</span>
                             </button>
-                            <a id="btnPreviewExternal" href="../index.html" target="_blank" class="btn btn-outline-light btn-sm" title="Mở trang trong tab mới">
-                                <i class="fa fa-external-link"></i> Mở Ngoài
+                            <a id="btnPreviewExternal" href="../index.html" target="_blank" class="btn btn-outline-light btn-sm" title="Mở trang trong tab mới ngoài web">
+                                <i class="fa fa-external-link"></i> <span>Xem Web</span>
                             </a>
-                            <button type="button" class="btn btn-success btn-sm" id="btnSaveLiveHtml" onclick="saveCurrentLiveHtml()">
-                                <i class="fa fa-save"></i> <strong>LƯU TRANG TRỰC TIẾP</strong>
+                            <button type="button" class="btn btn-edit-highlight btn-sm" id="btnOpenEditorTab" onclick="openPageEditorInNewTab()" title="Mở trình chỉnh sửa trực quan trong tab mới">
+                                <i class="fa fa-pencil-square-o"></i> <span>Chỉnh Sửa Trang</span>
                             </button>
                         </div>
 
                     </div>
 
-                    <!-- Visual Editor Helper Banner -->
+                    <!-- Preview Helper Banner -->
                     <div class="visual-editor-hint-banner" id="visualHintBanner">
                         <div class="hint-content">
                             <i class="fa fa-info-circle text-primary"></i>
-                            <span><strong>Hướng dẫn:</strong> Bạn chỉ cần <u>click chuột trực tiếp vào bất kỳ dòng chữ nào</u> trên trang bên dưới để gõ chỉnh sửa nội dung. Click đúp vào ảnh để đổi hình ảnh mới. Sau khi sửa xong, nhấn nút <strong>LƯU TRANG TRỰC TIẾP</strong> để lưu thay đổi!</span>
+                            <span>Bạn đang ở <strong>chế độ xem trước trang</strong>. Để chỉnh sửa nội dung văn bản và thay đổi hình ảnh trực quan, vui lòng nhấp vào nút <strong class="text-primary"><i class="fa fa-pencil-square-o"></i> Chỉnh Sửa Trang Này</strong> ở góc trên bên phải để mở trình biên tập trong tab mới!</span>
                         </div>
                     </div>
 
-                    <!-- Editor Canvas Container -->
+                    <!-- Canvas Container -->
                     <div class="live-editor-canvas-wrap" id="editorCanvasWrap">
-                        
-                        <!-- Visual Iframe Preview Mode -->
                         <div class="canvas-viewport desktop" id="canvasViewport">
                             <iframe id="liveFrame" src="../index.html" frameborder="0"></iframe>
                         </div>
-
-                        <!-- Source Code Mode -->
-                        <div class="source-code-editor-wrap" id="sourceCodeWrap" style="display: none;">
-                            <div class="code-editor-header">
-                                <span id="codeEditorFilename">index.html</span>
-                                <span class="code-editor-hint">Chỉnh sửa trực tiếp mã nguồn HTML</span>
-                            </div>
-                            <textarea id="rawHtmlTextarea" class="code-textarea" spellcheck="false"></textarea>
-                        </div>
-
                     </div>
 
                 </section>
 
-                <!-- 2. CONTACTS INBOX TAB -->
+                <!-- 2. MEDIA LIBRARY TAB -->
+                <section id="tab-mediaLibrary" class="tab-panel">
+                    <div class="card">
+                        <div class="card-header">
+                            <div>
+                                <h3><i class="fa fa-picture-o text-primary"></i> Quản Lý Thư Viện Hình Ảnh</h3>
+                                <p class="card-subtitle">Kho tài nguyên hình ảnh, banner, logo và biểu tượng của website</p>
+                            </div>
+                            <div class="header-actions">
+                                <span class="badge-tag info" id="mediaTotalCountBadge"><i class="fa fa-image"></i> 0 ảnh</span>
+                                <span class="badge-tag success" id="mediaTotalSizeBadge"><i class="fa fa-database"></i> 0 MB</span>
+                                <button class="btn btn-success btn-sm" id="btnTriggerUpload">
+                                    <i class="fa fa-cloud-upload"></i> Tải Ảnh Lên
+                                </button>
+                                <button class="btn btn-primary-soft btn-sm" id="btnRefreshMedia">
+                                    <i class="fa fa-refresh"></i> Làm Mới
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="card-body">
+                            <!-- Filter & Search Toolbar -->
+                            <div class="media-toolbar">
+                                <div class="media-categories" id="mediaCategoriesContainer">
+                                    <button type="button" class="btn-cat-pill active" data-category="all">
+                                        <i class="fa fa-folder-open-o"></i> Tất Cả (<span id="catCount-all">0</span>)
+                                    </button>
+                                    <button type="button" class="btn-cat-pill" data-category="upload">
+                                        <i class="fa fa-folder-o"></i> Ảnh Upload (<span id="catCount-upload">0</span>)
+                                    </button>
+                                    <button type="button" class="btn-cat-pill" data-category="logo">
+                                        <i class="fa fa-folder-o"></i> Logo Đối Tác (<span id="catCount-logo">0</span>)
+                                    </button>
+                                    <button type="button" class="btn-cat-pill" data-category="banner">
+                                        <i class="fa fa-folder-o"></i> Banner (<span id="catCount-banner">0</span>)
+                                    </button>
+                                    <button type="button" class="btn-cat-pill" data-category="feature">
+                                        <i class="fa fa-folder-o"></i> Tính Năng (<span id="catCount-feature">0</span>)
+                                    </button>
+                                    <button type="button" class="btn-cat-pill" data-category="tabs">
+                                        <i class="fa fa-folder-o"></i> Thẻ Tab (<span id="catCount-tabs">0</span>)
+                                    </button>
+                                </div>
+                                <div class="media-search-box">
+                                    <i class="fa fa-search search-icon"></i>
+                                    <input type="text" id="mediaSearchInput" class="form-control" placeholder="Tìm kiếm theo tên file ảnh...">
+                                    <button type="button" class="btn-clear-search" id="btnClearMediaSearch" style="display:none;">
+                                        <i class="fa fa-times-circle"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Drag and Drop Dropzone -->
+                            <div class="media-dropzone" id="mediaDropzone">
+                                <input type="file" id="mediaFileInput" multiple accept="image/*" style="display: none;">
+                                <div class="dropzone-content" id="dropzoneTrigger">
+                                    <div class="dropzone-icon"><i class="fa fa-cloud-upload"></i></div>
+                                    <div class="dropzone-text">
+                                        <strong>Nhấp để chọn ảnh</strong> hoặc kéo thả file ảnh vào đây
+                                        <span>Hỗ trợ: PNG, JPG, JPEG, WEBP, SVG, GIF (Tải được nhiều ảnh cùng lúc)</span>
+                                    </div>
+                                </div>
+                                <div class="upload-progress-box" id="uploadProgressBox" style="display: none;">
+                                    <div class="progress-bar-container">
+                                        <div class="progress-bar-fill" id="uploadProgressBar"></div>
+                                    </div>
+                                    <span id="uploadProgressText">Đang tải ảnh lên...</span>
+                                </div>
+                            </div>
+
+                            <!-- Media Grid -->
+                            <div class="media-grid" id="mediaGrid">
+                                <!-- Rendered dynamically -->
+                            </div>
+
+                            <!-- Empty State -->
+                            <div class="empty-table-state" id="mediaEmptyState" style="display: none;">
+                                <i class="fa fa-picture-o"></i>
+                                <p>Không tìm thấy hình ảnh nào phù hợp với bộ lọc hoặc từ khóa tìm kiếm</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 3. CONTACTS INBOX TAB -->
                 <section id="tab-contacts" class="tab-panel">
                     <div class="card">
                         <div class="card-header">
@@ -261,43 +294,87 @@
                     </div>
                 </section>
 
-                <!-- 4. ACCOUNT PROFILE TAB -->
+                <!-- 4. CHANGE PASSWORD TAB -->
                 <section id="tab-account" class="tab-panel">
-                    <div class="card max-w-700">
+                    <div class="card password-card-full">
                         <div class="card-header">
-                            <h3><i class="fa fa-user-shield"></i> Thông Tin Tài Khoản Quản Trị Viên</h3>
+                            <div>
+                                <h3><i class="fa fa-shield text-primary"></i> Đổi Mật Khẩu Đăng Nhập</h3>
+                                <p class="card-subtitle">Bảo mật và cập nhật mật khẩu quản trị viên hệ thống CloudSms</p>
+                            </div>
                         </div>
                         <div class="card-body">
-                            <form id="formAccount">
-                                <div class="form-group">
-                                    <label>Tên đăng nhập</label>
-                                    <input type="text" id="accUsername" class="form-control" disabled value="admin">
-                                    <small class="form-hint">Tên đăng nhập mặc định của hệ thống</small>
-                                </div>
-                                <div class="form-group">
-                                    <label>Họ và tên hiển thị</label>
-                                    <input type="text" id="accName" class="form-control" placeholder="Quản Trị Viên CloudSms">
-                                </div>
-                                <div class="form-group">
-                                    <label>Email quản trị</label>
-                                    <input type="email" id="accEmail" class="form-control" placeholder="hello@mediatoday.com.vn">
-                                </div>
+                            <div class="password-layout-grid">
                                 
-                                <hr class="form-divider">
-                                <h4><i class="fa fa-key"></i> Đổi Mật Khẩu Đăng Nhập</h4>
-                                <div class="form-group">
-                                    <label>Mật khẩu hiện tại</label>
-                                    <input type="password" id="accCurrentPassword" class="form-control" placeholder="Nhập mật khẩu hiện tại nếu muốn đổi">
-                                </div>
-                                <div class="form-group">
-                                    <label>Mật khẩu mới</label>
-                                    <input type="password" id="accNewPassword" class="form-control" placeholder="Nhập mật khẩu mới">
+                                <!-- Left Column: Security Tips & Account Info -->
+                                <div class="password-info-col">
+                                    <div class="account-info-strip">
+                                        <div class="account-badge-avatar">
+                                            <i class="fa fa-user-circle"></i>
+                                        </div>
+                                        <div class="account-badge-info">
+                                            <div class="account-badge-name">Tài khoản: <strong>admin</strong></div>
+                                            <div class="account-badge-role"><span class="status-dot online"></span> Quản trị viên hệ thống</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="security-tips-box">
+                                        <h4><i class="fa fa-lock text-primary"></i> Quy tắc bảo mật mật khẩu</h4>
+                                        <ul class="security-tips-list">
+                                            <li><i class="fa fa-check-circle text-success"></i> Sử dụng tối thiểu <strong>6 ký tự</strong></li>
+                                            <li><i class="fa fa-check-circle text-success"></i> Kết hợp chữ cái, chữ số và ký tự đặc biệt</li>
+                                            <li><i class="fa fa-check-circle text-success"></i> Không dùng mật khẩu dễ đoán như <em>123456</em>, <em>admin</em></li>
+                                            <li><i class="fa fa-check-circle text-success"></i> Đổi mật khẩu định kỳ để nâng cao an toàn</li>
+                                        </ul>
+                                    </div>
                                 </div>
 
-                                <button type="submit" class="btn btn-primary" id="btnSaveAccount">
-                                    <i class="fa fa-save"></i> Cập Nhật Thông Tin Tài Khoản
-                                </button>
-                            </form>
+                                <!-- Right Column: Password Form -->
+                                <div class="password-form-col">
+                                    <form id="formChangePassword" class="password-form">
+                                        <div class="form-group">
+                                            <label for="accCurrentPassword">Mật khẩu hiện tại <span class="text-danger">*</span></label>
+                                            <div class="input-password-wrap">
+                                                <input type="password" id="accCurrentPassword" class="form-control" placeholder="Nhập mật khẩu đang sử dụng" required autocomplete="current-password">
+                                                <button type="button" class="btn-toggle-pwd" data-target="accCurrentPassword" title="Hiện/Ẩn mật khẩu">
+                                                    <i class="fa fa-eye"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="accNewPassword">Mật khẩu mới <span class="text-danger">*</span></label>
+                                            <div class="input-password-wrap">
+                                                <input type="password" id="accNewPassword" class="form-control" placeholder="Nhập mật khẩu mới" required autocomplete="new-password">
+                                                <button type="button" class="btn-toggle-pwd" data-target="accNewPassword" title="Hiện/Ẩn mật khẩu">
+                                                    <i class="fa fa-eye"></i>
+                                                </button>
+                                            </div>
+                                            <small class="form-hint"><i class="fa fa-info-circle"></i> Khuyến nghị đặt mật khẩu từ 6 ký tự để bảo mật an toàn</small>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="accConfirmPassword">Xác nhận mật khẩu mới <span class="text-danger">*</span></label>
+                                            <div class="input-password-wrap">
+                                                <input type="password" id="accConfirmPassword" class="form-control" placeholder="Nhập lại mật khẩu mới" required autocomplete="new-password">
+                                                <button type="button" class="btn-toggle-pwd" data-target="accConfirmPassword" title="Hiện/Ẩn mật khẩu">
+                                                    <i class="fa fa-eye"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-actions-row">
+                                            <button type="button" class="btn btn-secondary-soft" id="btnResetPasswordForm">
+                                                <i class="fa fa-undo"></i> Nhập Lại
+                                            </button>
+                                            <button type="submit" class="btn btn-success" id="btnSubmitChangePassword">
+                                                <i class="fa fa-check-circle"></i> Xác Nhận Đổi Mật Khẩu
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+
+                            </div>
                         </div>
                     </div>
                 </section>
@@ -307,36 +384,55 @@
         </div>
     </div>
 
-    <!-- IMAGE EDIT MODAL -->
-    <div id="imageEditModal" class="modal-backdrop-custom" style="display: none;">
-        <div class="modal-dialog-custom">
-            <div class="modal-header-custom">
-                <h4><i class="fa fa-image"></i> Thay Đổi Hình Ảnh Trực Tiếp</h4>
-                <button type="button" class="btn-close-modal" onclick="closeImageEditModal()">&times;</button>
+    <!-- LIGHTBOX / IMAGE DETAIL MODAL -->
+    <div id="mediaDetailModal" class="admin-modal" style="display: none;">
+        <div class="admin-modal-dialog media-modal-dialog">
+            <div class="admin-modal-header">
+                <h4 id="mediaModalTitle"><i class="fa fa-image text-primary"></i> Chi Tiết Hình Ảnh</h4>
+                <button type="button" class="modal-close-btn" onclick="closeMediaDetailModal()">
+                    <i class="fa fa-times"></i>
+                </button>
             </div>
-            <div class="modal-body-custom">
-                <div class="form-group">
-                    <label>Đường dẫn hình ảnh (URL / Path)</label>
-                    <input type="text" id="modalImgSrcInput" class="form-control" placeholder="images/upload/ten_anh.png">
-                </div>
-                <div class="form-group">
-                    <label>Hoặc Tải ảnh mới từ máy tính</label>
-                    <div class="file-upload-box">
-                        <input type="file" id="modalImgFileInput" accept="image/*">
-                        <div class="upload-placeholder">
-                            <i class="fa fa-upload"></i>
-                            <span>Chọn file ảnh mới để thay thế</span>
+            <div class="admin-modal-body">
+                <div class="media-detail-layout">
+                    <div class="media-detail-preview">
+                        <img id="mediaModalImg" src="" alt="Image Preview">
+                    </div>
+                    <div class="media-detail-info">
+                        <div class="detail-row">
+                            <label>Tên file:</label>
+                            <span id="mediaModalFilename" class="font-bold">—</span>
+                        </div>
+                        <div class="detail-row">
+                            <label>Thư mục:</label>
+                            <span id="mediaModalCategory" class="badge-tag info">—</span>
+                        </div>
+                        <div class="detail-row">
+                            <label>Dung lượng:</label>
+                            <span id="mediaModalSize">—</span>
+                        </div>
+                        <div class="detail-row">
+                            <label>Ngày cập nhật:</label>
+                            <span id="mediaModalDate">—</span>
+                        </div>
+                        <div class="detail-row-full">
+                            <label>Đường dẫn tương đối (Website):</label>
+                            <div class="copy-input-group">
+                                <input type="text" id="mediaModalRelativePath" class="form-control" readonly>
+                                <button type="button" class="btn btn-primary-soft btn-sm" onclick="copyPathFromModal()">
+                                    <i class="fa fa-copy"></i> Sao Chép
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="modal-img-preview" style="text-align: center; margin-top: 15px;">
-                    <img id="modalImgPreview" src="" alt="Preview" style="max-height: 140px; max-width: 100%; border-radius: 6px; border: 1px solid #e2e8f0; object-fit: contain;">
-                </div>
             </div>
-            <div class="modal-footer-custom">
-                <button type="button" class="btn btn-outline-light btn-sm" onclick="closeImageEditModal()">Hủy Bỏ</button>
-                <button type="button" class="btn btn-success btn-sm" onclick="applyImageModalChanges()">
-                    <i class="fa fa-check"></i> Áp Dụng Thay Đổi
+            <div class="admin-modal-footer">
+                <button type="button" class="btn btn-danger-soft" id="btnModalDeleteMedia">
+                    <i class="fa fa-trash"></i> Xóa Ảnh Này
+                </button>
+                <button type="button" class="btn btn-secondary" onclick="closeMediaDetailModal()">
+                    Đóng
                 </button>
             </div>
         </div>
@@ -346,6 +442,7 @@
     <div id="toastContainer" class="toast-container"></div>
 
     <!-- SCRIPT -->
+    <script src="js/shared.js"></script>
     <script src="js/admin.js"></script>
 </body>
 </html>

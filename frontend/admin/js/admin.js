@@ -3,25 +3,25 @@
  * 43toWeb Standard Live Visual Inline Website Editor & System Engine
  */
 
-const API_BASE = 'http://localhost:5000/api';
-
 // Global State
 let currentTab = 'liveEditor';
 let currentFilename = 'index.html';
-let editorMode = 'visual'; // 'visual' | 'code'
-let currentViewport = 'desktop'; // 'desktop' | 'tablet' | 'mobile'
-let selectedImgElement = null;
+let currentViewport = 'desktop';
 
-let settingsData = {};
 let contactsData = [];
 let currentUser = null;
+let mediaLibraryList = [];
+let currentMediaCategory = 'all';
+let mediaSearchQuery = '';
+let selectedMediaItem = null;
+let availablePagesList = [];
 
 // DOM Ready
 document.addEventListener('DOMContentLoaded', () => {
     initAuth();
     initNavigation();
     initLiveEditor();
-    initSettingsEvents();
+    initMediaLibraryEvents();
     initContactsEvents();
     initAccountEvents();
 });
@@ -30,71 +30,25 @@ document.addEventListener('DOMContentLoaded', () => {
    1. AUTHENTICATION & SESSION
    ============================================================================== */
 function initAuth() {
-    const token = localStorage.getItem('cloudsms_admin_token');
+    const token = getAuthToken();
     const userStr = localStorage.getItem('cloudsms_admin_user');
 
-    if (token && userStr) {
-        try {
-            currentUser = JSON.parse(userStr);
-            document.getElementById('loginOverlay').classList.remove('active');
-            updateUserUI();
-            loadInitialData();
-        } catch (e) {
-            showLogin();
-        }
-    } else {
-        showLogin();
+    if (!token || !userStr) {
+        redirectToLogin();
+        return;
     }
 
-    // Toggle password visibility
-    const toggleBtn = document.getElementById('togglePasswordBtn');
-    const passInput = document.getElementById('loginPassword');
-    if (toggleBtn && passInput) {
-        toggleBtn.addEventListener('click', () => {
-            const isPassword = passInput.type === 'password';
-            passInput.type = isPassword ? 'text' : 'password';
-            toggleBtn.innerHTML = isPassword ? '<i class="fa fa-eye-slash"></i>' : '<i class="fa fa-eye"></i>';
+    try {
+        currentUser = JSON.parse(userStr);
+        updateUserUI();
+        loadInitialData();
+
+        // Validate token with server in background
+        authFetch('/auth/profile').catch(() => {
+            // handleSessionExpired will trigger on 401
         });
-    }
-
-    // Login Form Submit
-    const loginForm = document.getElementById('loginForm');
-    if (loginForm) {
-        loginForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const username = document.getElementById('loginUsername').value.trim();
-            const password = document.getElementById('loginPassword').value.trim();
-
-            const submitBtn = document.getElementById('loginSubmitBtn');
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Đang xác thực...';
-
-            try {
-                const res = await fetch(`${API_BASE}/auth/login`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ username, password })
-                });
-                const data = await res.json();
-
-                if (data.success) {
-                    localStorage.setItem('cloudsms_admin_token', data.token);
-                    localStorage.setItem('cloudsms_admin_user', JSON.stringify(data.admin));
-                    currentUser = data.admin;
-                    document.getElementById('loginOverlay').classList.remove('active');
-                    updateUserUI();
-                    showToast('Đăng nhập thành công!', 'success');
-                    loadInitialData();
-                } else {
-                    showToast(data.message || 'Sai thông tin đăng nhập!', 'error');
-                }
-            } catch (err) {
-                showToast('Không thể kết nối đến Backend API! Hãy chắc chắn server Node.js đang chạy trên cổng 5000.', 'error');
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.innerHTML = '<i class="fa fa-sign-in"></i> Đăng Nhập Vào Hệ Thống';
-            }
-        });
+    } catch (e) {
+        redirectToLogin();
     }
 
     // Logout
@@ -102,27 +56,28 @@ function initAuth() {
     if (logoutBtn) {
         logoutBtn.addEventListener('click', () => {
             if (confirm('Bạn có chắc chắn muốn đăng xuất khỏi trang quản trị?')) {
-                localStorage.removeItem('cloudsms_admin_token');
-                localStorage.removeItem('cloudsms_admin_user');
+                clearAuthSession();
                 currentUser = null;
-                showLogin();
-                showToast('Đã đăng xuất an toàn.', 'info');
+                redirectToLogin();
             }
         });
     }
 }
 
-function showLogin() {
-    document.getElementById('loginOverlay').classList.add('active');
+function handleSessionExpired() {
+    clearAuthSession();
+    currentUser = null;
+    redirectToLogin();
+}
+
+function redirectToLogin() {
+    window.location.replace('login.html');
 }
 
 function updateUserUI() {
     if (currentUser) {
-        document.getElementById('topbarAdminName').innerText = currentUser.name || currentUser.username;
-        const accName = document.getElementById('accName');
-        const accEmail = document.getElementById('accEmail');
-        if (accName) accName.value = currentUser.name || '';
-        if (accEmail) accEmail.value = currentUser.email || '';
+        const topbarName = document.getElementById('topbarAdminName');
+        if (topbarName) topbarName.innerText = currentUser.username || 'admin';
     }
 }
 
@@ -135,17 +90,34 @@ function initNavigation() {
         item.addEventListener('click', () => {
             const tab = item.getAttribute('data-tab');
             switchAdminTab(tab);
+            closeMobileSidebar();
         });
     });
 
     // Mobile sidebar toggle
     const toggleBtn = document.getElementById('sidebarToggleBtn');
     const sidebar = document.getElementById('adminSidebar');
+    const backdrop = document.getElementById('sidebarBackdrop');
+
     if (toggleBtn && sidebar) {
         toggleBtn.addEventListener('click', () => {
-            sidebar.classList.toggle('open');
+            const isOpen = sidebar.classList.toggle('open');
+            if (backdrop) backdrop.classList.toggle('active', isOpen);
         });
     }
+
+    if (backdrop) {
+        backdrop.addEventListener('click', () => {
+            closeMobileSidebar();
+        });
+    }
+}
+
+function closeMobileSidebar() {
+    const sidebar = document.getElementById('adminSidebar');
+    const backdrop = document.getElementById('sidebarBackdrop');
+    if (sidebar) sidebar.classList.remove('open');
+    if (backdrop) backdrop.classList.remove('active');
 }
 
 function switchAdminTab(tabName) {
@@ -160,9 +132,10 @@ function switchAdminTab(tabName) {
     });
 
     const titles = {
-        liveEditor: { title: 'Chỉnh Sửa Trực Tiếp Trang Web', desc: 'Click trực tiếp vào chữ và hình ảnh trên trang web để sửa theo thời gian thực' },
+        liveEditor: { title: 'Xem & Quản Lý Trang Web', desc: 'Xem trước giao diện website và mở trình chỉnh sửa trực quan' },
+        mediaLibrary: { title: 'Quản Lý Thư Viện Hình Ảnh', desc: 'Xem, tải lên, tìm kiếm và quản lý kho tài nguyên hình ảnh website' },
         contacts: { title: 'Hộp Thư Khách Hàng', desc: 'Danh sách và trạng thái xử lý các yêu cầu tư vấn & báo giá' },
-        account: { title: 'Tài Khoản Quản Trị', desc: 'Cập nhật thông tin cá nhân và đổi mật khẩu đăng nhập' }
+        account: { title: 'Đổi Mật Khẩu Đăng Nhập', desc: 'Bảo mật và cập nhật mật khẩu quản trị viên hệ thống CloudSms' }
     };
 
     if (titles[tabName]) {
@@ -170,13 +143,15 @@ function switchAdminTab(tabName) {
         document.getElementById('currentSectionDesc').innerText = titles[tabName].desc;
     }
 
-    if (tabName === 'contacts') {
+    if (tabName === 'mediaLibrary') {
+        loadMediaLibrary();
+    } else if (tabName === 'contacts') {
         loadContacts();
     }
 }
 
 /* ==============================================================================
-   3. 43toWeb LIVE VISUAL WEBSITE EDITOR
+   3. WEBSITE PAGE PREVIEW & EDITOR LAUNCHER
    ============================================================================== */
 function initLiveEditor() {
     const selectPage = document.getElementById('selectLivePage');
@@ -188,38 +163,48 @@ function initLiveEditor() {
 
     const liveFrame = document.getElementById('liveFrame');
     if (liveFrame) {
-        liveFrame.addEventListener('load', onLiveFrameLoaded);
-    }
-
-    // Modal Image File upload
-    const modalImgFileInput = document.getElementById('modalImgFileInput');
-    if (modalImgFileInput) {
-        modalImgFileInput.addEventListener('change', async (e) => {
-            const file = e.target.files[0];
-            if (!file) return;
-
-            const formData = new FormData();
-            formData.append('file', file);
-            showToast('Đang tải ảnh lên...', 'info');
-
+        liveFrame.addEventListener('load', () => {
             try {
-                const res = await fetch(`${API_BASE}/upload`, {
-                    method: 'POST',
-                    body: formData
-                });
-                const result = await res.json();
-                if (result.success) {
-                    document.getElementById('modalImgSrcInput').value = result.url;
-                    document.getElementById('modalImgPreview').src = '../' + result.url;
-                    showToast('Tải ảnh mới lên thành công!', 'success');
-                } else {
-                    showToast(result.message || 'Lỗi tải ảnh', 'error');
+                const pathname = liveFrame.contentWindow.location.pathname;
+                const loadedFile = pathname.substring(pathname.lastIndexOf('/') + 1) || 'index.html';
+                if (loadedFile && loadedFile.endsWith('.html')) {
+                    currentFilename = loadedFile;
+                    if (selectPage && selectPage.value !== currentFilename) {
+                        selectPage.value = currentFilename;
+                    }
+                    const externalBtn = document.getElementById('btnPreviewExternal');
+                    if (externalBtn) externalBtn.href = `../${currentFilename}`;
                 }
             } catch (err) {
-                showToast('Không thể upload ảnh lên server!', 'error');
+                console.warn('Iframe nav sync:', err);
             }
         });
+        liveFrame.src = `../${currentFilename}?t=${Date.now()}`;
     }
+}
+
+async function loadPagesList() {
+    try {
+        const { ok, data } = await authFetch('/html-pages');
+        if (ok && data.success && Array.isArray(data.data)) {
+            availablePagesList = data.data;
+            populatePageDropdowns(availablePagesList);
+        }
+    } catch (e) {
+        console.warn('Cannot fetch dynamic page list, keeping static fallback.');
+    }
+}
+
+function populatePageDropdowns(pages) {
+    const selectPage = document.getElementById('selectLivePage');
+    if (!selectPage || !pages.length) return;
+
+    const currentVal = selectPage.value || currentFilename;
+    selectPage.innerHTML = pages.map(p => `
+        <option value="${escapeHtml(p.filename)}" ${p.filename === currentVal ? 'selected' : ''}>
+            ${escapeHtml(p.name)}
+        </option>
+    `).join('');
 }
 
 function loadLivePage(filename) {
@@ -232,215 +217,9 @@ function loadLivePage(filename) {
     const externalBtn = document.getElementById('btnPreviewExternal');
     if (externalBtn) externalBtn.href = `../${filename}`;
 
-    const codeFilename = document.getElementById('codeEditorFilename');
-    if (codeFilename) codeFilename.innerText = filename;
-
-    // Load iframe
     const liveFrame = document.getElementById('liveFrame');
     if (liveFrame) {
         liveFrame.src = `../${filename}?t=${Date.now()}`;
-    }
-
-    // Load source code for textarea
-    fetchRawHtmlForCodeEditor(filename);
-}
-
-async function fetchRawHtmlForCodeEditor(filename) {
-    try {
-        const res = await fetch(`${API_BASE}/html-pages/${filename}`);
-        const result = await res.json();
-        if (result.success) {
-            document.getElementById('rawHtmlTextarea').value = result.content;
-        }
-    } catch (err) {
-        console.error('Error loading HTML source:', err);
-    }
-}
-
-let isLiveEditActive = true;
-
-function toggleInlineEditState(isActive) {
-    isLiveEditActive = isActive;
-
-    const statusBadge = document.getElementById('editModeStatusText');
-    const group = document.querySelector('.edit-toggle-switch-group');
-
-    if (statusBadge) {
-        statusBadge.innerText = isActive ? 'ĐANG BẬT' : 'ĐÃ TẮT';
-        statusBadge.className = `badge-status-edit ${isActive ? 'active' : 'inactive'}`;
-    }
-
-    if (group) {
-        group.classList.toggle('disabled-state', !isActive);
-    }
-
-    applyEditStateToIframe(isActive);
-
-    if (isActive) {
-        showToast('Đã BẬT chế độ sửa. Bạn có thể click trực tiếp vào chữ trên trang để sửa!', 'success');
-    } else {
-        showToast('Đã TẮT chế độ sửa (Chuyển sang chế độ xem trước khách hàng).', 'info');
-    }
-}
-
-function onLiveFrameLoaded() {
-    applyEditStateToIframe(isLiveEditActive);
-    updateRawTextareaFromFrame();
-}
-
-function applyEditStateToIframe(isActive) {
-    const liveFrame = document.getElementById('liveFrame');
-    if (!liveFrame || !liveFrame.contentDocument) return;
-
-    const doc = liveFrame.contentDocument;
-
-    // 1. Injected Visual Editor Style
-    let injectedStyle = doc.getElementById('live-editor-injected-style');
-    if (isActive) {
-        if (!injectedStyle) {
-            injectedStyle = doc.createElement('style');
-            injectedStyle.id = 'live-editor-injected-style';
-            injectedStyle.innerHTML = `
-                [contenteditable="true"] {
-                    outline: none !important;
-                    transition: outline 0.15s ease, background 0.15s ease !important;
-                    cursor: text !important;
-                }
-                [contenteditable="true"]:hover {
-                    outline: 1.5px dashed #0284c7 !important;
-                    outline-offset: 2px !important;
-                    background-color: rgba(2, 132, 199, 0.05) !important;
-                }
-                [contenteditable="true"]:focus {
-                    outline: 2px solid #f97316 !important;
-                    outline-offset: 2px !important;
-                    background-color: rgba(249, 115, 22, 0.06) !important;
-                    box-shadow: 0 0 8px rgba(249, 115, 22, 0.25) !important;
-                }
-                img {
-                    cursor: pointer !important;
-                    transition: transform 0.2s, outline 0.2s !important;
-                }
-                img:hover {
-                    outline: 2px solid #0284c7 !important;
-                    outline-offset: 2px !important;
-                }
-            `;
-            doc.head.appendChild(injectedStyle);
-        }
-    } else {
-        if (injectedStyle) injectedStyle.remove();
-    }
-
-    // 2. Enable/Disable contenteditable on editable text elements
-    const editableSelectors = 'h1, h2, h3, h4, h5, h6, p, a, button, td, th, b, strong, em, address, .btn, .pricing-plan-title';
-    const elements = doc.querySelectorAll(editableSelectors);
-
-    elements.forEach(el => {
-        if (['SCRIPT', 'STYLE', 'LINK', 'NOSCRIPT', 'IFRAME'].includes(el.tagName)) return;
-
-        if (isActive) {
-            el.setAttribute('contenteditable', 'true');
-            el.setAttribute('spellcheck', 'false');
-
-            if (el.tagName === 'A') {
-                el.onclick = (e) => {
-                    if (isLiveEditActive) e.preventDefault();
-                };
-            }
-        } else {
-            el.removeAttribute('contenteditable');
-            el.removeAttribute('spellcheck');
-            if (el.tagName === 'A') {
-                el.onclick = null;
-            }
-        }
-    });
-
-    // 3. Double click on images
-    const images = doc.querySelectorAll('img');
-    images.forEach(img => {
-        if (isActive) {
-            img.ondblclick = (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                openImageEditModal(img);
-            };
-        } else {
-            img.ondblclick = null;
-        }
-    });
-}
-
-function updateRawTextareaFromFrame() {
-    const liveFrame = document.getElementById('liveFrame');
-    if (!liveFrame || !liveFrame.contentDocument) return;
-
-    const docClone = liveFrame.contentDocument.documentElement.cloneNode(true);
-    const style = docClone.querySelector('#live-editor-injected-style');
-    if (style) style.remove();
-    docClone.querySelectorAll('[contenteditable]').forEach(el => el.removeAttribute('contenteditable'));
-    docClone.querySelectorAll('[spellcheck]').forEach(el => el.removeAttribute('spellcheck'));
-
-    const cleanHtml = '<!DOCTYPE html>\n' + docClone.outerHTML;
-    const textarea = document.getElementById('rawHtmlTextarea');
-    if (textarea && editorMode === 'visual') {
-        textarea.value = cleanHtml;
-    }
-}
-
-async function saveCurrentLiveHtml() {
-    const btn = document.getElementById('btnSaveLiveHtml');
-    btn.disabled = true;
-    btn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Đang lưu...';
-
-    let finalHtml = '';
-
-    if (editorMode === 'visual') {
-        const liveFrame = document.getElementById('liveFrame');
-        if (!liveFrame || !liveFrame.contentDocument) {
-            showToast('Không tìm thấy khung chỉnh sửa!', 'error');
-            btn.disabled = false;
-            btn.innerHTML = '<i class="fa fa-save"></i> <strong>LƯU TRANG TRỰC TIẾP</strong>';
-            return;
-        }
-
-        const docClone = liveFrame.contentDocument.documentElement.cloneNode(true);
-        // Remove editor style
-        const style = docClone.querySelector('#live-editor-injected-style');
-        if (style) style.remove();
-
-        // Clean contenteditable attributes
-        docClone.querySelectorAll('[contenteditable]').forEach(el => el.removeAttribute('contenteditable'));
-        docClone.querySelectorAll('[spellcheck]').forEach(el => el.removeAttribute('spellcheck'));
-
-        finalHtml = '<!DOCTYPE html>\n' + docClone.outerHTML;
-    } else {
-        finalHtml = document.getElementById('rawHtmlTextarea').value;
-    }
-
-    try {
-        const res = await fetch(`${API_BASE}/html-pages/${currentFilename}`, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ content: finalHtml })
-        });
-        const result = await res.json();
-
-        if (result.success) {
-            showToast(`Đã lưu và cập nhật trực tiếp trang "${currentFilename}" thành công!`, 'success');
-            // If in code mode, reload visual frame
-            if (editorMode === 'code') {
-                reloadLiveFrame();
-            }
-        } else {
-            showToast(result.message || 'Lỗi khi lưu trang!', 'error');
-        }
-    } catch (err) {
-        showToast('Không thể kết nối đến Backend API để lưu trang!', 'error');
-    } finally {
-        btn.disabled = false;
-        btn.innerHTML = '<i class="fa fa-save"></i> <strong>LƯU TRANG TRỰC TIẾP</strong>';
     }
 }
 
@@ -449,30 +228,10 @@ function reloadLiveFrame() {
     showToast(`Đã tải lại trang ${currentFilename}`, 'info');
 }
 
-function setEditorMode(mode) {
-    editorMode = mode;
-
-    document.getElementById('btnModeVisual').classList.toggle('active', mode === 'visual');
-    document.getElementById('btnModeCode').classList.toggle('active', mode === 'code');
-
-    const viewportGroup = document.getElementById('viewportGroup');
-    const visualBanner = document.getElementById('visualHintBanner');
-    const canvasViewport = document.getElementById('canvasViewport');
-    const sourceCodeWrap = document.getElementById('sourceCodeWrap');
-
-    if (mode === 'visual') {
-        viewportGroup.style.display = 'flex';
-        visualBanner.style.display = 'block';
-        canvasViewport.style.display = 'block';
-        sourceCodeWrap.style.display = 'none';
-        reloadLiveFrame();
-    } else {
-        viewportGroup.style.display = 'none';
-        visualBanner.style.display = 'none';
-        canvasViewport.style.display = 'none';
-        sourceCodeWrap.style.display = 'flex';
-        fetchRawHtmlForCodeEditor(currentFilename);
-    }
+function openPageEditorInNewTab() {
+    const editUrl = `editor.html?page=${encodeURIComponent(currentFilename)}`;
+    window.open(editUrl, '_blank');
+    showToast(`Đang mở trình chỉnh sửa cho trang "${currentFilename}" trong tab mới...`, 'info');
 }
 
 function setLiveViewport(vp) {
@@ -492,72 +251,27 @@ function setLiveViewport(vp) {
     });
 }
 
-// Image Edit Modal
-function openImageEditModal(imgEl) {
-    selectedImgElement = imgEl;
-    const modal = document.getElementById('imageEditModal');
-    const input = document.getElementById('modalImgSrcInput');
-    const preview = document.getElementById('modalImgPreview');
-
-    const currentSrc = imgEl.getAttribute('src') || imgEl.src;
-    input.value = currentSrc;
-    preview.src = imgEl.src;
-
-    input.oninput = () => {
-        preview.src = input.value.startsWith('http') ? input.value : '../' + input.value;
-    };
-
-    modal.style.display = 'flex';
-}
-
-function closeImageEditModal() {
-    document.getElementById('imageEditModal').style.display = 'none';
-    selectedImgElement = null;
-}
-
-function applyImageModalChanges() {
-    if (!selectedImgElement) return;
-    const newSrc = document.getElementById('modalImgSrcInput').value.trim();
-    if (newSrc) {
-        selectedImgElement.setAttribute('src', newSrc);
-        selectedImgElement.src = newSrc.startsWith('http') ? newSrc : '../' + newSrc;
-        showToast('Đã đổi ảnh trực tiếp trên trang!', 'success');
-    }
-    closeImageEditModal();
-}
-
 /* ==============================================================================
    4. DATA LOADING & DASHBOARD METRICS
    ============================================================================== */
 async function loadInitialData() {
-    await Promise.all([
+    await Promise.allSettled([
+        loadPagesList(),
         loadContacts(),
         loadLivePage(currentFilename)
     ]);
 }
 
-async function loadSettings() {
-    try {
-        const res = await fetch(`${API_BASE}/settings`);
-        const result = await res.json();
-        if (result.success) {
-            settingsData = result.data;
-            populateSettingsForm(settingsData);
-        }
-    } catch (err) {
-        console.error('Error loading settings:', err);
-    }
-}
-
 async function loadContacts() {
     try {
-        const res = await fetch(`${API_BASE}/contacts`);
-        const result = await res.json();
-        if (result.success) {
-            contactsData = result.data;
+        const { ok, data } = await authFetch('/contacts');
+        if (ok && data.success) {
+            contactsData = data.data || [];
             updateDashboardMetrics();
             renderRecentContactsTable();
             renderFullContactsTable();
+        } else {
+            showToast(data.message || 'Không thể nạp danh sách liên hệ!', 'error');
         }
     } catch (err) {
         console.error('Error loading contacts:', err);
@@ -591,22 +305,6 @@ function getInitials(name) {
     return (words[0][0] + words[words.length - 1][0]).toUpperCase();
 }
 
-function getTimeStr(isoStr) {
-    if (!isoStr) return '';
-    try {
-        const d = new Date(isoStr);
-        return d.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
-    } catch(e) { return ''; }
-}
-
-function getDateStr(isoStr) {
-    if (!isoStr) return '';
-    try {
-        const d = new Date(isoStr);
-        return d.toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric' });
-    } catch(e) { return ''; }
-}
-
 function renderRecentContactsTable() {
     const tbody = document.querySelector('#dashboardRecentTable tbody');
     if (!tbody) return;
@@ -621,10 +319,10 @@ function renderRecentContactsTable() {
         <tr>
             <td>
                 <div class="lead-user-cell">
-                    <div class="lead-avatar">${getInitials(c.name)}</div>
+                    <div class="lead-avatar">${escapeHtml(getInitials(c.name))}</div>
                     <div class="lead-info">
                         <span class="lead-name">${escapeHtml(c.name)}</span>
-                        <span class="lead-id-tag">#${c.id.replace('ct_', '')}</span>
+                        <span class="lead-id-tag">#${escapeHtml(c.id.replace('ct_', ''))}</span>
                     </div>
                 </div>
             </td>
@@ -641,13 +339,13 @@ function renderRecentContactsTable() {
             </td>
             <td>
                 <div class="lead-date-cell">
-                    <span class="lead-time">${getTimeStr(c.createdAt)}</span>
-                    <span class="lead-date">${getDateStr(c.createdAt)}</span>
+                    <span class="lead-time">${escapeHtml(getTimeStr(c.createdAt))}</span>
+                    <span class="lead-date">${escapeHtml(getDateStr(c.createdAt))}</span>
                 </div>
             </td>
-            <td><span class="status-select-styled ${c.status}">${getStatusLabel(c.status)}</span></td>
+            <td><span class="status-select-styled ${escapeHtml(c.status)}">${escapeHtml(getStatusLabel(c.status))}</span></td>
             <td>
-                <button class="btn btn-sm btn-primary-soft" onclick="switchAdminTab('contacts')">
+                <button type="button" class="btn btn-sm btn-primary-soft" onclick="switchAdminTab('contacts')">
                     <i class="fa fa-eye"></i> Xem Chi Tiết
                 </button>
             </td>
@@ -663,66 +361,53 @@ function renderFullContactsTable() {
     const filtered = contactsData.filter(c => filter === 'all' || c.status === filter);
 
     if (filtered.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="7" class="text-center text-muted py-5"><i class="fa fa-inbox fa-3x d-block mb-3 text-light"></i>Không có tin nhắn liên hệ nào phù hợp bộ lọc.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="7"><div class="empty-table-state"><i class="fa fa-inbox empty-table-icon"></i><span class="empty-table-text">Không có tin nhắn liên hệ nào phù hợp bộ lọc.</span></div></td></tr>`;
         return;
     }
 
     tbody.innerHTML = filtered.map(c => `
-        <tr id="row_${c.id}">
-            <!-- 1. Customer Column -->
+        <tr id="row_${escapeHtml(c.id)}">
             <td>
                 <div class="lead-user-cell">
-                    <div class="lead-avatar">${getInitials(c.name)}</div>
+                    <div class="lead-avatar">${escapeHtml(getInitials(c.name))}</div>
                     <div class="lead-info">
                         <span class="lead-name">${escapeHtml(c.name)}</span>
-                        <span class="lead-id-tag">#${c.id.replace('ct_', '')}</span>
+                        <span class="lead-id-tag">#${escapeHtml(c.id.replace('ct_', ''))}</span>
                     </div>
                 </div>
             </td>
-
-            <!-- 2. Contact Column (Phone & Email) -->
             <td>
                 <div class="lead-contact-cell">
                     ${c.phone ? `<a href="tel:${escapeHtml(c.phone)}" class="contact-pill phone" title="Bấm để gọi điện"><i class="fa fa-phone"></i> ${escapeHtml(c.phone)}</a>` : '<span class="text-muted">—</span>'}
                     ${c.email ? `<a href="mailto:${escapeHtml(c.email)}" class="contact-pill email" title="Bấm để gửi email"><i class="fa fa-envelope-o"></i> ${escapeHtml(c.email)}</a>` : ''}
                 </div>
             </td>
-
-            <!-- 3. Subject & Message -->
             <td>
                 <div class="lead-msg-box">
                     <div class="lead-subject"><i class="fa fa-tag text-primary"></i> ${escapeHtml(c.subject || 'Yêu cầu tư vấn dịch vụ')}</div>
                     <div class="lead-msg-text">${escapeHtml(c.message || 'Khách hàng quan tâm đến giải pháp CloudSms.')}</div>
                 </div>
             </td>
-
-            <!-- 4. Date Time -->
             <td>
                 <div class="lead-date-cell">
-                    <span class="lead-time"><i class="fa fa-clock-o text-muted"></i> ${getTimeStr(c.createdAt)}</span>
-                    <span class="lead-date"><i class="fa fa-calendar-o text-muted"></i> ${getDateStr(c.createdAt)}</span>
+                    <span class="lead-time"><i class="fa fa-clock-o text-muted"></i> ${escapeHtml(getTimeStr(c.createdAt))}</span>
+                    <span class="lead-date"><i class="fa fa-calendar-o text-muted"></i> ${escapeHtml(getDateStr(c.createdAt))}</span>
                 </div>
             </td>
-
-            <!-- 5. Status Select -->
             <td>
                 <div class="status-select-wrap">
-                    <select class="status-select-styled ${c.status}" onchange="changeContactStatus('${c.id}', this.value, this)">
+                    <select class="status-select-styled ${escapeHtml(c.status)}" onchange="changeContactStatus('${escapeHtml(c.id)}', this.value, this)">
                         <option value="pending" ${c.status === 'pending' ? 'selected' : ''}>Chờ xử lý</option>
                         <option value="processing" ${c.status === 'processing' ? 'selected' : ''}>Đang tư vấn</option>
                         <option value="completed" ${c.status === 'completed' ? 'selected' : ''}>Đã hoàn tất</option>
                     </select>
                 </div>
             </td>
-
-            <!-- 6. CSKH Notes -->
             <td>
-                <input type="text" class="lead-note-input" placeholder="Ghi chú CSKH..." value="${escapeHtml(c.notes || '')}" onblur="saveContactNotes('${c.id}', this.value)">
+                <input type="text" class="lead-note-input" placeholder="Ghi chú CSKH..." value="${escapeHtml(c.notes || '')}" onblur="saveContactNotes('${escapeHtml(c.id)}', this.value)">
             </td>
-
-            <!-- 7. Delete Action -->
             <td style="text-align: center;">
-                <button type="button" class="btn-action-delete" onclick="deleteContactLead('${c.id}')" title="Xóa liên hệ này">
+                <button type="button" class="btn-action-delete" onclick="deleteContactLead('${escapeHtml(c.id)}')" title="Xóa liên hệ này">
                     <i class="fa fa-trash-o"></i>
                 </button>
             </td>
@@ -732,13 +417,11 @@ function renderFullContactsTable() {
 
 async function changeContactStatus(id, newStatus, selectEl) {
     try {
-        const res = await fetch(`${API_BASE}/contacts/${id}`, {
+        const { ok, data } = await authFetch(`/contacts/${id}`, {
             method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ status: newStatus })
         });
-        const result = await res.json();
-        if (result.success) {
+        if (ok && data.success) {
             const item = contactsData.find(c => c.id === id);
             if (item) item.status = newStatus;
             if (selectEl) {
@@ -746,6 +429,8 @@ async function changeContactStatus(id, newStatus, selectEl) {
             }
             updateDashboardMetrics();
             showToast('Đã cập nhật trạng thái liên hệ!', 'success');
+        } else {
+            showToast(data.message || 'Lỗi khi cập nhật trạng thái!', 'error');
         }
     } catch (err) {
         showToast('Lỗi khi cập nhật trạng thái!', 'error');
@@ -754,19 +439,17 @@ async function changeContactStatus(id, newStatus, selectEl) {
 
 async function saveContactNotes(id, notes) {
     try {
-        const res = await fetch(`${API_BASE}/contacts/${id}`, {
+        const { ok, data } = await authFetch(`/contacts/${id}`, {
             method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ notes })
         });
-        const result = await res.json();
-        if (result.success) {
+        if (ok && data.success) {
             const item = contactsData.find(c => c.id === id);
             if (item) item.notes = notes;
             showToast('Đã lưu ghi chú CSKH!', 'info');
         }
     } catch (err) {
-        console.error(err);
+        console.error('Error saving contact notes:', err);
     }
 }
 
@@ -774,16 +457,17 @@ async function deleteContactLead(id) {
     if (!confirm('Bạn có chắc chắn muốn xóa tin nhắn liên hệ này khỏi hệ thống?')) return;
 
     try {
-        const res = await fetch(`${API_BASE}/contacts/${id}`, {
+        const { ok, data } = await authFetch(`/contacts/${id}`, {
             method: 'DELETE'
         });
-        const result = await res.json();
-        if (result.success) {
+        if (ok && data.success) {
             contactsData = contactsData.filter(c => c.id !== id);
             updateDashboardMetrics();
             renderRecentContactsTable();
             renderFullContactsTable();
             showToast('Đã xóa liên hệ thành công!', 'success');
+        } else {
+            showToast(data.message || 'Không thể xóa liên hệ!', 'error');
         }
     } catch (err) {
         showToast('Không thể xóa liên hệ!', 'error');
@@ -806,172 +490,89 @@ function initContactsEvents() {
 }
 
 /* ==============================================================================
-   5. SETTINGS TAB LOGIC
-   ============================================================================== */
-function populateSettingsForm(s) {
-    const setSiteName = document.getElementById('setSiteName');
-    if (!setSiteName) return;
-
-    setSiteName.value = s.siteName || '';
-    document.getElementById('setCompanyName').value = s.companyName || '';
-    document.getElementById('setSlogan').value = s.slogan || '';
-    document.getElementById('setHotline').value = s.hotline || '';
-    document.getElementById('setEmail').value = s.email || '';
-    document.getElementById('setAddress').value = s.address || '';
-    document.getElementById('setFacebook').value = s.facebookUrl || '';
-    document.getElementById('setYoutube').value = s.youtubeUrl || '';
-    document.getElementById('setZalo').value = s.zaloUrl || '';
-    document.getElementById('setLogoUrl').value = s.logoUrl || 'images/upload/logo.png';
-
-    const preview = document.getElementById('previewLogoImg');
-    if (preview && s.logoUrl) {
-        preview.src = '../' + s.logoUrl;
-    }
-}
-
-function initSettingsEvents() {
-    const btnSave = document.getElementById('btnSaveSettings');
-    if (btnSave) {
-        btnSave.addEventListener('click', async () => {
-            btnSave.disabled = true;
-            btnSave.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Đang lưu...';
-
-            const payload = {
-                siteName: document.getElementById('setSiteName').value.trim(),
-                companyName: document.getElementById('setCompanyName').value.trim(),
-                slogan: document.getElementById('setSlogan').value.trim(),
-                hotline: document.getElementById('setHotline').value.trim(),
-                email: document.getElementById('setEmail').value.trim(),
-                address: document.getElementById('setAddress').value.trim(),
-                facebookUrl: document.getElementById('setFacebook').value.trim(),
-                youtubeUrl: document.getElementById('setYoutube').value.trim(),
-                zaloUrl: document.getElementById('setZalo').value.trim(),
-                logoUrl: document.getElementById('setLogoUrl').value.trim()
-            };
-
-            try {
-                const res = await fetch(`${API_BASE}/settings`, {
-                    method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-                const result = await res.json();
-                if (result.success) {
-                    settingsData = result.data;
-                    showToast('Đã lưu và đồng bộ cài đặt website thành công!', 'success');
-                } else {
-                    showToast(result.message || 'Lỗi lưu cấu hình', 'error');
-                }
-            } catch (err) {
-                showToast('Không thể kết nối API để lưu cấu hình!', 'error');
-            } finally {
-                btnSave.disabled = false;
-                btnSave.innerHTML = '<i class="fa fa-save"></i> Lưu Cấu Hình';
-            }
-        });
-    }
-
-    // Logo Upload
-    const uploadInput = document.getElementById('uploadLogoFile');
-    if (uploadInput) {
-        uploadInput.addEventListener('change', async (e) => {
-            const file = e.target.files[0];
-            if (!file) return;
-
-            const formData = new FormData();
-            formData.append('file', file);
-            showToast('Đang tải ảnh logo lên...', 'info');
-
-            try {
-                const res = await fetch(`${API_BASE}/upload`, {
-                    method: 'POST',
-                    body: formData
-                });
-                const result = await res.json();
-                if (result.success) {
-                    document.getElementById('setLogoUrl').value = result.url;
-                    document.getElementById('previewLogoImg').src = '../' + result.url;
-                    showToast('Tải logo mới lên thành công!', 'success');
-                } else {
-                    showToast(result.message || 'Lỗi upload ảnh', 'error');
-                }
-            } catch (err) {
-                showToast('Không thể upload ảnh lên server!', 'error');
-            }
-        });
-    }
-}
-
-/* ==============================================================================
-   7. ACCOUNT PROFILE LOGIC
+   5. ACCOUNT SECURITY / CHANGE PASSWORD
    ============================================================================== */
 function initAccountEvents() {
-    const form = document.getElementById('formAccount');
+    // Password visibility toggles
+    const toggleBtns = document.querySelectorAll('.btn-toggle-pwd');
+    toggleBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const targetId = btn.getAttribute('data-target');
+            const targetInput = document.getElementById(targetId);
+            if (targetInput) {
+                const isPassword = targetInput.type === 'password';
+                targetInput.type = isPassword ? 'text' : 'password';
+                btn.innerHTML = isPassword ? '<i class="fa fa-eye-slash"></i>' : '<i class="fa fa-eye"></i>';
+            }
+        });
+    });
+
+    // Reset button
+    const btnReset = document.getElementById('btnResetPasswordForm');
+    const form = document.getElementById('formChangePassword');
+    if (btnReset && form) {
+        btnReset.addEventListener('click', () => {
+            form.reset();
+        });
+    }
+
+    // Change Password Submit
     if (form) {
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const name = document.getElementById('accName').value.trim();
-            const email = document.getElementById('accEmail').value.trim();
-            const currentPassword = document.getElementById('accCurrentPassword').value.trim();
-            const newPassword = document.getElementById('accNewPassword').value.trim();
+            const currentPassword = document.getElementById('accCurrentPassword').value;
+            const newPassword = document.getElementById('accNewPassword').value;
+            const confirmPassword = document.getElementById('accConfirmPassword').value;
 
-            const btn = document.getElementById('btnSaveAccount');
-            btn.disabled = true;
-            btn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Đang cập nhật...';
+            if (!currentPassword) {
+                showToast('Vui lòng nhập mật khẩu hiện tại!', 'warning');
+                return;
+            }
+
+            if (!newPassword) {
+                showToast('Vui lòng nhập mật khẩu mới!', 'warning');
+                return;
+            }
+
+            if (newPassword.length < 6) {
+                showToast('Mật khẩu mới phải có tối thiểu 6 ký tự!', 'warning');
+                return;
+            }
+
+            if (newPassword !== confirmPassword) {
+                showToast('Mật khẩu mới và xác nhận mật khẩu không khớp!', 'error');
+                return;
+            }
+
+            if (newPassword === currentPassword) {
+                showToast('Mật khẩu mới không được trùng với mật khẩu hiện tại!', 'warning');
+                return;
+            }
+
+            const submitBtn = document.getElementById('btnSubmitChangePassword');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Đang cập nhật...';
 
             try {
-                const res = await fetch(`${API_BASE}/auth/profile`, {
+                const { ok, data } = await authFetch('/auth/profile', {
                     method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ name, email, currentPassword, newPassword })
+                    body: JSON.stringify({ currentPassword, newPassword, confirmPassword })
                 });
-                const result = await res.json();
-                if (result.success) {
-                    currentUser = result.admin;
-                    localStorage.setItem('cloudsms_admin_user', JSON.stringify(currentUser));
-                    updateUserUI();
-                    document.getElementById('accCurrentPassword').value = '';
-                    document.getElementById('accNewPassword').value = '';
-                    showToast('Cập nhật tài khoản quản trị viên thành công!', 'success');
+
+                if (ok && data.success) {
+                    showToast(data.message || 'Đổi mật khẩu thành công! Vui lòng ghi nhớ mật khẩu mới.', 'success');
+                    form.reset();
                 } else {
-                    showToast(result.message || 'Lỗi cập nhật tài khoản', 'error');
+                    showToast(data.message || 'Không thể đổi mật khẩu!', 'error');
                 }
             } catch (err) {
-                showToast('Không thể kết nối server để lưu thông tin!', 'error');
+                showToast('Lỗi kết nối tới máy chủ khi đổi mật khẩu!', 'error');
             } finally {
-                btn.disabled = false;
-                btn.innerHTML = '<i class="fa fa-save"></i> Cập Nhật Thông Tin Tài Khoản';
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fa fa-check-circle"></i> Xác Nhận Đổi Mật Khẩu';
             }
         });
     }
-}
-
-/* ==============================================================================
-   8. UTILITIES
-   ============================================================================== */
-function showToast(message, type = 'info') {
-    const container = document.getElementById('toastContainer');
-    if (!container) return;
-
-    const toast = document.createElement('div');
-    toast.className = `toast ${type}`;
-
-    let icon = 'fa-info-circle';
-    if (type === 'success') icon = 'fa-check-circle';
-    if (type === 'error') icon = 'fa-exclamation-circle';
-
-    toast.innerHTML = `
-        <i class="fa ${icon} toast-icon"></i>
-        <div class="toast-msg">${escapeHtml(message)}</div>
-    `;
-
-    container.appendChild(toast);
-
-    setTimeout(() => {
-        toast.style.opacity = '0';
-        toast.style.transform = 'translateX(100%)';
-        setTimeout(() => toast.remove(), 300);
-    }, 3500);
 }
 
 function getStatusLabel(status) {
@@ -981,22 +582,320 @@ function getStatusLabel(status) {
     return status;
 }
 
-function formatDate(isoStr) {
-    if (!isoStr) return '—';
-    try {
-        const d = new Date(isoStr);
-        return d.toLocaleDateString('vi-VN', { hour: '2-digit', minute: '2-digit', day: '2-digit', month: '2-digit', year: 'numeric' });
-    } catch (e) {
-        return isoStr;
+/* ==============================================================================
+   6. MEDIA LIBRARY IMPLEMENTATION
+   ============================================================================== */
+function initMediaLibraryEvents() {
+    // Category Filter Pills
+    const catButtons = document.querySelectorAll('#mediaCategoriesContainer .btn-cat-pill');
+    catButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            catButtons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentMediaCategory = btn.getAttribute('data-category');
+            renderMediaGrid();
+        });
+    });
+
+    // Search Box
+    const searchInput = document.getElementById('mediaSearchInput');
+    const clearBtn = document.getElementById('btnClearMediaSearch');
+    if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+            mediaSearchQuery = e.target.value.trim().toLowerCase();
+            if (clearBtn) clearBtn.style.display = mediaSearchQuery ? 'block' : 'none';
+            renderMediaGrid();
+        });
+    }
+    if (clearBtn && searchInput) {
+        clearBtn.addEventListener('click', () => {
+            searchInput.value = '';
+            mediaSearchQuery = '';
+            clearBtn.style.display = 'none';
+            renderMediaGrid();
+        });
+    }
+
+    // Trigger Upload button & Dropzone
+    const triggerBtn = document.getElementById('btnTriggerUpload');
+    const fileInput = document.getElementById('mediaFileInput');
+    const dropzone = document.getElementById('mediaDropzone');
+    const dropzoneTrigger = document.getElementById('dropzoneTrigger');
+
+    if (triggerBtn && fileInput) {
+        triggerBtn.addEventListener('click', () => fileInput.click());
+    }
+    if (dropzoneTrigger && fileInput) {
+        dropzoneTrigger.addEventListener('click', () => fileInput.click());
+    }
+    if (fileInput) {
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files && e.target.files.length > 0) {
+                handleMediaUpload(Array.from(e.target.files));
+                fileInput.value = '';
+            }
+        });
+    }
+
+    // Drag and Drop
+    if (dropzone) {
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropzone.addEventListener(eventName, (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                dropzone.classList.add('dragover');
+            });
+        });
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropzone.addEventListener(eventName, (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                dropzone.classList.remove('dragover');
+            });
+        });
+        dropzone.addEventListener('drop', (e) => {
+            const dt = e.dataTransfer;
+            if (dt && dt.files && dt.files.length > 0) {
+                handleMediaUpload(Array.from(dt.files));
+            }
+        });
+    }
+
+    // Refresh Button
+    const refreshBtn = document.getElementById('btnRefreshMedia');
+    if (refreshBtn) {
+        refreshBtn.addEventListener('click', () => {
+            loadMediaLibrary(true);
+        });
+    }
+
+    // Modal Delete Button
+    const btnModalDelete = document.getElementById('btnModalDeleteMedia');
+    if (btnModalDelete) {
+        btnModalDelete.addEventListener('click', () => {
+            if (selectedMediaItem) {
+                deleteMediaItem(selectedMediaItem.relativePath);
+            }
+        });
     }
 }
 
-function escapeHtml(str) {
-    if (!str) return '';
-    return String(str)
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#039;');
+async function loadMediaLibrary(showNotification = false) {
+    try {
+        const { ok, data } = await authFetch('/media');
+        if (ok && data.success) {
+            mediaLibraryList = data.data || [];
+            const meta = data.meta || {};
+
+            const countBadge = document.getElementById('mediaTotalCountBadge');
+            const sizeBadge = document.getElementById('mediaTotalSizeBadge');
+            const totalBadge = document.getElementById('totalMediaBadge');
+
+            if (countBadge) countBadge.innerHTML = `<i class="fa fa-image"></i> ${meta.totalFiles || 0} ảnh`;
+            if (sizeBadge) sizeBadge.innerHTML = `<i class="fa fa-database"></i> ${meta.totalSizeFormatted || '0 MB'}`;
+            if (totalBadge) {
+                totalBadge.innerText = meta.totalFiles || 0;
+                totalBadge.style.display = meta.totalFiles ? 'inline-block' : 'none';
+            }
+
+            if (meta.categories) {
+                for (const [cat, count] of Object.entries(meta.categories)) {
+                    const el = document.getElementById(`catCount-${cat}`);
+                    if (el) el.innerText = count;
+                }
+            }
+
+            renderMediaGrid();
+
+            if (showNotification) {
+                showToast(`Đã làm mới thư viện: ${mediaLibraryList.length} ảnh`, 'info');
+            }
+        } else {
+            showToast(data.message || 'Không thể tải danh sách hình ảnh!', 'error');
+        }
+    } catch (err) {
+        console.error('Failed to load media library:', err);
+    }
+}
+
+function renderMediaGrid() {
+    const grid = document.getElementById('mediaGrid');
+    const emptyState = document.getElementById('mediaEmptyState');
+    if (!grid) return;
+
+    let filtered = mediaLibraryList.filter(item => {
+        const matchCategory = currentMediaCategory === 'all' || item.category === currentMediaCategory;
+        const matchSearch = !mediaSearchQuery || 
+            item.filename.toLowerCase().includes(mediaSearchQuery) || 
+            item.relativePath.toLowerCase().includes(mediaSearchQuery);
+        return matchCategory && matchSearch;
+    });
+
+    if (filtered.length === 0) {
+        grid.innerHTML = '';
+        if (emptyState) emptyState.style.display = 'block';
+        return;
+    }
+
+    if (emptyState) emptyState.style.display = 'none';
+
+    grid.innerHTML = filtered.map(item => `
+        <div class="media-card" data-id="${escapeHtml(item.id)}">
+            <div class="media-card-thumb" data-action="view-detail" data-id="${escapeHtml(item.id)}" title="Nhấp để xem chi tiết">
+                <span class="media-category-badge">${escapeHtml(item.category)}</span>
+                <img src="../${escapeHtml(item.relativePath)}" alt="${escapeHtml(item.filename)}" loading="lazy" onerror="this.src='../images/upload/logo.png'">
+            </div>
+            <div class="media-card-info">
+                <div class="media-card-name" title="${escapeHtml(item.filename)}">${escapeHtml(item.filename)}</div>
+                <div class="media-card-meta">
+                    <span>${escapeHtml(item.sizeFormatted)}</span>
+                    <span>${escapeHtml(formatShortDate(item.modifiedAt))}</span>
+                </div>
+                <div class="media-card-actions">
+                    <button type="button" class="btn-action copy" data-action="copy-path" data-path="${escapeHtml(item.relativePath)}" title="Sao chép đường dẫn ảnh">
+                        <i class="fa fa-copy"></i> Sao Chép
+                    </button>
+                    <button type="button" class="btn-action view" data-action="view-detail" data-id="${escapeHtml(item.id)}" title="Xem chi tiết">
+                        <i class="fa fa-search-plus"></i>
+                    </button>
+                    <button type="button" class="btn-action delete" data-action="delete" data-path="${escapeHtml(item.relativePath)}" title="Xóa ảnh">
+                        <i class="fa fa-trash"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    `).join('');
+
+    // Event delegation for grid actions
+    grid.onclick = (e) => {
+        const targetBtn = e.target.closest('[data-action]');
+        if (!targetBtn) return;
+        const action = targetBtn.getAttribute('data-action');
+        if (action === 'copy-path') {
+            const path = targetBtn.getAttribute('data-path');
+            copyTextToClipboard(path, `Đã sao chép: ${path}`);
+        } else if (action === 'view-detail') {
+            const id = targetBtn.getAttribute('data-id');
+            openMediaDetailModal(id);
+        } else if (action === 'delete') {
+            const path = targetBtn.getAttribute('data-path');
+            deleteMediaItem(path);
+        }
+    };
+}
+
+async function handleMediaUpload(files) {
+    if (!files || files.length === 0) return;
+
+    const progressBox = document.getElementById('uploadProgressBox');
+    const progressBar = document.getElementById('uploadProgressBar');
+    const progressText = document.getElementById('uploadProgressText');
+
+    if (progressBox) progressBox.style.display = 'block';
+
+    let successCount = 0;
+    let failCount = 0;
+    let lastErrMsg = '';
+
+    for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const percent = Math.round(((i + 1) / files.length) * 100);
+
+        if (progressBar) progressBar.style.width = `${percent}%`;
+        if (progressText) progressText.innerText = `Đang tải ảnh ${i + 1}/${files.length}: ${file.name}...`;
+
+        const formData = new FormData();
+        formData.append('file', file);
+
+        try {
+            const { ok, data } = await authFetch('/upload', {
+                method: 'POST',
+                body: formData
+            });
+
+            if (ok && data.success) {
+                successCount++;
+            } else {
+                failCount++;
+                lastErrMsg = data.message || 'Lỗi tải tệp';
+            }
+        } catch (err) {
+            failCount++;
+            lastErrMsg = 'Lỗi kết nối máy chủ';
+        }
+    }
+
+    setTimeout(() => {
+        if (progressBox) progressBox.style.display = 'none';
+        if (progressBar) progressBar.style.width = '0%';
+        if (successCount > 0) {
+            showToast(`Tải lên thành công ${successCount} hình ảnh mới!`, 'success');
+            loadMediaLibrary();
+        }
+        if (failCount > 0) {
+            showToast(`Có ${failCount} ảnh tải lên thất bại: ${lastErrMsg}`, 'error');
+        }
+    }, 400);
+}
+
+function openMediaDetailModal(idOrPath) {
+    const item = mediaLibraryList.find(m => m.id === idOrPath || m.relativePath === idOrPath);
+    if (!item) return;
+
+    selectedMediaItem = item;
+
+    const modal = document.getElementById('mediaDetailModal');
+    const img = document.getElementById('mediaModalImg');
+    const filename = document.getElementById('mediaModalFilename');
+    const category = document.getElementById('mediaModalCategory');
+    const size = document.getElementById('mediaModalSize');
+    const date = document.getElementById('mediaModalDate');
+    const relPath = document.getElementById('mediaModalRelativePath');
+
+    if (img) img.src = '../' + item.relativePath;
+    if (filename) filename.innerText = item.filename;
+    if (category) category.innerText = item.category;
+    if (size) size.innerText = item.sizeFormatted;
+    if (date) date.innerText = formatDate(item.modifiedAt);
+    if (relPath) relPath.value = item.relativePath;
+
+    if (modal) modal.style.display = 'flex';
+}
+
+function closeMediaDetailModal() {
+    const modal = document.getElementById('mediaDetailModal');
+    if (modal) modal.style.display = 'none';
+    selectedMediaItem = null;
+}
+
+function copyPathFromModal() {
+    const relPath = document.getElementById('mediaModalRelativePath');
+    if (relPath && relPath.value) {
+        copyTextToClipboard(relPath.value, `Đã sao chép: ${relPath.value}`);
+    }
+}
+
+async function deleteMediaItem(relativePath) {
+    if (!relativePath) return;
+
+    if (!confirm(`Bạn có chắc chắn muốn xóa vĩnh viễn file ảnh:\n"${relativePath}"?\n\nLưu ý: Nếu trang web đang sử dụng ảnh này thì ảnh sẽ không hiển thị được nữa.`)) {
+        return;
+    }
+
+    try {
+        const { ok, data } = await authFetch('/media', {
+            method: 'DELETE',
+            body: JSON.stringify({ relativePath })
+        });
+
+        if (ok && data.success) {
+            showToast(`Đã xóa ảnh "${relativePath}" thành công!`, 'success');
+            closeMediaDetailModal();
+            loadMediaLibrary();
+        } else {
+            showToast(data.message || 'Lỗi khi xóa ảnh!', 'error');
+        }
+    } catch (err) {
+        showToast('Không thể kết nối API để xóa ảnh!', 'error');
+    }
 }

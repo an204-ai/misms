@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <link rel="icon" type="image/svg+xml" href="../images/favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="../images/favicon.png">
+    <link rel="shortcut icon" href="../images/favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="../images/favicon.png">
+                    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trình Chỉnh Sửa Trực Tiếp Website | CloudSms™</title>
+    
+    <!-- Google Fonts (Full Vietnamese Support: Be Vietnam Pro & Inter) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Inter:wght@400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="../css/font-awesome.min.css">
+    
+    <!-- Custom Editor Styling -->
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="css/editor.css">
+
+    <!-- Instant Auth Guard: If not logged in, redirect to login.html immediately -->
+    <script>
+        if (!localStorage.getItem('cloudsms_admin_token')) {
+            window.location.replace('login.html');
+        }
+    </script>
+</head>
+<body class="editor-standalone-body">
+
+    <!-- SESSION EXPIRED COMPACT BAR (Displayed when session expires or unauthorized) -->
+    <div class="editor-expired-bar" id="editorExpiredBar" style="display: none;">
+        <div class="expired-bar-left">
+            <span class="expired-badge"><i class="fa fa-lock"></i> Chỉ Xem</span>
+            <span class="expired-msg">Phiên làm việc đã hết hạn. Thanh công cụ chỉnh sửa đã được ẩn để bảo vệ dữ liệu website.</span>
+        </div>
+        <div class="expired-bar-right">
+            <a href="login.html" class="btn-relogin-action">
+                <i class="fa fa-sign-in"></i> Đăng Nhập Lại
+            </a>
+            <a href="../index.html" target="_blank" class="btn-outline-clean">
+                <i class="fa fa-external-link"></i> Xem Website Ngoài
+            </a>
+        </div>
+    </div>
+
+    <!-- TOPBAR EDITOR HEADER -->
+    <header class="editor-header" id="editorHeader">
+        <div class="editor-header-left">
+            <a href="index.html" class="btn-back-nav" id="btnBackToAdmin" title="Quay lại trang quản trị">
+                <i class="fa fa-arrow-left"></i> <span>Trang Quản Trị</span>
+            </a>
+            <div class="editor-brand-divider"></div>
+            <div class="editor-page-select-box">
+                <label for="selectEditorPage"><i class="fa fa-file-text-o"></i> Đang sửa:</label>
+                <select id="selectEditorPage" class="select-page-studio">
+                    <option value="">Đang tải danh sách trang...</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="editor-header-center">
+            <!-- Mode Switcher (Edit vs Preview) -->
+            <div class="editor-mode-switcher">
+                <button type="button" class="btn-mode-toggle active" id="btnModeEdit" onclick="setEditorMode('edit')">
+                    <i class="fa fa-pencil-square-o"></i> <span>Chế Độ Sửa</span>
+                </button>
+                <button type="button" class="btn-mode-toggle" id="btnModePreview" onclick="setEditorMode('preview')">
+                    <i class="fa fa-eye"></i> <span>Chế Độ Xem</span>
+                </button>
+            </div>
+
+            <!-- Viewport Device Switcher -->
+            <div class="editor-viewport-switcher" id="viewportGroup">
+                <button type="button" class="btn-vp-toggle active" title="Màn hình Máy tính" onclick="setLiveViewport('desktop')">
+                    <i class="fa fa-desktop"></i>
+                </button>
+                <button type="button" class="btn-vp-toggle" title="Máy tính bảng Tablet" onclick="setLiveViewport('tablet')">
+                    <i class="fa fa-tablet"></i>
+                </button>
+                <button type="button" class="btn-vp-toggle" title="Điện thoại Di động" onclick="setLiveViewport('mobile')">
+                    <i class="fa fa-mobile-phone"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="editor-header-right">
+            <!-- Save Status Indicator -->
+            <div class="save-status-indicator saved" id="saveStatusIndicator" title="Trạng thái lưu trữ của trang">
+                <span class="status-dot-pulse"></span>
+                <span id="saveStatusText">Đã lưu mọi thay đổi</span>
+            </div>
+
+            <button type="button" class="btn-header-tool" onclick="reloadLiveFrame()" title="Tải lại trang và hoàn tác thay đổi chưa lưu">
+                <i class="fa fa-refresh"></i> <span>Tải Lại</span>
+            </button>
+            <button type="button" class="btn-save-action" id="btnSaveLiveHtml" onclick="saveCurrentLiveHtml()">
+                <i class="fa fa-floppy-o"></i> <strong>Lưu Thay Đổi</strong>
+            </button>
+        </div>
+    </header>
+
+    <!-- INLINE HINT BANNER -->
+    <div class="editor-subbar" id="visualHintBanner">
+        <div class="hint-content" id="hintBannerContent">
+            <i class="fa fa-info-circle text-primary"></i>
+            <span><strong>Chế độ Sửa:</strong> Nhấp chuột trực tiếp vào bất kỳ dòng chữ nào trên trang để sửa nội dung. Nhấp đúp (Double-click) vào hình ảnh để đổi ảnh. Sau khi chỉnh sửa, nhấn nút <strong class="text-success"><i class="fa fa-floppy-o"></i> Lưu Thay Đổi</strong> ở góc trên bên phải!</span>
+        </div>
+    </div>
+
+    <!-- MAIN EDITOR CANVAS CONTAINER -->
+    <main class="editor-workspace" id="editorCanvasWrap">
+        <!-- Iframe Canvas Viewport -->
+        <div class="canvas-viewport desktop" id="canvasViewport">
+            <iframe id="liveFrame" src="../index.html" frameborder="0"></iframe>
+        </div>
+    </main>
+
+    <!-- IMAGE EDIT MODAL -->
+    <div id="imageEditModal" class="modal-backdrop-custom" style="display: none;">
+        <div class="modal-dialog-custom" style="max-width: 520px;">
+            <div class="modal-header-custom">
+                <h4><i class="fa fa-picture-o text-primary"></i> Thay Đổi Hình Ảnh</h4>
+                <button type="button" class="btn-close-modal" onclick="closeImageEditModal()">&times;</button>
+            </div>
+            <div class="modal-body-custom">
+                
+                <!-- Quick Selection Action Buttons -->
+                <div class="form-group" style="margin-bottom: 16px;">
+                    <label style="font-weight: 600; color: #334155; margin-bottom: 8px; display: block;">Chọn nguồn ảnh:</label>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                        <button type="button" class="btn btn-sm" id="btnOpenMediaPicker" onclick="openMediaPickerModal()" style="background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%); color: #ffffff; padding: 11px 14px; border-radius: 8px; font-weight: 600; font-size: 13px; display: flex; align-items: center; justify-content: center; gap: 8px; border: none; cursor: pointer; box-shadow: 0 3px 10px rgba(2,132,199,0.3); transition: all 0.2s;">
+                            <i class="fa fa-folder-open fa-lg"></i> <span>Chọn từ Thư Viện</span>
+                        </button>
+                        <label for="modalImgFileInput" class="btn btn-sm" style="background: #f0fdf4; color: #15803d; border: 1.5px dashed #22c55e; padding: 11px 14px; border-radius: 8px; font-weight: 600; font-size: 13px; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; margin: 0; text-align: center; transition: all 0.2s;">
+                            <i class="fa fa-cloud-upload fa-lg"></i> <span>Tải từ Máy Tính</span>
+                        </label>
+                    </div>
+                    <input type="file" id="modalImgFileInput" accept="image/*" style="display: none;">
+                </div>
+
+                <div class="form-group" style="margin-bottom: 14px;">
+                    <label style="font-weight: 600; color: #334155; margin-bottom: 6px; display: block;">Hoặc nhập trực tiếp đường dẫn ảnh (URL):</label>
+                    <input type="text" id="modalImgSrcInput" class="form-control" placeholder="images/upload/ten_anh.png" style="font-family: monospace; font-size: 12.5px;">
+                </div>
+
+                <div class="modal-img-preview" style="text-align: center; margin-top: 10px; background: #f8fafc; padding: 14px; border-radius: 8px; border: 1px solid #e2e8f0;">
+                    <div style="font-size: 11.5px; color: #64748b; margin-bottom: 6px; font-weight: 600;">Xem Trước Hình Ảnh:</div>
+                    <img id="modalImgPreview" src="" alt="Preview" style="max-height: 150px; max-width: 100%; border-radius: 6px; object-fit: contain;">
+                </div>
+            </div>
+            <div class="modal-footer-custom">
+                <button type="button" class="btn btn-cancel btn-sm" onclick="closeImageEditModal()">Hủy Bỏ</button>
+                <button type="button" class="btn btn-save-action btn-sm" onclick="applyImageModalChanges()">
+                    <i class="fa fa-check"></i> Áp Dụng Thay Đổi
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MEDIA PICKER MODAL -->
+    <div id="mediaPickerModal" class="modal-backdrop-custom" style="display: none; z-index: 10000000;">
+        <div class="modal-dialog-custom" style="max-width: 780px;">
+            <div class="modal-header-custom" style="display: flex; justify-content: space-between; align-items: center; padding: 14px 20px; border-bottom: 1px solid #e2e8f0; background: #f8fafc;">
+                <h4 style="margin: 0; font-size: 15px; font-weight: 700; color: #0f172a;"><i class="fa fa-picture-o text-primary"></i> Kho Thư Viện Ảnh Website</h4>
+                <button type="button" class="btn-close-modal" onclick="closeMediaPickerModal()" style="font-size: 20px; border: none; background: none; cursor: pointer; color: #94a3b8;">&times;</button>
+            </div>
+            <div class="modal-body-custom" style="max-height: 65vh; overflow-y: auto; padding: 18px 20px;">
+                <div style="margin-bottom: 14px; position: relative;">
+                    <input type="text" id="editorMediaSearch" class="form-control" placeholder="Tìm kiếm ảnh theo tên..." style="padding-left: 36px; height: 38px; border-radius: 8px;">
+                    <i class="fa fa-search" style="position: absolute; left: 12px; top: 12px; color: #94a3b8;"></i>
+                </div>
+                <div class="media-picker-grid" id="editorMediaPickerGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(135px, 1fr)); gap: 12px;">
+                    <!-- Rendered dynamically -->
+                </div>
+            </div>
+            <div class="modal-footer-custom" style="display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; background: #f8fafc; border-top: 1px solid #e2e8f0;">
+                <span style="font-size: 12px; color: #64748b;"><i class="fa fa-info-circle text-primary"></i> Nhấp vào ảnh bất kỳ để chọn ngay</span>
+                <button type="button" class="btn btn-cancel btn-sm" onclick="closeMediaPickerModal()">Đóng</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SESSION EXPIRED MODAL OVERLAY -->
+    <div id="sessionExpiredOverlay" class="session-expired-overlay" style="display: none;">
+        <div class="session-expired-card">
+            <div class="expired-card-icon">
+                <i class="fa fa-shield"></i>
+                <i class="fa fa-lock sub-icon"></i>
+            </div>
+            <h3 class="expired-card-title">Phiên Đăng Nhập Đã Hết Hạn</h3>
+            <p class="expired-card-desc">
+                Phiên làm việc của bạn đã hết hạn hoặc chưa đăng nhập. Thanh công cụ chỉnh sửa đã được ẩn để bảo vệ dữ liệu website. Vui lòng đăng nhập lại để tiếp tục chỉnh sửa.
+            </p>
+            <div class="expired-card-actions">
+                <a href="login.html" class="btn-primary-relogin">
+                    <i class="fa fa-sign-in"></i> Đăng Nhập Lại Ngay
+                </a>
+                <button type="button" class="btn-ghost-readonly" onclick="dismissExpiredModal()">
+                    <i class="fa fa-eye"></i> Tiếp Tục Xem Trang (Chỉ Xem)
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION CONTAINER -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <!-- SCRIPTS -->
+    <script src="js/shared.js"></script>
+    <script src="js/editor.js"></script>
+</body>
+</html>

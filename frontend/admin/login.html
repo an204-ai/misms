@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <link rel="icon" type="image/svg+xml" href="../images/favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="../images/favicon.png">
+    <link rel="shortcut icon" href="../images/favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="../images/favicon.png">
+                    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng Nhập Quản Trị Hệ Thống | CloudSms™</title>
+    
+    <!-- Instant Auth Guard: If already logged in, go straight to dashboard -->
+    <script>
+        if (localStorage.getItem('cloudsms_admin_token')) {
+            window.location.replace('index.html');
+        }
+    </script>
+
+    <!-- Google Fonts (Be Vietnam Pro & Inter) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="../css/font-awesome.min.css">
+    
+    <!-- Admin Styling -->
+    <link rel="stylesheet" href="css/admin.css">
+
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body.login-page-body {
+            height: 100vh;
+            width: 100vw;
+            max-height: 100vh;
+            overflow: hidden !important; /* Cố định tuyệt đối, không cho cuộn lên xuống */
+            position: fixed;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(circle at 10% 20%, #0369a1 0%, #0c4a6e 50%, #0f172a 100%);
+            font-family: 'Be Vietnam Pro', 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Decorative ambient background glowing orbs */
+        .ambient-orb-1 {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(2, 132, 199, 0.22) 0%, rgba(2, 132, 199, 0) 70%);
+            top: -120px;
+            left: -120px;
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .ambient-orb-2 {
+            position: absolute;
+            width: 450px;
+            height: 450px;
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.18) 0%, rgba(16, 185, 129, 0) 70%);
+            bottom: -100px;
+            right: -100px;
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .login-standalone-card {
+            background: #ffffff;
+            width: 100%;
+            max-width: 410px;
+            border-radius: 20px;
+            padding: 30px 28px 24px;
+            box-shadow: 0 25px 60px -12px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(255, 255, 255, 0.12);
+            position: relative;
+            z-index: 10;
+            animation: zoomInCard 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            margin: auto;
+        }
+
+        @keyframes zoomInCard {
+            from { transform: scale(0.94) translateY(14px); opacity: 0; }
+            to { transform: scale(1) translateY(0); opacity: 1; }
+        }
+
+        .login-header-logo {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .login-header-logo img {
+            max-height: 42px;
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+
+        .login-header-logo h1 {
+            font-size: 20px;
+            font-weight: 800;
+            color: #0f172a;
+            letter-spacing: -0.3px;
+            margin-bottom: 4px;
+        }
+
+        .login-header-logo p {
+            color: #64748b;
+            font-size: 12.5px;
+            line-height: 1.45;
+            margin: 0;
+        }
+
+        .login-form .form-group {
+            margin-bottom: 14px;
+            text-align: left;
+        }
+
+        .login-form label {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            font-size: 12.5px;
+            font-weight: 600;
+            color: #334155;
+            margin-bottom: 6px;
+        }
+
+        .login-form .form-control {
+            width: 100%;
+            height: 42px;
+            padding: 8px 14px;
+            border-radius: 10px;
+            border: 1.5px solid #e2e8f0;
+            background: #f8fafc;
+            font-size: 13.5px;
+            color: #0f172a;
+            transition: all 0.2s ease;
+            font-family: inherit;
+        }
+
+        .login-form .form-control:focus {
+            outline: none;
+            border-color: #0284c7;
+            background: #ffffff;
+            box-shadow: 0 0 0 3.5px rgba(2, 132, 199, 0.12);
+        }
+
+        .input-password-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-password-wrapper .form-control {
+            padding-right: 42px;
+        }
+
+        .btn-toggle-password {
+            position: absolute;
+            right: 6px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: transparent !important;
+            border: none !important;
+            outline: none !important;
+            box-shadow: none !important;
+            color: #94a3b8;
+            cursor: pointer;
+            font-size: 15px;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+            transition: color 0.2s, background-color 0.2s;
+            padding: 0;
+            margin: 0;
+        }
+
+        .btn-toggle-password:hover {
+            color: #0284c7;
+            background: rgba(2, 132, 199, 0.08) !important;
+        }
+
+        .btn-toggle-password:focus,
+        .btn-toggle-password:active {
+            outline: none !important;
+            box-shadow: none !important;
+            border: none !important;
+        }
+
+        .btn-login-submit {
+            width: 100%;
+            height: 44px;
+            background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+            color: #ffffff;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 4px 14px rgba(2, 132, 199, 0.32);
+            transition: all 0.2s ease;
+            margin-top: 18px;
+        }
+
+        .btn-login-submit:hover {
+            background: linear-gradient(135deg, #0369a1 0%, #075985 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 18px rgba(2, 132, 199, 0.42);
+        }
+
+        .btn-login-submit:active {
+            transform: translateY(0);
+        }
+
+        .btn-login-submit:disabled {
+            opacity: 0.75;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .login-footer-hint {
+            margin-top: 14px;
+            text-align: center;
+            font-size: 11.5px;
+            color: #64748b;
+            background: #f1f5f9;
+            padding: 8px 10px;
+            border-radius: 8px;
+            border: 1px dashed #cbd5e1;
+        }
+
+        .login-footer-hint strong {
+            color: #0284c7;
+        }
+
+        .login-back-link {
+            text-align: center;
+            margin-top: 16px;
+            padding-top: 12px;
+            border-top: 1px solid #f1f5f9;
+        }
+
+        .login-back-link a {
+            color: #64748b;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: color 0.2s;
+        }
+
+        .login-back-link a:hover {
+            color: #0284c7;
+        }
+    </style>
+</head>
+<body class="login-page-body">
+
+    <div class="ambient-orb-1"></div>
+    <div class="ambient-orb-2"></div>
+
+    <div class="login-standalone-card">
+        <div class="login-header-logo">
+            <img src="../images/upload/logo.png" alt="CloudSms Logo">
+            <h1>Quản Trị Hệ Thống</h1>
+            <p>Đăng nhập để quản lý website và hộp thư khách hàng</p>
+        </div>
+
+        <form id="loginForm" class="login-form">
+            <div class="form-group">
+                <label for="loginUsername"><i class="fa fa-user text-primary"></i> Tên đăng nhập</label>
+                <input type="text" id="loginUsername" class="form-control" placeholder="Nhập tài khoản (vd: admin)" required value="admin" autocomplete="username">
+            </div>
+
+            <div class="form-group">
+                <label for="loginPassword"><i class="fa fa-lock text-primary"></i> Mật khẩu</label>
+                <div class="input-password-wrapper">
+                    <input type="password" id="loginPassword" class="form-control" placeholder="Nhập mật khẩu" required value="123456" autocomplete="current-password">
+                    <button type="button" class="btn-toggle-password" id="togglePasswordBtn" title="Ẩn hoặc hiện mật khẩu" tabindex="-1">
+                        <i class="fa fa-eye"></i>
+                    </button>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-login-submit" id="loginSubmitBtn">
+                <i class="fa fa-sign-in"></i> Đăng Nhập Vào Hệ Thống
+            </button>
+
+            <div class="login-footer-hint">
+                <span>Mật khẩu mặc định: <strong>123456</strong></span>
+            </div>
+        </form>
+
+        <div class="login-back-link">
+            <a href="../index.html"><i class="fa fa-arrow-left"></i> Quay lại trang chủ website</a>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION CONTAINER -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <!-- SCRIPTS -->
+    <script src="js/shared.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Password toggle
+            const toggleBtn = document.getElementById('togglePasswordBtn');
+            const passInput = document.getElementById('loginPassword');
+            if (toggleBtn && passInput) {
+                toggleBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const isPassword = passInput.type === 'password';
+                    passInput.type = isPassword ? 'text' : 'password';
+                    toggleBtn.innerHTML = isPassword ? '<i class="fa fa-eye-slash"></i>' : '<i class="fa fa-eye"></i>';
+                });
+            }
+
+            // Login submission
+            const loginForm = document.getElementById('loginForm');
+            if (loginForm) {
+                loginForm.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const username = document.getElementById('loginUsername').value.trim();
+                    const password = document.getElementById('loginPassword').value.trim();
+
+                    const submitBtn = document.getElementById('loginSubmitBtn');
+                    submitBtn.disabled = true;
+                    submitBtn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Đang xác thực...';
+
+                    try {
+                        const res = await fetch(`${API_BASE}/auth/login`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ username, password })
+                        });
+                        const data = await res.json();
+
+                        if (res.ok && data.success) {
+                            setAuthSession(data.token, data.admin);
+                            showToast('Đăng nhập thành công! Đang chuyển hướng...', 'success');
+                            setTimeout(() => {
+                                window.location.replace('index.html');
+                            }, 400);
+                        } else {
+                            showToast(data.message || 'Sai thông tin đăng nhập!', 'error');
+                            submitBtn.disabled = false;
+                            submitBtn.innerHTML = '<i class="fa fa-sign-in"></i> Đăng Nhập Vào Hệ Thống';
+                        }
+                    } catch (err) {
+                        showToast('Không thể kết nối đến máy chủ API! Hãy chắc chắn server đang chạy.', 'error');
+                        submitBtn.disabled = false;
+                        submitBtn.innerHTML = '<i class="fa fa-sign-in"></i> Đăng Nhập Vào Hệ Thống';
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
