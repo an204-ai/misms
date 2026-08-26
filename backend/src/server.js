@@ -1,6 +1,12 @@
+const path = require('path');
+const dotenv = require('dotenv');
+
+// Load environment variables (supports backend/.env and root .env)
+dotenv.config({ path: path.resolve(__dirname, '../.env') });
+dotenv.config({ path: path.resolve(__dirname, '../../.env') });
+
 const express = require('express');
 const cors = require('cors');
-const path = require('path');
 const rateLimit = require('express-rate-limit');
 const apiRoutes = require('./routes/api');
 
