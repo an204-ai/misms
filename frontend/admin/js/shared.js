@@ -3,15 +3,10 @@
  * Centralized helpers for Authentication, Networking, Formatting, and UI
  */
 
-// Dynamic API Base URL resolution (works on local port 5000, Laragon Apache port 80, and production domain)
+// Dynamic API Base URL resolution (Automatically adapts to any port: 4000, 5000, domain, http/https)
 const API_BASE = (function() {
-  if (typeof window === 'undefined') return 'http://localhost:5000/api';
-  const hostname = window.location.hostname;
-  const port = window.location.port;
-
-  if (hostname === 'localhost' || hostname === '127.0.0.1') {
-    return port === '5000' ? '/api' : 'http://localhost:5000/api';
-  }
+  if (typeof window === 'undefined') return '/api';
+  // Luôn dùng đường dẫn tương đối '/api' để tự động khớp theo đúng Port và Domain mà trang web đang chạy
   return '/api';
 })();
 

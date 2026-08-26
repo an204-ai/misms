@@ -217,28 +217,40 @@ function applyEditStateToIframe(isActive) {
 
     // Listen to changes inside iframe to mark unsaved status
     if (!doc._hasInputListenerAttached && isSessionValid) {
-        doc.addEventListener('input', (e) => {
+        const markUnsaved = (e) => {
             if (!isSessionValid) return;
             if (['INPUT', 'TEXTAREA', 'SELECT', 'OPTION'].includes(e.target.tagName)) return;
-            if (e.target.isContentEditable) {
+            if (e.target.isContentEditable || (e.target.closest && e.target.closest('[contenteditable="true"]'))) {
                 updateSaveStatus('unsaved');
             }
-        });
+        };
+        doc.addEventListener('input', markUnsaved);
         doc.addEventListener('keyup', (e) => {
             if (!isSessionValid) return;
             if (['INPUT', 'TEXTAREA', 'SELECT', 'OPTION'].includes(e.target.tagName)) return;
-            if (e.target.isContentEditable && (['Backspace', 'Delete', 'Enter'].includes(e.key) || e.key.length === 1)) {
+            if ((e.target.isContentEditable || (e.target.closest && e.target.closest('[contenteditable="true"]'))) && 
+                (['Backspace', 'Delete', 'Enter', ' '].includes(e.key) || e.key.length === 1)) {
                 updateSaveStatus('unsaved');
             }
         });
-        doc.addEventListener('paste', (e) => {
-            if (!isSessionValid) return;
-            if (['INPUT', 'TEXTAREA', 'SELECT', 'OPTION'].includes(e.target.tagName)) return;
-            if (e.target.isContentEditable) {
-                updateSaveStatus('unsaved');
-            }
-        });
+        doc.addEventListener('paste', markUnsaved);
         doc._hasInputListenerAttached = true;
+    }
+
+    // Capture-phase event interceptor to prevent Owl Carousel from dragging when clicking text
+    if (!doc._hasCarouselInterceptor) {
+        const stopCarouselDrag = (e) => {
+            if (isLiveEditActive) {
+                const target = e.target;
+                if (target && (target.isContentEditable || (target.closest && (target.closest('[contenteditable="true"]') || target.closest('.banner-item-content'))))) {
+                    e.stopPropagation();
+                }
+            }
+        };
+        doc.addEventListener('mousedown', stopCarouselDrag, true);
+        doc.addEventListener('pointerdown', stopCarouselDrag, true);
+        doc.addEventListener('touchstart', stopCarouselDrag, true);
+        doc._hasCarouselInterceptor = true;
     }
 
     // Injected Visual Editor Style
@@ -248,9 +260,48 @@ function applyEditStateToIframe(isActive) {
             injectedStyle = doc.createElement('style');
             injectedStyle.id = 'live-editor-injected-style';
             injectedStyle.innerHTML = `
-                *:before, *:after, .pt-plan:before, .pricing--item:before, .caption:before {
+                /* Strictly keep hidden elements hidden */
+                [style*="display: none"], [style*="display:none"],
+                h1[style*="display: none"], h1[style*="display:none"] {
+                    display: none !important;
+                }
+
+                /* Disable blocking pseudo overlays */
+                *:before, *:after,
+                .bg--overlay:before, .bg--overlay:after,
+                .banner-item:before, .banner-item:after,
+                .vc-parent:before, .vc-parent:after,
+                .pt-plan:before, .pricing--item:before, .caption:before,
+                .panel-title:before, .panel-title:after,
+                .features-tab--nav:before, .features-tab--nav:after {
                     pointer-events: none !important;
                 }
+
+                /* Enable text selection inside carousels */
+                .owl-carousel, .owl-wrapper, .owl-item, .banner-slider, .banner-item {
+                    -webkit-user-select: text !important;
+                    -moz-user-select: text !important;
+                    -ms-user-select: text !important;
+                    user-select: text !important;
+                }
+
+                /* Banner text container high z-index and cancel continuous animation */
+                .banner-slider, .banner-item, .banner-item .container, .vc-parent, .vc-child, .banner-item-content {
+                    position: relative !important;
+                    z-index: 20 !important;
+                    pointer-events: auto !important;
+                }
+
+                .banner-item-content h1, .banner-item-content h2, .banner-item-content h2 span,
+                .banner-item-content p, .banner-item-content a, .banner-item-content .btn, .banner-item-content span {
+                    position: relative !important;
+                    z-index: 30 !important;
+                    pointer-events: auto !important;
+                    cursor: text !important;
+                    -webkit-animation: none !important;
+                    animation: none !important;
+                }
+
                 [contenteditable="true"] {
                     outline: none !important;
                     transition: outline 0.15s ease, background 0.15s ease !important;
@@ -258,26 +309,51 @@ function applyEditStateToIframe(isActive) {
                     user-select: text !important;
                     -webkit-user-select: text !important;
                     position: relative !important;
-                    z-index: 5 !important;
+                    z-index: 10 !important;
                     pointer-events: auto !important;
+                    min-width: 12px !important;
                 }
+
                 [contenteditable="true"]:hover {
                     outline: 2px dashed #0284c7 !important;
-                    outline-offset: 2px !important;
-                    background-color: rgba(2, 132, 199, 0.06) !important;
+                    outline-offset: 3px !important;
+                    background-color: rgba(2, 132, 199, 0.12) !important;
+                    border-radius: 4px !important;
                 }
+
                 [contenteditable="true"]:focus {
                     outline: 2.5px solid #10b981 !important;
-                    outline-offset: 2px !important;
-                    background-color: rgba(16, 185, 129, 0.08) !important;
-                    box-shadow: 0 0 10px rgba(16, 185, 129, 0.3) !important;
+                    outline-offset: 3px !important;
+                    background-color: rgba(16, 185, 129, 0.14) !important;
+                    box-shadow: 0 0 12px rgba(16, 185, 129, 0.4) !important;
+                    border-radius: 4px !important;
                 }
+
+                [contenteditable="true"]:empty:not(:focus)::before {
+                    content: "Nhập chữ...";
+                    color: #94a3b8;
+                    font-style: italic;
+                    opacity: 0.6;
+                }
+
                 img {
                     cursor: pointer !important;
                     transition: transform 0.2s, outline 0.2s !important;
+                    position: relative !important;
+                    z-index: 9 !important;
                 }
                 img:hover {
                     outline: 2.5px solid #0284c7 !important;
+                    outline-offset: 2px !important;
+                }
+
+                input[type="submit"], input[type="button"] {
+                    cursor: pointer !important;
+                    position: relative !important;
+                    z-index: 9 !important;
+                }
+                input[type="submit"]:hover, input[type="button"]:hover {
+                    outline: 2.5px dashed #10b981 !important;
                     outline-offset: 2px !important;
                 }
             `;
@@ -287,58 +363,175 @@ function applyEditStateToIframe(isActive) {
         if (injectedStyle) injectedStyle.remove();
     }
 
+    // Control Carousel AutoPlay (Pause when editing, Resume when previewing)
+    try {
+        const win = liveFrame.contentWindow;
+        if (win && win.$ && win.$.fn.owlCarousel) {
+            const carousels = win.$('.owl-carousel, .banner-slider');
+            if (carousels.length) {
+                if (isActive) {
+                    carousels.trigger('owl.stop');
+                } else {
+                    carousels.trigger('owl.play', 6000);
+                }
+            }
+        }
+    } catch (e) {}
+
     if (isActive) {
+        // Reset old contenteditable
         doc.querySelectorAll('[contenteditable]').forEach(el => el.removeAttribute('contenteditable'));
 
-        const textSelectors = 'h1, h2, h3, h4, h5, h6, p, li, a, button, td, th, blockquote, figcaption, .pt-price-tag, .note_module, .caption, .pricing-plan-title, .item-title, .desc, .sub-title, .pt-plan span, span.span, span, b, strong, em, i, u, label, small';
-        doc.querySelectorAll(textSelectors).forEach(el => {
-            if (['SCRIPT', 'STYLE', 'LINK', 'NOSCRIPT', 'IFRAME', 'INPUT', 'TEXTAREA', 'SELECT', 'OPTION', 'FORM', 'BODY', 'HTML'].includes(el.tagName)) return;
+        // Comprehensive blacklist: never make these tags editable
+        const nonEditableTags = new Set([
+            'SCRIPT', 'STYLE', 'LINK', 'NOSCRIPT', 'IFRAME', 
+            'INPUT', 'TEXTAREA', 'SELECT', 'OPTION', 
+            'FORM', 'BODY', 'HTML', 'HEAD', 'META', 'TITLE',
+            'SVG', 'PATH', 'G', 'CIRCLE', 'POLYGON', 'RECT', 'LINE', 'USE',
+            'IMG', 'VIDEO', 'AUDIO', 'SOURCE', 'TRACK', 'CANVAS', 'OBJECT', 'EMBED'
+        ]);
+
+        // Helper: Check if element is explicitly hidden
+        const isHiddenElement = (el) => {
+            const inlineStyle = el.getAttribute('style') || '';
+            return inlineStyle.includes('display: none') || inlineStyle.includes('display:none');
+        };
+
+        // 1. Primary Text Container Elements (Block & Headings)
+        const primaryTextTags = 'h1, h2, h3, h4, h5, h6, p, li, blockquote, figcaption, dt, dd, th, td, caption, address';
+        doc.querySelectorAll(primaryTextTags).forEach(el => {
+            if (nonEditableTags.has(el.tagName) || isHiddenElement(el)) return;
             el.setAttribute('contenteditable', 'true');
             el.setAttribute('spellcheck', 'false');
-            if (el.tagName === 'A') {
-                el.onclick = (e) => e.preventDefault();
-            }
         });
 
-        doc.querySelectorAll('div').forEach(el => {
-            if (['SCRIPT', 'STYLE', 'LINK', 'NOSCRIPT', 'IFRAME', 'INPUT', 'TEXTAREA', 'SELECT', 'OPTION', 'FORM', 'BODY', 'HTML', 'SECTION', 'MAIN', 'NAV', 'HEADER', 'FOOTER', 'ASIDE'].includes(el.tagName)) return;
-            if (el.children.length === 0 && el.textContent.trim().length > 0) {
+        // 2. Banner Specific Text Elements
+        doc.querySelectorAll('.banner-item-content h1, .banner-item-content h2, .banner-item-content h2 span, .banner-item-content p, .banner-item-content a, .banner-item-content .btn, .banner-item-content span').forEach(el => {
+            if (nonEditableTags.has(el.tagName) || isHiddenElement(el)) return;
+            el.setAttribute('contenteditable', 'true');
+            el.setAttribute('spellcheck', 'false');
+        });
+
+        // 3. Buttons, Badges, Links, and Inline Labels (if not already inside an editable container)
+        const interactiveTextTags = 'button, a, label, .btn, .btn-custom, .btn-custom-reverse, .pt-price-tag, .note_module, .caption, .pricing-plan-title, .item-title, .sub-title, .desc, span.span, .pt-plan';
+        doc.querySelectorAll(interactiveTextTags).forEach(el => {
+            if (nonEditableTags.has(el.tagName) || isHiddenElement(el)) return;
+            if (!el.parentElement || !el.parentElement.closest('[contenteditable="true"]')) {
                 el.setAttribute('contenteditable', 'true');
                 el.setAttribute('spellcheck', 'false');
             }
         });
 
-        doc.querySelectorAll('[contenteditable="true"]').forEach(el => {
-            const editableChildren = el.querySelectorAll('[contenteditable="true"]');
-            if (editableChildren.length > 0) {
-                el.removeAttribute('contenteditable');
-            }
+        // 4. Any element that contains direct non-whitespace text
+        if (doc.body) {
+            doc.body.querySelectorAll('*').forEach(el => {
+                if (nonEditableTags.has(el.tagName) || isHiddenElement(el)) return;
+                if (el.tagName === 'BODY' || el.tagName === 'HTML') return;
+                if (el.getAttribute('contenteditable') === 'true') return;
+                if (el.closest && el.closest('[contenteditable="true"]')) return;
+
+                let hasDirectText = false;
+                for (let i = 0; i < el.childNodes.length; i++) {
+                    const node = el.childNodes[i];
+                    if (node.nodeType === Node.TEXT_NODE && node.textContent.trim().length > 0) {
+                        hasDirectText = true;
+                        break;
+                    }
+                }
+
+                const isTextWrapper = el.classList.contains('caption') ||
+                                      el.classList.contains('pt-price-tag') ||
+                                      el.classList.contains('pt-plan') ||
+                                      el.classList.contains('note_module') ||
+                                      el.classList.contains('title') ||
+                                      el.classList.contains('desc') ||
+                                      el.classList.contains('sub-title') ||
+                                      ['SPAN', 'B', 'STRONG', 'EM', 'I', 'U', 'LABEL', 'SMALL', 'A', 'BUTTON'].includes(el.tagName);
+
+                if (hasDirectText || (isTextWrapper && el.textContent.trim().length > 0)) {
+                    el.setAttribute('contenteditable', 'true');
+                    el.setAttribute('spellcheck', 'false');
+                }
+            });
+        }
+
+        // 5. Intercept clicks on links and buttons in edit mode so user can edit text without navigating
+        doc.querySelectorAll('a, button, [role="button"], [data-toggle]').forEach(el => {
+            el.onclick = (e) => {
+                if (isLiveEditActive) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    if (el.isContentEditable) {
+                        el.focus();
+                    } else {
+                        const child = el.querySelector('[contenteditable="true"]');
+                        if (child) child.focus();
+                    }
+                }
+            };
         });
 
+        // 6. Support Double-Clicking links <a> to edit the destination URL (href)
+        doc.querySelectorAll('a').forEach(a => {
+            a.setAttribute('data-editor-enhanced', 'true');
+            a.title = 'Nhấp chuột để sửa chữ. Nhấp đúp chuột (Double-click) để sửa đường dẫn liên kết (href)';
+            a.ondblclick = (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                const currentHref = a.getAttribute('href') || '';
+                const newHref = prompt('Nhập đường dẫn liên kết (href) mới cho nút / link này:', currentHref);
+                if (newHref !== null) {
+                    a.setAttribute('href', newHref.trim());
+                    updateSaveStatus('unsaved');
+                    showToast('Đã cập nhật đường dẫn liên kết!', 'success');
+                }
+            };
+        });
+
+        // 7. Support Double-Clicking <input type="submit"> / <input type="button"> to edit button label
+        doc.querySelectorAll('input[type="submit"], input[type="button"]').forEach(input => {
+            input.setAttribute('data-editor-enhanced', 'true');
+            input.title = 'Nhấp đúp (Double-click) để đổi chữ trên nút bấm này';
+            input.ondblclick = (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                const currentVal = input.value || input.getAttribute('value') || '';
+                const newVal = prompt('Nhập nội dung mới cho nút bấm:', currentVal);
+                if (newVal !== null && newVal.trim() !== '') {
+                    input.setAttribute('value', newVal.trim());
+                    input.value = newVal.trim();
+                    updateSaveStatus('unsaved');
+                    showToast('Đã đổi chữ nút bấm thành công!', 'success');
+                }
+            };
+        });
+
+        // 8. Image Double Click Handler (and Tooltip)
         doc.querySelectorAll('img').forEach(img => {
+            img.setAttribute('data-editor-enhanced', 'true');
+            img.title = 'Nhấp đúp (Double-click) để thay đổi hình ảnh này';
             img.ondblclick = (e) => {
                 e.preventDefault();
                 e.stopPropagation();
                 openImageEditModal(img);
             };
         });
+
     } else {
+        // Mode Preview: Remove all editor attributes and event blockers
         doc.querySelectorAll('[contenteditable]').forEach(el => {
             el.removeAttribute('contenteditable');
             el.removeAttribute('spellcheck');
         });
 
-        doc.querySelectorAll('a').forEach(a => {
-            a.onclick = null;
-            a.removeAttribute('contenteditable');
-            const href = a.getAttribute('href');
-            if (href && !href.startsWith('http') && !href.startsWith('#') && !href.startsWith('tel:') && !href.startsWith('mailto:')) {
-                a.removeAttribute('target');
-            }
+        doc.querySelectorAll('a, button, [role="button"], [data-toggle]').forEach(el => {
+            el.onclick = null;
         });
 
-        doc.querySelectorAll('img').forEach(img => {
-            img.ondblclick = null;
+        doc.querySelectorAll('[data-editor-enhanced]').forEach(el => {
+            el.ondblclick = null;
+            el.removeAttribute('title');
+            el.removeAttribute('data-editor-enhanced');
         });
     }
 }
@@ -372,11 +565,22 @@ async function saveCurrentLiveHtml() {
     // Clean editor attributes
     docClone.querySelectorAll('[contenteditable]').forEach(el => el.removeAttribute('contenteditable'));
     docClone.querySelectorAll('[spellcheck]').forEach(el => el.removeAttribute('spellcheck'));
+    docClone.querySelectorAll('[data-editor-enhanced]').forEach(el => {
+        el.removeAttribute('data-editor-enhanced');
+        el.removeAttribute('title');
+    });
+
+    // Clean scrollspy fixed class and body scrolling state so tab & backToTop don't get stuck on initial load
+    const bodyClone = docClone.querySelector('body');
+    if (bodyClone) bodyClone.classList.remove('scrolling');
+    docClone.querySelectorAll('#spy_scroll, .navbar_scroll_tss').forEach(el => {
+        el.classList.remove('spy_scroll-fixed');
+    });
 
     // Clean dynamic Owl Carousel wrappers
     docClone.querySelectorAll('.owl-carousel, [id="partner-slide"], .partner-slide, .banner-slider, .testimonial-slider').forEach(carousel => {
         const items = [];
-        carousel.querySelectorAll('.item').forEach(item => {
+        carousel.querySelectorAll('.item, .banner-item').forEach(item => {
             items.push(item.cloneNode(true));
         });
         if (items.length > 0) {
@@ -386,6 +590,10 @@ async function saveCurrentLiveHtml() {
         carousel.classList.remove('owl-carousel', 'owl-theme');
         carousel.removeAttribute('style');
     });
+
+    // Strip dynamically injected tracking scripts, iframe artifacts & browser extension tags
+    docClone.querySelectorAll('script[src*="googleads"], script[src*="facebook.net/signals"], script[src*="google-analytics.com/analytics.js"], script[src*="googletagmanager.com/gtag/js?id="]').forEach(el => el.remove());
+    docClone.querySelectorAll('[id*="PING_"], [id*="ping_"], [class*="PING_"]').forEach(el => el.remove());
 
     // Reset default form values
     docClone.querySelectorAll('input:not([type="hidden"]):not([type="submit"]):not([type="button"]):not([type="radio"]):not([type="checkbox"])').forEach(input => {
@@ -461,10 +669,10 @@ function setEditorMode(mode) {
         if (hintContent) {
             hintContent.innerHTML = `
                 <i class="fa fa-info-circle text-primary"></i>
-                <span><strong>Chế độ Sửa:</strong> Nhấp chuột trực tiếp vào bất kỳ dòng chữ nào trên trang để sửa nội dung. Nhấp đúp (Double-click) vào hình ảnh để đổi ảnh. Sau khi chỉnh sửa, nhấn nút <strong class="text-success"><i class="fa fa-floppy-o"></i> Lưu Thay Đổi</strong> ở góc trên bên phải!</span>
+                <span><strong>Chế độ Sửa:</strong> Nhấp vào chữ để sửa • Nhấp đúp để đổi ảnh & link liên kết • Bấm <strong class="text-success"><i class="fa fa-floppy-o"></i> Lưu Thay Đổi</strong> khi hoàn tất.</span>
             `;
         }
-        showToast('Đã BẬT Chế Độ Sửa (Nhấp trực tiếp vào chữ trên trang để sửa)', 'success');
+        showToast('Đã BẬT Chế Độ Sửa (Nhấp trực tiếp vào chữ để sửa)', 'success');
     } else {
         isLiveEditActive = false;
         if (btnPreview) btnPreview.classList.add('active');
@@ -475,7 +683,7 @@ function setEditorMode(mode) {
         if (hintContent) {
             hintContent.innerHTML = `
                 <i class="fa fa-eye text-primary"></i>
-                <span><strong>Chế độ Xem:</strong> Bạn đang trải nghiệm giao diện trang web như khách truy cập thực tế. Các liên kết, nút bấm và hiệu ứng hoạt động bình thường.</span>
+                <span><strong>Chế độ Xem:</strong> Xem trước website thực tế • Bấm chuột để kiểm tra liên kết & hiệu ứng.</span>
             `;
         }
         showToast('Đã chuyển sang Chế Độ Xem trước website', 'info');

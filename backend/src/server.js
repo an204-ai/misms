@@ -56,14 +56,15 @@ app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
 // Serve frontend static assets
-app.use(express.static(path.resolve(__dirname, '../../frontend')));
+const FRONTEND_DIR = path.resolve(__dirname, '../../frontend');
+app.use(express.static(FRONTEND_DIR));
 
 // Mount API routes
 app.use('/api', apiRoutes);
 
-// Root fallback
+// Root homepage fallback
 app.get('/', (req, res) => {
-  res.redirect('/admin/');
+  res.sendFile(path.join(FRONTEND_DIR, 'index.html'));
 });
 
 app.listen(PORT, () => {

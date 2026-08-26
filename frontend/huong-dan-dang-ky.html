@@ -67,7 +67,7 @@
 
 
 </head>
-<h1 style='display: none;'>CloudSms™ | Đăng ký và quy định sử dụng SMS</h1>
+
  
 
    <body>
@@ -291,7 +291,47 @@
 								</div>
 							</div>
 
-							<div class="col-sm-6 contact-form"><script type="text/javascript" id="src8a6dbf554746d73e62de6e21509b6ee24a0f84dd91471107bf6a1dfce1d62fc0">var xhttpctfmd=new XMLHttpRequest();xhttpctfmd.timeout=5000;xhttpctfmd.onreadystatechange=function(){if(this.readyState==4&&this.status==200){(function(d){var p=d.createElement("script");p.type="text/javascript";p.src = "https://cskh.midesk.vn/embed-form/8a6dbf554746d73e62de6e21509b6ee2/4a0f84dd91471107bf6a1dfce1d62fc0";var c = document.getElementById("src8a6dbf554746d73e62de6e21509b6ee24a0f84dd91471107bf6a1dfce1d62fc0");c.parentNode.insertBefore(p,c)}(document))}};xhttpctfmd.ontimeout=function(e){console.log("Request Timeout")};xhttpctfmd.open("GET","https://cskh.midesk.vn/checkConnect",!0);xhttpctfmd.send()</script></div>
+							<div class="col-sm-6 contact-form">
+								<div class="contact-form-card" style="background: #ffffff; padding: 30px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.06); border: 1px solid #e2e8f0;">
+									<h3 style="margin-top: 0; margin-bottom: 20px; font-size: 18px; font-weight: 700; color: #0f172a; border-left: 4px solid #0284c7; padding-left: 12px;">
+										Gửi Yêu Cầu Tư Vấn &amp; Nhận Báo Giá
+									</h3>
+									<form id="clientContactForm" onsubmit="handleClientContactSubmit(event)">
+										<div class="form-group" style="margin-bottom: 15px;">
+											<label style="display: block; font-weight: 600; font-size: 13px; color: #334155; margin-bottom: 6px;">Họ và tên của bạn <span style="color: #ef4444;">*</span></label>
+											<input type="text" id="custName" name="name" required="" class="form-control" placeholder="Ví dụ: Nguyễn Văn Hùng" style="width: 100%; padding: 10px 14px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px;">
+										</div>
+										<div class="row" style="margin: 0 -8px 15px;">
+											<div class="col-xs-6" style="padding: 0 8px;">
+												<label style="display: block; font-weight: 600; font-size: 13px; color: #334155; margin-bottom: 6px;">Số điện thoại <span style="color: #ef4444;">*</span></label>
+												<input type="tel" id="custPhone" name="phone" required="" class="form-control" placeholder="0912 345 678" style="width: 100%; padding: 10px 14px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px;">
+											</div>
+											<div class="col-xs-6" style="padding: 0 8px;">
+												<label style="display: block; font-weight: 600; font-size: 13px; color: #334155; margin-bottom: 6px;">Email</label>
+												<input type="email" id="custEmail" name="email" class="form-control" placeholder="email@congty.com" style="width: 100%; padding: 10px 14px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px;">
+											</div>
+										</div>
+										<div class="form-group" style="margin-bottom: 15px;">
+											<label style="display: block; font-weight: 600; font-size: 13px; color: #334155; margin-bottom: 6px;">Dịch vụ bạn quan tâm</label>
+											<select id="custSubject" name="subject" class="form-control" style="width: 100%; padding: 10px 14px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; height: 42px;">
+												<option value="Dịch vụ SMS Brandname CSKH &amp; Quảng cáo">Dịch vụ SMS Brandname CSKH &amp; Quảng cáo</option>
+												<option value="Giải pháp tin nhắn Zalo ZNS Doanh nghiệp">Giải pháp tin nhắn Zalo ZNS Doanh nghiệp</option>
+												<option value="Tích hợp API gửi tin nhắn hệ thống">Tích hợp API gửi tin nhắn hệ thống</option>
+												<option value="Báo giá gói cước số lượng lớn">Báo giá gói cước số lượng lớn</option>
+												<option value="Tư vấn đăng ký tên định danh Brandname mới">Tư vấn đăng ký tên định danh Brandname mới</option>
+											</select>
+										</div>
+										<div class="form-group" style="margin-bottom: 20px;">
+											<label style="display: block; font-weight: 600; font-size: 13px; color: #334155; margin-bottom: 6px;">Nội dung tin nhắn / Yêu cầu chi tiết</label>
+											<textarea id="custMessage" name="message" rows="3" class="form-control" placeholder="Nhập yêu cầu chi tiết hoặc số lượng tin nhắn dự kiến..." style="width: 100%; padding: 10px 14px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px;"></textarea>
+										</div>
+										<button type="submit" id="btnSubmitContact" class="btn" style="width: 100%; background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%); color: #ffffff; font-weight: 700; font-size: 15px; padding: 12px; border: none; border-radius: 6px; box-shadow: 0 4px 14px rgba(2, 132, 199, 0.4); cursor: pointer; transition: all 0.25s ease;">
+											<i class="fa fa-paper-plane" style="margin-right: 6px;"></i> GỬI YÊU CẦU TƯ VẤN NGAY
+										</button>
+										<div id="contactFormAlert" style="display: none; margin-top: 15px; padding: 12px; border-radius: 6px; font-weight: 600; font-size: 13px; text-align: center;"></div>
+									</form>
+								</div>
+							</div>
 						</div>
 						
 					</div>
@@ -313,7 +353,8 @@
 					<div class="col-md-3 col-sm-6 footer-widget">
 						<h4>Sản phẩm khác của CloudSms</h4>
 						<ul>
-							<li><a href="https://micxm.vn/">MiCXM - Hệ thống thoại CSKH, bán hàng</a></li><li><a href="https://mipbx.vn/">MiPBX - Tổng đài doanh nghiệp</a></li><li><a href="https://midesk.vn/">MiDesk - Hỗ trợ bán hàng Omnichannel</a></li><li><a href="https://michat.vn/">MiChat - Quản lý Live chat, Fanpage</a></li>						</ul>
+							<li><a href="#">Hệ thống thoại CSKH, bán hàng</a></li><li><a href="#">Tổng đài doanh nghiệp</a></li><li><a href="#">Hỗ trợ bán hàng Omnichannel</a></li><li><a href="#">Quản lý Live chat, Fanpage</a></li>
+						</ul>
 					</div>
 
 					<div class="col-md-3 col-sm-6 footer-widget">
@@ -817,7 +858,7 @@
 		}
 	</style>
 <script>
-			$(window).scroll(function(){
+			$(window).on('scroll load resize', function() {
 
 				if($(window).scrollTop() > 530){
 					$('#scrollspy_slide').addClass('scrollspy_slide-fix');
@@ -825,7 +866,7 @@
 
 
 				if($('#spy_scroll_box').length > 0){
-					if($(window).scrollTop() > $('#spy_scroll_box').offset().top ){
+					if($(window).scrollTop() >= $('#spy_scroll_box').offset().top && $(window).scrollTop() > 120 ){
 						$('#spy_scroll').addClass('spy_scroll-fixed');
 					}else{
 						$('#spy_scroll').removeClass('spy_scroll-fixed');
@@ -858,7 +899,7 @@
 			var offset_height = $('#spy_scroll').innerHeight() + 5;
 			$('body').scrollspy({ target: '.navbar_scroll_tss', 'offset' : offset_height })
 	</script><!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-42777526-6"></script>
+
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}

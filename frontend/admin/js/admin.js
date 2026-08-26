@@ -133,6 +133,7 @@ function switchAdminTab(tabName) {
 
     const titles = {
         liveEditor: { title: 'Xem & Quản Lý Trang Web', desc: 'Xem trước giao diện website và mở trình chỉnh sửa trực quan' },
+        posts: { title: 'Quản Lý Bài Viết', desc: 'Chức năng quản lý bài viết và tin tức đang được hoàn thiện' },
         mediaLibrary: { title: 'Quản Lý Thư Viện Hình Ảnh', desc: 'Xem, tải lên, tìm kiếm và quản lý kho tài nguyên hình ảnh website' },
         contacts: { title: 'Hộp Thư Khách Hàng', desc: 'Danh sách và trạng thái xử lý các yêu cầu tư vấn & báo giá' },
         account: { title: 'Đổi Mật Khẩu Đăng Nhập', desc: 'Bảo mật và cập nhật mật khẩu quản trị viên hệ thống CloudSms' }

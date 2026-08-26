@@ -13,7 +13,12 @@
 .banner-slider {
     width: 100%;
     position: relative;
-    display: block !important;
+    display: block;
+    overflow: hidden;
+}
+
+.banner-slider:not(.owl-carousel) .banner-item:nth-child(n+2) {
+    display: none !important;
 }
 
 .banner-slider .banner-item {
@@ -25,35 +30,69 @@
     display: flex !important;
     align-items: center;
     padding: 60px 0 80px !important;
+    width: 100%;
 }
 
+/* ==============================================================================
+   PREMIUM BANNER SLIDER PAGINATION DOTS
+   ============================================================================== */
 .banner-slider .owl-pagination {
     position: absolute;
-    bottom: 20px;
+    bottom: 25px;
     left: 0;
     right: 0;
+    width: 100%;
+    margin: 0 !important;
+    padding: 0 !important;
     text-align: center;
-    z-index: 15;
+    z-index: 20;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
 }
 
 .banner-slider .owl-page {
-    display: inline-block;
-    margin: 0 5px;
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    width: auto !important;
+    height: auto !important;
+    margin: 0 !important;
+    padding: 4px;
+    background: transparent !important;
+    border-radius: 0 !important;
+    border: none !important;
+    cursor: pointer;
+    box-shadow: none !important;
 }
 
 .banner-slider .owl-page span {
-    display: block;
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.45);
-    transition: all 0.25s ease;
+    display: block !important;
+    width: 10px !important;
+    height: 10px !important;
+    margin: 0 !important;
+    border-radius: 20px !important;
+    background: rgba(255, 255, 255, 0.45) !important;
+    border: 1.5px solid rgba(255, 255, 255, 0.7) !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
+    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    transform: none !important;
+}
+
+.banner-slider .owl-page:hover span {
+    background: rgba(255, 255, 255, 0.8) !important;
+    border-color: #ffffff !important;
+    transform: scale(1.15) !important;
 }
 
 .banner-slider .owl-page.active span {
-    background: #ffffff;
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
-    transform: scale(1.3);
+    width: 26px !important;
+    height: 10px !important;
+    background: #ffffff !important;
+    border-color: #ffffff !important;
+    box-shadow: 0 0 12px rgba(255, 255, 255, 0.95), 0 2px 6px rgba(0, 0, 0, 0.3) !important;
+    transform: none !important;
 }
 
 /* Fix Navbar & Logo Container */

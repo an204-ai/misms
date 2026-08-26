@@ -17,60 +17,44 @@ function onSearchHotline(a) {
 }
 
 
-var table_answer = $('#table_hotline').DataTable({
-	"serverSide": true,
-	"ajax": base_url_js + "list-hotline?rand=1&hotline=&network=null&type=&price=",
-
-	// "order": [[ 0, "desc" ]],
-	"aoColumns": [
-		{ "bSortable": false },
-		{ "bSortable": false, },
-		{ "bSortable": false },
-		{ "bSortable": false },
-		{ "bSortable": false },
-		{ "bSortable": false },
-		{ "bSortable": false },
-		{ "bSortable": false },
-	],
-	// // stateSave: true,
-	// // "exclude": [1] ,//ẩn
-	"searching": false,
-	"autoWidth": false,
-	"lengthChange": false,
-	"info": false,
-	"pageLength": 10,
-	"language": {
-		"paginate": {
-			"first": "Đầu",
-			"last": "Cúi",
-			"next": "<i class='fa fa-long-arrow-right'></i>",
-			"previous": "<i class='fa fa-long-arrow-left'></i>"
-		},
-		"search": "",
-		"searchPlaceholder": "Tìm kiếm",
-		// "lengthMenu":     "Hiển thị _MENU_ dòng",
-		"info": "Hiển thị _START_ đến _END_ của _TOTAL_ dòng",
-	},
-	"drawCallback": function (settings) {
-
-
-	},
-	"initComplete": function () {
-
-	},
-	"rowCallback": function (row, data, index) {
-		// console.log(row);
-		// console.log(data);
-		// console.log(index);
-	},
-});
-table_answer.on('xhr', function () {
-	var json = table_answer.ajax.json();
-	// console.log(json);
-	$('#table_hotline_wrapper .col-sm-5').html("<span style='color: #000;font-size: 13px; font-style: italic;'>Dánh sách được cập nhật ngày: " + json.date + "</span>")
-	// $('.contain-hotline .text-right').html("<span style='color: #fff;font-size: 13px; font-style: italic;'>Dánh sách được cập nhật ngày: "+json.date+"</span>")
-	// alert( json.date +' row(s) were loaded' );
-});
+if ($.fn.DataTable && $('#table_hotline').length) {
+	var table_answer = $('#table_hotline').DataTable({
+		"serverSide": true,
+		"ajax": base_url_js + "list-hotline?rand=1&hotline=&network=null&type=&price=",
+		"aoColumns": [
+			{ "bSortable": false },
+			{ "bSortable": false, },
+			{ "bSortable": false },
+			{ "bSortable": false },
+			{ "bSortable": false },
+			{ "bSortable": false },
+			{ "bSortable": false },
+			{ "bSortable": false },
+		],
+		"searching": false,
+		"autoWidth": false,
+		"lengthChange": false,
+		"info": false,
+		"pageLength": 10,
+		"language": {
+			"paginate": {
+				"first": "Đầu",
+				"last": "Cúi",
+				"next": "<i class='fa fa-long-arrow-right'></i>",
+				"previous": "<i class='fa fa-long-arrow-left'></i>"
+			},
+			"search": "",
+			"searchPlaceholder": "Tìm kiếm",
+			"info": "Hiển thị _START_ đến _END_ của _TOTAL_ dòng",
+		}
+	});
+	table_answer.on('xhr', function () {
+		var json = table_answer.ajax.json();
+		if (json && json.date) {
+			$('#table_hotline_wrapper .col-sm-5').html("<span style='color: #000;font-size: 13px; font-style: italic;'>Danh sách được cập nhật ngày: " + json.date + "</span>");
+		}
+	});
+}
 
 
 $('.compare-header').click(function () {
@@ -756,7 +740,7 @@ function handleClientContactSubmit(e) {
 	alertBox.hide();
 
 	$.ajax({
-		url: 'http://localhost:5000/api/contacts',
+		url: '/api/contacts',
 		type: 'POST',
 		contentType: 'application/json',
 		data: JSON.stringify({

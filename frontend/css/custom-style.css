@@ -1135,22 +1135,33 @@ body.no {
 
 #fixed-bottom a span {}
 
-#spy_scroll_box {}
+#pageTitle {
+	min-height: 140px;
+}
+
+#spy_scroll_box {
+	min-height: 85px;
+	position: relative;
+	width: 100%;
+	clear: both;
+}
 
 #spy_scroll {
 	background: #fff;
-	box-shadow: 0 0 15px #ccc;
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
 	text-align: center;
 }
 
 .spy_scroll-fixed {
 	position: fixed;
 	top: 0;
+	left: 0;
 	right: 0;
 	width: 100%;
 	z-index: 998;
 	overflow: auto;
 	text-align: center;
+	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12) !important;
 }
 
 #ul_spu_scroll:after {

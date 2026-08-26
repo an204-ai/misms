@@ -45,6 +45,9 @@
                 <button class="nav-item active" data-tab="liveEditor">
                     <i class="fa fa-desktop"></i> <span>Xem Trang Web</span>
                 </button>
+                <button class="nav-item" data-tab="posts">
+                    <i class="fa fa-newspaper-o"></i> <span>Quản Lý Bài Viết</span>
+                </button>
                 <button class="nav-item" data-tab="mediaLibrary">
                     <i class="fa fa-picture-o"></i> <span>Thư Viện Ảnh</span>
                     <span class="badge-count" id="totalMediaBadge" style="display:none;">0</span>
@@ -162,6 +165,24 @@
                         </div>
                     </div>
 
+                </section>
+
+                <!-- 1. POSTS & ARTICLES TAB (Đang phát triển) -->
+                <section id="tab-posts" class="tab-panel">
+                    <div class="card" style="padding: 56px 24px; text-align: center; background: #ffffff; border-radius: var(--radius-lg); border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); max-width: 600px; margin: 40px auto;">
+                        <div style="width: 64px; height: 64px; margin: 0 auto 16px; border-radius: 16px; background: #f1f5f9; color: #64748b; display: flex; align-items: center; justify-content: center; font-size: 26px;">
+                            <i class="fa fa-newspaper-o"></i>
+                        </div>
+                        <h3 style="font-size: 18px; font-weight: 700; color: #1e293b; margin: 0 0 8px;">Tính năng đang được phát triển</h3>
+                        <p style="font-size: 14px; color: #64748b; margin: 0 auto 24px; line-height: 1.6;">
+                            Chức năng quản lý bài viết và tin tức sẽ được bổ sung khi có nhu cầu mở rộng.
+                        </p>
+                        <div>
+                            <button type="button" class="btn btn-primary-soft btn-sm" onclick="switchAdminTab('liveEditor')">
+                                <i class="fa fa-desktop"></i> Quay lại trang chủ
+                            </button>
+                        </div>
+                    </div>
                 </section>
 
                 <!-- 2. MEDIA LIBRARY TAB -->
