@@ -420,9 +420,9 @@ body.editor-standalone-body {
 
 /* Modal Styling */
 .btn-cancel {
-    background: #f1f5f9;
-    color: #475569;
-    border: 1px solid #cbd5e1;
+    background: #fef2f2;
+    color: #dc2626;
+    border: 1px solid #fecaca;
     border-radius: 6px;
     padding: 6px 14px;
     font-size: 12.5px;
@@ -432,8 +432,10 @@ body.editor-standalone-body {
 }
 
 .btn-cancel:hover {
-    background: #e2e8f0;
-    color: #1e293b;
+    background: #dc2626;
+    color: #ffffff;
+    border-color: #dc2626;
+    box-shadow: 0 2px 8px rgba(220, 38, 38, 0.25);
 }
 
 /* ==============================================================================

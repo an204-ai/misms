@@ -12,6 +12,25 @@ let isLiveEditActive = true;
 let hasUnsavedChanges = false;
 let editorMediaList = [];
 let isSessionValid = true;
+let changeset = new Map(); // key: `${eid}::${type}` -> { eid, type, value }
+
+/**
+ * Sanitize HTML input from contenteditable to prevent paste garbage/unsafe scripts
+ * Fail-closed: Throws error if DOMPurify is not available
+ */
+function sanitizeEditableHtml(html) {
+    if (typeof DOMPurify === 'undefined') {
+        throw new Error('DOMPurify chưa sẵn sàng, không thể làm sạch nội dung.');
+    }
+    return DOMPurify.sanitize(html, {
+        ALLOWED_TAGS: [
+            'b', 'strong', 'i', 'em', 'span', 'br', 'a', 
+            'p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 
+            'ul', 'ol', 'li', 'small', 'u', 'sub', 'sup'
+        ],
+        ALLOWED_ATTR: ['href', 'class', 'target', 'title', 'rel']
+    });
+}
 
 document.addEventListener('DOMContentLoaded', () => {
     initEditorPage();
@@ -63,6 +82,7 @@ async function initEditorPage() {
                     return;
                 }
             }
+            changeset.clear();
             const newPage = e.target.value;
             window.location.href = `editor.html?page=${encodeURIComponent(newPage)}`;
         });
@@ -196,6 +216,8 @@ function onLiveFrameLoaded() {
         }
     }
 
+    changeset.clear();
+
     if (isSessionValid) {
         applyEditStateToIframe(isLiveEditActive);
         updateSaveStatus('saved');
@@ -215,26 +237,172 @@ function applyEditStateToIframe(isActive) {
         isActive = false;
     }
 
-    // Listen to changes inside iframe to mark unsaved status
+    // Track initial HTML when focusing on an editable element
+    if (!doc._hasFocusinListenerAttached && isSessionValid) {
+        doc.addEventListener('focusin', (e) => {
+            if (!isSessionValid) return;
+            const target = e.target;
+            if (!target) return;
+            const editableHost = target.getAttribute && target.getAttribute('contenteditable') === 'true'
+                ? target
+                : (target.closest ? target.closest('[contenteditable="true"]') : null);
+            if (editableHost && editableHost._initialHtml === undefined) {
+                editableHost._initialHtml = editableHost.innerHTML;
+            }
+        }, true);
+        doc._hasFocusinListenerAttached = true;
+    }
+
+    // Paste event interceptor: sanitize clipboard contents immediately before inserting into DOM
+    if (!doc._hasPasteInterceptorAttached && isSessionValid) {
+        doc.addEventListener('paste', (e) => {
+            if (!isLiveEditActive) return;
+            const target = e.target;
+            const editableHost = target.getAttribute && target.getAttribute('contenteditable') === 'true'
+                ? target
+                : (target.closest ? target.closest('[contenteditable="true"]') : null);
+            if (!editableHost) return;
+
+            e.preventDefault();
+            const clipboardHtml = (e.clipboardData || window.clipboardData).getData('text/html');
+            const clipboardText = (e.clipboardData || window.clipboardData).getData('text/plain');
+            
+            let pasteContent = '';
+            try {
+                pasteContent = clipboardHtml
+                    ? sanitizeEditableHtml(clipboardHtml)
+                    : (clipboardText ? clipboardText.replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c])) : '');
+            } catch (err) {
+                console.error(err);
+                showToast('Không thể dán nội dung: ' + (err.message || 'Thư viện làm sạch chưa sẵn sàng!'), 'error');
+                return;
+            }
+
+            if (pasteContent) {
+                const sel = doc.getSelection();
+                if (sel && sel.rangeCount > 0) {
+                    sel.deleteFromDocument();
+                    const range = sel.getRangeAt(0);
+                    const frag = range.createContextualFragment(pasteContent);
+                    range.insertNode(frag);
+                    sel.collapseToEnd();
+                }
+                
+                if (editableHost._initialHtml === undefined) {
+                    editableHost._initialHtml = editableHost.innerHTML;
+                }
+                const currentHtml = editableHost.innerHTML;
+                const initialHtml = editableHost._initialHtml;
+                const eid = editableHost.getAttribute('data-eid');
+                if (currentHtml !== initialHtml) {
+                    if (eid) {
+                        try {
+                            const cleanHtml = sanitizeEditableHtml(currentHtml);
+                            changeset.set(`${eid}::innerHTML`, { eid, type: 'innerHTML', value: cleanHtml });
+                        } catch (err) {
+                            console.error(err);
+                        }
+                    }
+                    updateSaveStatus('unsaved');
+                }
+            }
+        }, true);
+        doc._hasPasteInterceptorAttached = true;
+    }
+
+    // Listen to input changes inside iframe to mark unsaved status only when content actually changes
     if (!doc._hasInputListenerAttached && isSessionValid) {
-        const markUnsaved = (e) => {
+        const markUnsavedIfChanged = (e) => {
             if (!isSessionValid) return;
             if (['INPUT', 'TEXTAREA', 'SELECT', 'OPTION'].includes(e.target.tagName)) return;
-            if (e.target.isContentEditable || (e.target.closest && e.target.closest('[contenteditable="true"]'))) {
-                updateSaveStatus('unsaved');
+            const target = e.target;
+            const editableHost = target.getAttribute && target.getAttribute('contenteditable') === 'true'
+                ? target
+                : (target.closest ? target.closest('[contenteditable="true"]') : null);
+            
+            if (editableHost) {
+                if (editableHost._initialHtml === undefined) {
+                    editableHost._initialHtml = editableHost.innerHTML;
+                }
+                const currentHtml = editableHost.innerHTML;
+                const initialHtml = editableHost._initialHtml;
+                const eid = editableHost.getAttribute('data-eid');
+
+                if (currentHtml !== initialHtml) {
+                    if (eid) {
+                        try {
+                            const cleanHtml = sanitizeEditableHtml(currentHtml);
+                            changeset.set(`${eid}::innerHTML`, { eid, type: 'innerHTML', value: cleanHtml });
+                        } catch (err) {
+                            console.error(err);
+                            showToast('Lỗi làm sạch nội dung: ' + (err.message || 'DOMPurify lỗi'), 'error');
+                            return;
+                        }
+                    }
+                    updateSaveStatus('unsaved');
+                } else {
+                    if (eid) {
+                        changeset.delete(`${eid}::innerHTML`);
+                    }
+                    if (changeset.size === 0) {
+                        updateSaveStatus('saved');
+                    }
+                }
             }
         };
-        doc.addEventListener('input', markUnsaved);
+
+        doc.addEventListener('input', markUnsavedIfChanged);
         doc.addEventListener('keyup', (e) => {
             if (!isSessionValid) return;
             if (['INPUT', 'TEXTAREA', 'SELECT', 'OPTION'].includes(e.target.tagName)) return;
-            if ((e.target.isContentEditable || (e.target.closest && e.target.closest('[contenteditable="true"]'))) && 
-                (['Backspace', 'Delete', 'Enter', ' '].includes(e.key) || e.key.length === 1)) {
-                updateSaveStatus('unsaved');
+            if (['Backspace', 'Delete', 'Enter', ' '].includes(e.key) || e.key.length === 1) {
+                markUnsavedIfChanged(e);
             }
         });
-        doc.addEventListener('paste', markUnsaved);
         doc._hasInputListenerAttached = true;
+    }
+
+    // Capture blur events from contenteditable elements to finalize changeset only when content changed
+    if (!doc._hasBlurListenerAttached && isSessionValid) {
+        doc.addEventListener('blur', (e) => {
+            if (!isSessionValid) return;
+            const target = e.target;
+            if (!target) return;
+            const editableHost = target.getAttribute && target.getAttribute('contenteditable') === 'true'
+                ? target
+                : (target.closest ? target.closest('[contenteditable="true"]') : null);
+            
+            if (editableHost) {
+                const currentHtml = editableHost.innerHTML;
+                const initialHtml = editableHost._initialHtml;
+                const eid = editableHost.getAttribute('data-eid');
+
+                if (initialHtml !== undefined && currentHtml !== initialHtml) {
+                    if (!eid) {
+                        console.warn('Phần tử contenteditable không có data-eid:', editableHost);
+                        showToast('Cảnh báo: Phần tử này chưa có mã định danh data-eid để lưu!', 'warning');
+                        return;
+                    }
+                    try {
+                        const cleanHtml = sanitizeEditableHtml(currentHtml);
+                        changeset.set(`${eid}::innerHTML`, { eid, type: 'innerHTML', value: cleanHtml });
+                    } catch (err) {
+                        console.error(err);
+                        showToast('Lỗi làm sạch nội dung: ' + (err.message || 'DOMPurify lỗi'), 'error');
+                        return;
+                    }
+                    updateSaveStatus('unsaved');
+                } else if (initialHtml !== undefined && currentHtml === initialHtml) {
+                    if (eid) {
+                        changeset.delete(`${eid}::innerHTML`);
+                    }
+                    if (changeset.size === 0) {
+                        updateSaveStatus('saved');
+                    }
+                }
+            }
+        }, true);
+        doc._hasBlurListenerAttached = true;
     }
 
     // Capture-phase event interceptor to prevent Owl Carousel from dragging when clicking text
@@ -413,7 +581,7 @@ function applyEditStateToIframe(isActive) {
         });
 
         // 3. Buttons, Badges, Links, and Inline Labels (if not already inside an editable container)
-        const interactiveTextTags = 'button, a, label, .btn, .btn-custom, .btn-custom-reverse, .pt-price-tag, .note_module, .caption, .pricing-plan-title, .item-title, .sub-title, .desc, span.span, .pt-plan';
+        const interactiveTextTags = 'button, a, label, .btn, .btn-custom, .btn-custom-reverse, .pt-price-tag, .note_module, .caption, .pt-plan';
         doc.querySelectorAll(interactiveTextTags).forEach(el => {
             if (nonEditableTags.has(el.tagName) || isHiddenElement(el)) return;
             if (!el.parentElement || !el.parentElement.closest('[contenteditable="true"]')) {
@@ -444,8 +612,6 @@ function applyEditStateToIframe(isActive) {
                                       el.classList.contains('pt-plan') ||
                                       el.classList.contains('note_module') ||
                                       el.classList.contains('title') ||
-                                      el.classList.contains('desc') ||
-                                      el.classList.contains('sub-title') ||
                                       ['SPAN', 'B', 'STRONG', 'EM', 'I', 'U', 'LABEL', 'SMALL', 'A', 'BUTTON'].includes(el.tagName);
 
                 if (hasDirectText || (isTextWrapper && el.textContent.trim().length > 0)) {
@@ -474,16 +640,26 @@ function applyEditStateToIframe(isActive) {
         // 6. Support Double-Clicking links <a> to edit the destination URL (href)
         doc.querySelectorAll('a').forEach(a => {
             a.setAttribute('data-editor-enhanced', 'true');
-            a.title = 'Nhấp chuột để sửa chữ. Nhấp đúp chuột (Double-click) để sửa đường dẫn liên kết (href)';
+            a.title = 'Nhấp chuột để sửa chữ. Nhấp đúp chuột để sửa đường dẫn liên kết (href)';
             a.ondblclick = (e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                const currentHref = a.getAttribute('href') || '';
-                const newHref = prompt('Nhập đường dẫn liên kết (href) mới cho nút / link này:', currentHref);
+                const currentHref = (a.getAttribute('href') || '').trim();
+                const newHref = prompt('Nhập đường dẫn liên kết (href) mới cho nút / liên kết này:', currentHref);
                 if (newHref !== null) {
-                    a.setAttribute('href', newHref.trim());
-                    updateSaveStatus('unsaved');
-                    showToast('Đã cập nhật đường dẫn liên kết!', 'success');
+                    const trimmed = newHref.trim();
+                    if (trimmed !== currentHref) {
+                        a.setAttribute('href', trimmed);
+                        const eid = a.getAttribute('data-eid');
+                        if (eid) {
+                            changeset.set(`${eid}::attr:href`, { eid, type: 'attr:href', value: trimmed });
+                        } else {
+                            console.warn('Thẻ liên kết không có data-eid:', a);
+                            showToast('Cảnh báo: Liên kết này chưa có mã định danh data-eid để lưu!', 'warning');
+                        }
+                        updateSaveStatus('unsaved');
+                        showToast('Đã cập nhật đường dẫn liên kết!', 'success');
+                    }
                 }
             };
         });
@@ -491,17 +667,27 @@ function applyEditStateToIframe(isActive) {
         // 7. Support Double-Clicking <input type="submit"> / <input type="button"> to edit button label
         doc.querySelectorAll('input[type="submit"], input[type="button"]').forEach(input => {
             input.setAttribute('data-editor-enhanced', 'true');
-            input.title = 'Nhấp đúp (Double-click) để đổi chữ trên nút bấm này';
+            input.title = 'Nhấp đúp để đổi chữ trên nút bấm này';
             input.ondblclick = (e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                const currentVal = input.value || input.getAttribute('value') || '';
+                const currentVal = (input.value || input.getAttribute('value') || '').trim();
                 const newVal = prompt('Nhập nội dung mới cho nút bấm:', currentVal);
-                if (newVal !== null && newVal.trim() !== '') {
-                    input.setAttribute('value', newVal.trim());
-                    input.value = newVal.trim();
-                    updateSaveStatus('unsaved');
-                    showToast('Đã đổi chữ nút bấm thành công!', 'success');
+                if (newVal !== null) {
+                    const trimmed = newVal.trim();
+                    if (trimmed !== '' && trimmed !== currentVal) {
+                        input.setAttribute('value', trimmed);
+                        input.value = trimmed;
+                        const eid = input.getAttribute('data-eid');
+                        if (eid) {
+                            changeset.set(`${eid}::attr:value`, { eid, type: 'attr:value', value: trimmed });
+                        } else {
+                            console.warn('Nút bấm không có data-eid:', input);
+                            showToast('Cảnh báo: Nút bấm này chưa có mã định danh data-eid để lưu!', 'warning');
+                        }
+                        updateSaveStatus('unsaved');
+                        showToast('Đã đổi chữ nút bấm thành công!', 'success');
+                    }
                 }
             };
         });
@@ -547,90 +733,96 @@ async function saveCurrentLiveHtml() {
     btn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> <strong>Đang lưu...</strong>';
     updateSaveStatus('saving');
 
+    // 1. Flush any currently focused contenteditable element in the iframe into the changeset
     const liveFrame = document.getElementById('liveFrame');
-    if (!liveFrame || !liveFrame.contentDocument) {
-        showToast('Không tìm thấy khung chỉnh sửa!', 'error');
+    if (liveFrame && liveFrame.contentDocument && liveFrame.contentDocument.activeElement) {
+        const activeEl = liveFrame.contentDocument.activeElement;
+        if (activeEl && (activeEl.isContentEditable || (activeEl.getAttribute && activeEl.getAttribute('contenteditable') === 'true'))) {
+            const editableHost = activeEl.getAttribute('contenteditable') === 'true'
+                ? activeEl
+                : (activeEl.closest ? activeEl.closest('[contenteditable="true"]') : activeEl);
+            if (editableHost) {
+                const currentHtml = editableHost.innerHTML;
+                const initialHtml = editableHost._initialHtml;
+                const eid = editableHost.getAttribute('data-eid');
+                if (initialHtml !== undefined && currentHtml !== initialHtml) {
+                    if (eid) {
+                        try {
+                            const cleanHtml = sanitizeEditableHtml(currentHtml);
+                            changeset.set(`${eid}::innerHTML`, { eid, type: 'innerHTML', value: cleanHtml });
+                        } catch (err) {
+                            showToast('Không thể lưu: ' + (err.message || 'Thư viện làm sạch chưa sẵn sàng! Vui lòng tải lại trang.'), 'error');
+                            updateSaveStatus('unsaved');
+                            btn.disabled = false;
+                            btn.innerHTML = '<i class="fa fa-floppy-o"></i> <strong>Lưu Thay Đổi</strong>';
+                            return;
+                        }
+                    }
+                } else if (initialHtml !== undefined && currentHtml === initialHtml) {
+                    if (eid) {
+                        changeset.delete(`${eid}::innerHTML`);
+                    }
+                }
+            }
+        }
+    }
+
+    if (changeset.size === 0) {
+        showToast('Không có thay đổi nào mới cần lưu trên trang!', 'info');
+        updateSaveStatus('saved');
         btn.disabled = false;
         btn.innerHTML = '<i class="fa fa-floppy-o"></i> <strong>Lưu Thay Đổi</strong>';
-        updateSaveStatus(hasUnsavedChanges ? 'unsaved' : 'saved');
         return;
     }
 
-    const docClone = liveFrame.contentDocument.documentElement.cloneNode(true);
-    
-    // Remove injected styles
-    const style = docClone.querySelector('#live-editor-injected-style');
-    if (style) style.remove();
-
-    // Clean editor attributes
-    docClone.querySelectorAll('[contenteditable]').forEach(el => el.removeAttribute('contenteditable'));
-    docClone.querySelectorAll('[spellcheck]').forEach(el => el.removeAttribute('spellcheck'));
-    docClone.querySelectorAll('[data-editor-enhanced]').forEach(el => {
-        el.removeAttribute('data-editor-enhanced');
-        el.removeAttribute('title');
-    });
-
-    // Clean scrollspy fixed class and body scrolling state so tab & backToTop don't get stuck on initial load
-    const bodyClone = docClone.querySelector('body');
-    if (bodyClone) bodyClone.classList.remove('scrolling');
-    docClone.querySelectorAll('#spy_scroll, .navbar_scroll_tss').forEach(el => {
-        el.classList.remove('spy_scroll-fixed');
-    });
-
-    // Clean dynamic Owl Carousel wrappers
-    docClone.querySelectorAll('.owl-carousel, [id="partner-slide"], .partner-slide, .banner-slider, .testimonial-slider').forEach(carousel => {
-        const items = [];
-        carousel.querySelectorAll('.item, .banner-item').forEach(item => {
-            items.push(item.cloneNode(true));
-        });
-        if (items.length > 0) {
-            carousel.innerHTML = '';
-            items.forEach(item => carousel.appendChild(item));
-        }
-        carousel.classList.remove('owl-carousel', 'owl-theme');
-        carousel.removeAttribute('style');
-    });
-
-    // Strip dynamically injected tracking scripts, iframe artifacts & browser extension tags
-    docClone.querySelectorAll('script[src*="googleads"], script[src*="facebook.net/signals"], script[src*="google-analytics.com/analytics.js"], script[src*="googletagmanager.com/gtag/js?id="]').forEach(el => el.remove());
-    docClone.querySelectorAll('[id*="PING_"], [id*="ping_"], [class*="PING_"]').forEach(el => el.remove());
-
-    // Reset default form values
-    docClone.querySelectorAll('input:not([type="hidden"]):not([type="submit"]):not([type="button"]):not([type="radio"]):not([type="checkbox"])').forEach(input => {
-        if (!input.defaultValue) {
-            input.removeAttribute('value');
-        } else {
-            input.setAttribute('value', input.defaultValue);
-        }
-    });
-    docClone.querySelectorAll('textarea').forEach(ta => {
-        if (!ta.defaultValue) {
-            ta.innerHTML = '';
-            ta.textContent = '';
-        } else {
-            ta.textContent = ta.defaultValue;
-        }
-    });
-
-    const finalHtml = '<!DOCTYPE html>\n' + docClone.outerHTML;
-
     try {
+        // 2. Fetch pristine raw HTML from server
+        const { ok: okGet, data: dataGet } = await authFetch(`/html-pages/${encodeURIComponent(currentFilename)}`);
+        if (!okGet || !dataGet || !dataGet.success) {
+            throw new Error(dataGet?.message || 'Không thể tải HTML gốc từ máy chủ!');
+        }
+
+        // 3. Parse as pristine DOM without executing scripts
+        const parser = new DOMParser();
+        const pristineDoc = parser.parseFromString(dataGet.content, 'text/html');
+
+        // 4. Apply recorded changeset to pristine doc
+        let appliedCount = 0;
+        changeset.forEach(({ eid, type, value }) => {
+            const target = pristineDoc.querySelector(`[data-eid="${eid}"]`);
+            if (!target) {
+                console.warn(`Không tìm thấy phần tử data-eid="${eid}" trên bản HTML gốc.`);
+                return;
+            }
+            if (type === 'innerHTML') {
+                target.innerHTML = value;
+                appliedCount++;
+            } else if (type.startsWith('attr:')) {
+                const attrName = type.slice(5);
+                target.setAttribute(attrName, value);
+                appliedCount++;
+            }
+        });
+
+        // 5. Serialize and send to server
+        const finalHtml = '<!DOCTYPE html>\n' + pristineDoc.documentElement.outerHTML;
         const { ok, data } = await authFetch(`/html-pages/${encodeURIComponent(currentFilename)}`, {
             method: 'PUT',
             body: JSON.stringify({ content: finalHtml })
         });
 
-        if (ok && data.success) {
+        if (ok && data && data.success) {
             updateSaveStatus('saved');
-            showToast(`Đã lưu và cập nhật trực tiếp trang "${currentFilename}" thành công!`, 'success');
+            changeset.clear();
+            showToast(`Đã lưu ${appliedCount} thay đổi vào trang "${currentFilename}" thành công!`, 'success');
         } else {
             updateSaveStatus('unsaved');
-            showToast(data.message || 'Lỗi khi lưu trang!', 'error');
+            showToast(data?.message || 'Lỗi khi lưu trang!', 'error');
         }
     } catch (err) {
         updateSaveStatus('unsaved');
         if (err.message !== 'Unauthorized') {
-            showToast('Không thể lưu trang! Hãy chắc chắn server đang hoạt động.', 'error');
+            showToast(err.message || 'Không thể lưu trang! Hãy chắc chắn máy chủ đang hoạt động.', 'error');
         }
     } finally {
         btn.disabled = false;
@@ -644,6 +836,7 @@ function reloadLiveFrame() {
             return;
         }
     }
+    changeset.clear();
     const liveFrame = document.getElementById('liveFrame');
     if (liveFrame) {
         liveFrame.src = `../${currentFilename}?t=${Date.now()}`;
@@ -777,9 +970,17 @@ function applyImageModalChanges() {
     const input = document.getElementById('modalImgSrcInput');
     if (selectedImgElement && input) {
         const newSrc = input.value.trim();
-        if (newSrc) {
+        const currentSrc = (selectedImgElement.getAttribute('src') || '').trim();
+        if (newSrc && newSrc !== currentSrc) {
             selectedImgElement.setAttribute('src', newSrc);
-            selectedImgElement.src = newSrc;
+            selectedImgElement.src = newSrc.startsWith('http') || newSrc.startsWith('/') ? newSrc : '../' + newSrc;
+            const eid = selectedImgElement.getAttribute('data-eid');
+            if (eid) {
+                changeset.set(`${eid}::attr:src`, { eid, type: 'attr:src', value: newSrc });
+            } else {
+                console.warn('Ảnh không có data-eid:', selectedImgElement);
+                showToast('Cảnh báo: Hình ảnh này chưa có mã định danh data-eid để lưu!', 'warning');
+            }
             updateSaveStatus('unsaved');
             showToast('Đã cập nhật hình ảnh trực tiếp!', 'success');
         }

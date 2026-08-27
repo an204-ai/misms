@@ -1,187 +1,266 @@
-<!DOCTYPE html>
-<html lang="vi"><head>
-	<link rel="icon" type="image/svg+xml" href="images/favicon.svg">
-	<link rel="icon" type="image/png" sizes="32x32" href="images/favicon.png">
-	<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
-	<link rel="apple-touch-icon" href="images/favicon.png">
-					<meta charset="utf-8">
+<!doctype html>
+<html lang="vi">
 
-	<title>CloudSms™ | Dịch Vụ SMS Marketing - Phần Mềm SMS Marketing</title>
-	<meta name="google-site-verification" content="UwMy3apeLlBtV7Iq2mJApUy8KsWo1pxXnBDsWtJMJPI">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-	<meta name="keywords" content="">
-	<meta name="description" content="Dịch vụ SMS marketing tích hợp phần mềm gửi sms marketing CloudSms, sử dụng đơn giản, dễ dàng ngay trên giao diện Web. Hỗ trợ hiển thị tên thương hiệu (SMS Brandname). Tích hợp với phần mềm sẵn có của doanh nghiệp thông qua API. Gửi SMS marketing giá rẻ.">
-	<meta name="author" content="CloudSms">
+<head>
+    <link rel="icon" type="image/svg+xml" href="images/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon.png" />
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" href="images/favicon.png" />
+    <meta charset="utf-8" />
 
-	<meta property="og:title" content="CloudSms™ | Dịch Vụ SMS Marketing - Phần Mềm SMS Marketing">
-	<meta property="og:description" content="Dịch vụ SMS marketing tích hợp phần mềm gửi sms marketing CloudSms, sử dụng đơn giản, dễ dàng ngay trên giao diện Web. Hỗ trợ hiển thị tên thương hiệu (SMS Brandname). Tích hợp với phần mềm sẵn có của doanh nghiệp thông qua API. Gửi SMS marketing giá rẻ.">
-	<meta property="og:image" content="images/"> <!-- 1200x444 -->
-	<meta property="og:type" content="website">
-	<meta property="og:url" content="https://cloudsms.vn/">
+    <title>CloudSms™ | Dịch Vụ SMS Marketing - Phần Mềm SMS Marketing</title>
+    <meta name="google-site-verification" content="UwMy3apeLlBtV7Iq2mJApUy8KsWo1pxXnBDsWtJMJPI" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <meta name="keywords" content="" />
+    <meta name="description"
+        content="Dịch vụ SMS marketing tích hợp phần mềm gửi sms marketing CloudSms, sử dụng đơn giản, dễ dàng ngay trên giao diện Web. Hỗ trợ hiển thị tên thương hiệu (SMS Brandname). Tích hợp với phần mềm sẵn có của doanh nghiệp thông qua API. Gửi SMS marketing giá rẻ." />
+    <meta name="author" content="CloudSms" />
 
+    <meta property="og:title" content="CloudSms™ | Dịch Vụ SMS Marketing - Phần Mềm SMS Marketing" />
+    <meta property="og:description"
+        content="Dịch vụ SMS marketing tích hợp phần mềm gửi sms marketing CloudSms, sử dụng đơn giản, dễ dàng ngay trên giao diện Web. Hỗ trợ hiển thị tên thương hiệu (SMS Brandname). Tích hợp với phần mềm sẵn có của doanh nghiệp thông qua API. Gửi SMS marketing giá rẻ." />
+    <meta property="og:image" content="images/" />
+    <!-- 1200x444 -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://cloudsms.vn/" />
 
+    <meta name="geo.region" content="VN-SG" />
+    <meta name="geo.placename" content="Ho Chi Minh" />
+    <meta name="geo.position" content="10.7734487;106.668706" />
+    <meta name="ICBM" content="10.7734487, 106.668706" />
 
-	<meta name="geo.region" content="VN-SG">
-	<meta name="geo.placename" content="Ho Chi Minh">
-	<meta name="geo.position" content="10.7734487;106.668706">
-	<meta name="ICBM" content="10.7734487, 106.668706">
+    <meta name="p:domain_verify" content="993ba941a7af417aa3c6c22f501afb0a" />
 
-	<meta name="p:domain_verify" content="993ba941a7af417aa3c6c22f501afb0a">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900%7CMontserrat:600,700" />
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/bootstrap-theme.min.css" />
+    <link rel="stylesheet" href="css/font-awesome.min.css" />
+    <link rel="stylesheet" href="css/jquery-ui.min.css" />
+    <link rel="stylesheet" href="css/animate.min.css" />
+    <link rel="stylesheet" href="css/owl.carousel.min.css" />
+    <link rel="stylesheet" href="css/magnific-popup.min.css" />
+    <link rel="stylesheet" href="css/fakeLoader.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/responsive-style.css" />
+    <link rel="stylesheet" href="css/custom-style.css" />
+    <link rel="stylesheet" href="css/style_menu.css" />
+    <link rel="stylesheet" href="css/custom.css" />
+    <link rel="stylesheet" href="css/colors/theme-color-1.css" id="changeColorScheme" />
+</head>
 
-			<script async="" src="https://connect.facebook.net/en_US/fbevents.js"></script><script async="" src="https://connect.facebook.net/en_US/fbevents.js"></script><script async="" src="https://connect.facebook.net/en_US/fbevents.js"></script><script async="" src="https://connect.facebook.net/en_US/fbevents.js"></script><script async="" src="https://connect.facebook.net/en_US/fbevents.js"></script><script type="text/javascript" src="js/jquery-3.7.0.min.js" defer=""></script> 
-
-	<script defer="">
-		var cb = function() {
-			var l = document.createElement('link');
-			l.rel = 'stylesheet';
-			l.href = 'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900%7CMontserrat:700';
-			var h = document.getElementsByTagName('head')[0];
-			h.appendChild(l);
-		};
-		var raf = requestAnimationFrame || mozRequestAnimationFrame ||
-			webkitRequestAnimationFrame || msRequestAnimationFrame;
-		if (raf) raf(cb);
-		else window.addEventListener('load', cb);
-	</script>
-
-
-	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900%7CMontserrat:600,700">
-	<link rel="stylesheet" href="css/bootstrap.min.css">
-	<link rel="stylesheet" href="css/bootstrap-theme.min.css">
-	<link rel="stylesheet" href="css/font-awesome.min.css">
-	<link rel="stylesheet" href="css/jquery-ui.min.css">
-	<link rel="stylesheet" href="css/animate.min.css">
-	<link rel="stylesheet" href="css/owl.carousel.min.css">
-	<link rel="stylesheet" href="css/magnific-popup.min.css">
-	<link rel="stylesheet" href="css/fakeLoader.css">
-	<link rel="stylesheet" href="css/style.css">
-	<link rel="stylesheet" href="css/responsive-style.css">
-	<link rel="stylesheet" href="css/custom-style.css">
-	<link rel="stylesheet" href="css/style_menu.css">
-	<link rel="stylesheet" href="css/custom.css">
-	<link rel="stylesheet" href="css/colors/theme-color-1.css" id="changeColorScheme">
-
-
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900%7CMontserrat:700"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900%7CMontserrat:700"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900%7CMontserrat:700"></head>
-<body >
- 
-
-   
-       
-         <div id="menu">
-         <nav id="primaryMenu" class="navbar row sm">
-            <div class="container hidden-xs" id="menu_top_header">
-               <div id="primaryNavbar" class="reset-padding">
-                     
-                  <ul class="primary-menu-links nav navbar-nav">
-                  <li><span><i class="glyphicon glyphicon-home"></i> <a href="index.html">CloudSms</a></span></li><li><span><i class="fa  fa-phone"></i><a href="tel:+84969800618">Hotline: +84 969800618 </a></span></li><li><span><i class="fa  fa-envelope"></i><a href="#">hello@mediatoday.com.vn</a></span></li>                  </ul>
-                  <ul class="primary-social-menu-links nav navbar-nav navbar-right">
-
-                  <li class="line"><a href="lien-he.html">Liên hệ</a></li><li class="line"><a href="#">|</a></li><li class="soc"><a href="https://www.facebook.com/CloudSms.vn/" target="_blank"><i class="fa  fa-facebook"></i></a></li><li class="soc"><a href="https://www.youtube.com/channel/UCW3vJZdeWQ8opF9mjgibs7w/featured" target="_blank"><i class="fa  fa-youtube"></i></a></li>                  </ul>
-               </div>
+<body>
+    <div id="menu" data-eid="0">
+        <nav id="primaryMenu" class="navbar row sm" data-eid="1">
+            <div class="container hidden-xs" id="menu_top_header" data-eid="2">
+                <div id="primaryNavbar" class="reset-padding" data-eid="3">
+                    <ul class="primary-menu-links nav navbar-nav" data-eid="4">
+                        <li data-eid="5">
+                            <span data-eid="6"
+                                    ><i class="glyphicon glyphicon-home" data-eid="7"></i>
+                                    <a href="index.html" data-eid="8">CloudSms</a></span>
+                        </li>
+                        <li data-eid="9">
+                            <span data-eid="10"
+                                    ><i class="fa fa-phone" data-eid="11"></i
+                                    ><a href="tel:+84969800618" data-eid="12">Hotline: +84 969800618 </a></span>
+                        </li>
+                        <li data-eid="13">
+                            <span data-eid="14"
+                                    ><i class="fa fa-envelope" data-eid="15"></i
+                                    ><a href="#" data-eid="16">hello@mediatoday.com.vn</a></span>
+                        </li>
+                    </ul>
+                    <ul class="primary-social-menu-links nav navbar-nav navbar-right" data-eid="17">
+                        <li class="line" data-eid="18"><a href="lien-he.html" data-eid="19">Liên hệ</a></li>
+                        <li class="line" data-eid="20"><a href="#" data-eid="21">|</a></li>
+                        <li class="soc" data-eid="22">
+                            <a href="https://www.facebook.com/CloudSms.vn/" target="_blank" data-eid="23"
+                                    ><i class="fa fa-facebook" data-eid="24"></i
+                                ></a>
+                        </li>
+                        <li class="soc" data-eid="25">
+                            <a
+                                    href="https://www.youtube.com/channel/UCW3vJZdeWQ8opF9mjgibs7w/featured"
+                                    target="_blank"
+                                    data-eid="26"
+                                    ><i class="fa fa-youtube" data-eid="27"></i
+                                ></a>
+                        </li>
+                    </ul>
+                </div>
             </div>
-         </nav>          
+        </nav>
 
-         <!-- <nav id="secondaryMenu" class="navbar"> -->
-         <nav id="secondaryMenu" class="navbar">
-            <div class="container">
-               <div class="navbar-header"> 
-                  <a href="index.html" class="navbar-brand" style="padding: 10px 15px; display: flex; align-items: center;">
-      <img src="images/upload/logo.png" alt="Logo" class="img-responsive" style="max-height: 48px; width: auto; object-fit: contain; border-radius: 4px;">
-    </a>
-               </div>
-               <button class="btn menu-toggle-btn  visible-xs visible-sm" id="btn-menu-responsive" fdprocessedid="8nu3kk"> <i class="fa fa-navicon"></i> Menu </button>
+        <!-- <nav id="secondaryMenu" class="navbar"> -->
+        <nav id="secondaryMenu" class="navbar" data-eid="28">
+            <div class="container" data-eid="29">
+                <div class="navbar-header" data-eid="30">
+                    <a
+                            href="index.html"
+                            class="navbar-brand"
+                            style="padding: 10px 15px; display: flex; align-items: center"
+                            data-eid="31"
+                        >
+                            <img
+                                src="images/upload/logo.png"
+                                alt="Logo"
+                                class="img-responsive"
+                                style="max-height: 48px; width: auto; object-fit: contain; border-radius: 4px"
+                                data-eid="32"
+                            />
+                        </a>
+                </div>
+                <button class="btn menu-toggle-btn visible-xs visible-sm" id="btn-menu-responsive" data-eid="33">
+                    <i class="fa fa-navicon" data-eid="34"></i> Menu
+                </button>
 
-
-
-
-               <div id="secondaryNavbar" class="navbar-right reset-padding hidden-sm hidden-xs">
-                  <ul class="secondary-menu-links nav navbar-nav">
-
-                      <li><a href="gioi-thieu.html">GIỚI THIỆU</a></li> <li><a href="sms-brandname.html">SMS BRANDNAME</a></li> <li><a href="zalo-zns.html">ZALO ZNS </a></li> <li><a href="bao-gia.html">BÁO GIÁ</a></li> <li><a href="huong-dan-dang-ky.html">HƯỚNG DẪN ĐĂNG KÝ</a></li> <li><a href="lien-he.html" class="btn btn-success">LIÊN HỆ</a></li>                  </ul>
-               </div>
+                <div id="secondaryNavbar" class="navbar-right reset-padding hidden-sm hidden-xs" data-eid="35">
+                    <ul class="secondary-menu-links nav navbar-nav" data-eid="36">
+                        <li data-eid="37">
+                            <a
+                                    href="gioi-thieu.html"
+                                    title="Nhấp chuột để sửa chữ. Nhấp đúp chuột để sửa đường dẫn liên kết (href"
+                                    data-eid="38"
+                                    >GIỚI THIỆU</a>
+                        </li>
+                        <li data-eid="39"><a href="sms-brandname.html" data-eid="40">SMS BRANDNAME</a></li>
+                        <li data-eid="41"><a href="zalo-zns.html" data-eid="42">ZALO ZNS </a></li>
+                        <li data-eid="43"><a href="bao-gia.html" data-eid="44">BÁO GIÁ</a></li>
+                        <li data-eid="45"><a href="huong-dan-dang-ky.html" data-eid="46">HƯỚNG DẪN ĐĂNG KÝ</a></li>
+                        <li data-eid="47">
+                            <a href="lien-he.html" class="btn btn-success" data-eid="48">LIÊN HỆ</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
-         </nav>
+        </nav>
 
-         <div class="off-canvas-menu">
-            <button type="button" class="off-canvas-menu--close-btn"><i class="fa fa-close"></i></button>
-            <div class="off-canvas-menu-logo" style="text-align: center; padding: 15px;">
-      <a href="index.html">
-        <img src="images/upload/logo.png" alt="Logo" class="img-responsive center-block" style="max-height: 48px; width: auto; object-fit: contain; border-radius: 4px;">
-      </a>
-    </div>
-            <div id="responsive-menu">
-               <ul class="nav nav-pills nav-stacked">
-                  <li id="products-responsive" class="products-responsive"><a href="https://cloudsms.vn/">Trang chủ</a></li>
+        <div class="off-canvas-menu" data-eid="49">
+            <button type="button" class="off-canvas-menu--close-btn" data-eid="50">
+                <i class="fa fa-close" data-eid="51"></i>
+            </button>
+            <div class="off-canvas-menu-logo" style="text-align: center; padding: 15px" data-eid="52">
+                <a href="index.html" data-eid="53">
+                        <img
+                            src="images/upload/logo.png"
+                            alt="Logo"
+                            class="img-responsive center-block"
+                            style="max-height: 48px; width: auto; object-fit: contain; border-radius: 4px"
+                            data-eid="54"
+                        />
+                    </a>
+            </div>
+            <div id="responsive-menu" data-eid="55">
+                <ul class="nav nav-pills nav-stacked" data-eid="56">
+                    <li id="products-responsive" class="products-responsive" data-eid="57">
+                        <a href="https://cloudsms.vn/" data-eid="58">Trang chủ</a>
+                    </li>
 
-                  
-                   <li id="products-responsive" class="products-responsive"><a href="gioi-thieu.html">GIỚI THIỆU</a></li> <li id="products-responsive" class="products-responsive"><a href="sms-brandname.html">SMS BRANDNAME</a></li> <li id="products-responsive" class="products-responsive"><a href="zalo-zns.html">ZALO ZNS </a></li> <li id="products-responsive" class="products-responsive"><a href="bao-gia.html">BÁO GIÁ</a></li> <li id="products-responsive" class="products-responsive"><a href="huong-dan-dang-ky.html">HƯỚNG DẪN ĐĂNG KÝ</a></li> <li id="products-responsive" class="products-responsive"><a href="lien-he.html">LIÊN HỆ</a></li>               </ul>
+                    <li id="products-responsive" class="products-responsive" data-eid="59">
+                        <a href="gioi-thieu.html" data-eid="60">GIỚI THIỆU</a>
+                    </li>
+                    <li id="products-responsive" class="products-responsive" data-eid="61">
+                        <a href="sms-brandname.html" data-eid="62">SMS BRANDNAME</a>
+                    </li>
+                    <li id="products-responsive" class="products-responsive" data-eid="63">
+                        <a href="zalo-zns.html" data-eid="64">ZALO ZNS </a>
+                    </li>
+                    <li id="products-responsive" class="products-responsive" data-eid="65">
+                        <a href="bao-gia.html" data-eid="66">BÁO GIÁ</a>
+                    </li>
+                    <li id="products-responsive" class="products-responsive" data-eid="67">
+                        <a href="huong-dan-dang-ky.html" data-eid="68">HƯỚNG DẪN ĐĂNG KÝ</a>
+                    </li>
+                    <li id="products-responsive" class="products-responsive" data-eid="69">
+                        <a href="lien-he.html" data-eid="70">LIÊN HỆ</a>
+                    </li>
+                </ul>
             </div>
             <!-- <a href="#" class="btn btn-default login-button"><i class="fa fa-user"></i> Login</a>  -->
-         </div>
-         <div class="off-canvas-menu-overlay"></div>
-      </div>
+        </div>
+        <div class="off-canvas-menu-overlay" data-eid="71"></div>
+    </div>
 
-
-
-<div id="banner">
-	<div class="banner-slider" data-pagination="true"><div class="banner-item bg--overlay bg--img" style="background-image: url('images/banner/1624968913_1624847268_zalo-logo.png'); height: 469px; padding-bottom: 80px;">
-			<div class="container">
-				<div class="row">
-					<div class="col-md-6">
-						<div class="vc-parent">
-							<div class="vc-child">
-								<section class="banner-item-content">
-									<h2><span>Giải pháp nhắn tin qua Zalo ZNS</span> Hệ thống chăm sóc khách hàng qua Zalo </h2>
-									<p>Hỗ trợ tích hợp với bất kỳ hệ thống phần mềm nào, bất kỳ ngôn ngữ lập trình nào, tốc độ cao, ổn định, tích hợp dễ dàng và hỗ trợ miễn phí.</p>
-									<a href="zalo-zns.html" class="btn btn-lg btn-custom">Xem thêm</a> 
-								</section>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-6 hidden-sm hidden-xs">
-						<div class="vc-parent">
-							<div class="vc-child">
-								<div class="banner-item-img"> 
-									<img src="images/banner/1624968913_1624847268_zalo-logo.png" alt="" class="img-responsive"> 
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div><div class="banner-item bg--overlay bg--img" style="background-image: url('images/banner/1496934738_mipbx-cloud-callcenter-service1900.png'); height: 469px; padding-bottom: 80px;">
-			<div class="container">
-				<div class="row">
-					<div class="col-md-6 hidden-sm hidden-xs">
-						<div class="vc-parent">
-							<div class="vc-child">
-								<div class="banner-item-img"> 
-									<img src="images/banner/1496934738_mipbx-cloud-callcenter-service1900.png" alt="" class="img-responsive"> 
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-6">
-						<div class="vc-parent">
-							<div class="vc-child">
-								<section class="banner-item-content">
-									<h2><span>Giải pháp SMS Brandname</span> Dịch vụ gửi SMS quảng cáo, SMS chăm sóc khách hàng</h2>
-									<p>Sử dụng đơn giản, dễ dàng. Hỗ trợ hiển thị tên thương hiệu (Brandname). Tích hợp được với Website, phần mềm sẵn có của doanh nghiệp thông qua API.</p>
-									<a href="sms-brandname.html" class="btn btn-lg btn-custom">Xem thêm</a> 
-								</section>
-							</div>
-						</div>
-					</div>                            
-				</div>
-			</div>
-		</div></div>
-	<div class="banner--slider-nav" style="">
-		<div class="container">
-			<ul>
-				
-				<!--  <li data-rel='1'>
+    <div id="banner" data-eid="72">
+        <div class="banner-slider" data-pagination="true" data-eid="73">
+            <div class="banner-item bg--overlay bg--img"
+                style="background-image: url(&quot;images/banner/1624968913_1624847268_zalo-logo.png&quot;); height: 469px; padding-bottom: 80px;"
+                data-eid="74">
+                <div class="container" data-eid="75">
+                    <div class="row" data-eid="76">
+                        <div class="col-md-6" data-eid="77">
+                            <div class="vc-parent" data-eid="78">
+                                <div class="vc-child" data-eid="79">
+                                    <section class="banner-item-content" data-eid="80">
+                                        <h2 data-eid="81">
+                                                <span data-eid="82">Giải pháp nhắn tin qua Zalo ZNS</span> Hệ thống chăm
+                                                sóc khách hàng qua Zalo
+                                            </h2>
+                                        <p data-eid="83">
+                                            Hỗ trợ tích hợp với bất kỳ hệ thống phần mềm nào, bất kỳ ngôn ngữ lập
+                                            trình nào, tốc độ cao, ổn định, tích hợp dễ dàng và hỗ trợ miễn phí.
+                                        </p>
+                                        <a href="zalo-zns.html" class="btn btn-lg btn-custom" data-eid="84"
+                                                >Xem thêm</a>
+                                    </section>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 hidden-sm hidden-xs" data-eid="85">
+                            <div class="vc-parent" data-eid="86">
+                                <div class="vc-child" data-eid="87">
+                                    <div class="banner-item-img" data-eid="88">
+                                        <img src="images/banner/1624968913_1624847268_zalo-logo.png" alt="" class="img-responsive" data-eid="89" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="banner-item bg--overlay bg--img"
+                style="background-image: url(&quot;images/banner/1496934738_mipbx-cloud-callcenter-service1900.png&quot;); height: 469px; padding-bottom: 80px;"
+                data-eid="90">
+                <div class="container" data-eid="91">
+                    <div class="row" data-eid="92">
+                        <div class="col-md-6 hidden-sm hidden-xs" data-eid="93">
+                            <div class="vc-parent" data-eid="94">
+                                <div class="vc-child" data-eid="95">
+                                    <div class="banner-item-img" data-eid="96">
+                                        <img src="images/banner/1496934738_mipbx-cloud-callcenter-service1900.png" alt="" class="img-responsive"
+                                            data-eid="97" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6" data-eid="98">
+                            <div class="vc-parent" data-eid="99">
+                                <div class="vc-child" data-eid="100">
+                                    <section class="banner-item-content" data-eid="101">
+                                        <h2 data-eid="102">
+                                                <span data-eid="103">Giải pháp SMS Brandname</span> Dịch vụ gửi SMS
+                                                quảng cáo, SMS chăm sóc khách hàng
+                                            </h2>
+                                        <p data-eid="104">
+                                            Sử dụng đơn giản, dễ dàng. Hỗ trợ hiển thị tên thương hiệu (Brandname).
+                                            Tích hợp được với Website, phần mềm sẵn có của doanh nghiệp thông qua
+                                            API.
+                                        </p>
+                                        <a href="sms-brandname.html" class="btn btn-lg btn-custom" data-eid="105"
+                                                >Xem thêm</a>
+                                    </section>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="banner--slider-nav" style="" data-eid="106">
+            <div class="container" data-eid="107">
+                <ul data-eid="108">
+                    <!--  <li data-rel='1'>
                     <p>VPS Hosting<small>lorem ipsum dolor sit amet</small></p>
                 </li>
                 <li data-rel='3'>
@@ -193,1139 +272,1649 @@
                 <li data-rel='4'>
                     <p>Video Slider 2<small>lorem ipsum dolor sit amet</small></p>
                 </li> -->
-			</ul>
-		</div>
-	</div>
-</div>
-<div id="spy_scroll_box" class="hidden-xs ">
-	<div id="spy_scroll" class="navbar_scroll_tss">
-		
-		<ul id="ul_spu_scroll" class="nav"><li class="active">
-					<a class="scrollspy" href="#gioi-thieu-dich-vu-misms">
-						<img src="images/upload/1497907475_Artboard_1.png" data-src="images/upload/1497907475_Artboard_1.png" class="lazy">
-						<span>Giới thiệu dịch vụ CloudSms™</span>
-					</a>
-				</li><li class="">
-					<a class="scrollspy" href="#loi-ich-su-dung-misms">
-						<img src="images/upload/Cloud-icon.png" data-src="images/upload/Cloud-icon.png" class="lazy">
-						<span>Lợi ích sử dụng CloudSms™</span>
-					</a>
-				</li><li class="">
-					<a class="scrollspy" href="#dich-vu-misms-cung-cap">
-						<img src="images/upload/LCD-Monitor-icon.png" data-src="images/upload/LCD-Monitor-icon.png" class="lazy">
-						<span>Dịch vụ CloudSms™ cung cấp</span>
-					</a>
-				</li><li class="">
-					<a class="scrollspy" href="#nhung-cau-hoi-thuong-gap">
-						<img src="images/upload/tongdaiao-pbx-cloud-mipbx.png" data-src="images/upload/tongdaiao-pbx-cloud-mipbx.png" class="lazy">
-						<span>Những câu hỏi thường gặp</span>
-					</a>
-				</li></ul>
-	</div>
-</div><div class="content-scroll" id="gioi-thieu-dich-vu-misms"><div id="" class="" style="padding: 30px 0;">
-					<div class="container">
-						<div class="section-title">
-							<h2>Giới thiệu dịch vụ CloudSms™</h2>	
-							<p class="text-center"></p>
-						</div>
-						<div class="row">
-							<div class="col-sm-12"><p><strong>CloudSms™</strong> là dịch vụ cung cấp giải pháp chăm sóc khách hàng qua tin nhắn&nbsp;SMS Brandname, Zalo ZNS.&nbsp;Hệ thống của CloudSms™&nbsp;sẽ&nbsp;gửi tin nhắn SMS/ ZNS đến&nbsp;điện thoại người dùng,&nbsp;giúp các cửa hàng, doanh nghiệp vừa và nhỏ thực hiện các chương trình chăm sóc khách hàng, tiếp thị một cách hiệu quả nhất, tiết kiệm thời gian nhất và đặc biệt là tinh&nbsp;tế và dễ dàng sử dụng.﻿</p>
-</div>	
-						</div>
-						
-					</div>
-				</div></div><div class="content-scroll" id="loi-ich-su-dung-misms"><div id="partner" class="bg--lightgray" style="padding: 30px 0;">
-			<div class="container">
-				<div class="section-title">
-					<h2>CloudSms™ mang đến những lợi ích cho doanh nghiệp</h2>	
-					<p class="text-center"></p>
-				</div>
-				<div class="row"><div class="col-md-3 col-sm-6 feature--item feature_item">
-									<div class="feature--icon">
-										<div class="vc-parent">
-											<div class="vc-child"> 
-												<img src="images/feature/1723431715_tỷ lệ khách hàng mở tin nhắn.png" alt="" class="img-responsive center-block"> 
-											</div>
-										</div>
-									</div>
-									<div class="feature--content">
-										<h4>Tỷ lệ khách hàng mở tin nhắn cao</h4>
-										<p>Tin nhắn cho phép khách hàng và doanh nghiệp tương tác một cách linh hoạt và tiện lợi.</p></div>	
-								</div><div class="col-md-3 col-sm-6 feature--item feature_item">
-									<div class="feature--icon">
-										<div class="vc-parent">
-											<div class="vc-child"> 
-												<img src="images/feature/1723431354_Tiết kiệm thời gian và công sức.png" alt="" class="img-responsive center-block"> 
-											</div>
-										</div>
-									</div>
-									<div class="feature--content">
-										<h4>Tiết kiệm thời gian và công sức</h4>
-										<p> Giao tiếp qua tin nhắn giúp nhân viên CSKH tiếp cận nhiều khách hàng cùng lúc .</p></div>	
-								</div><div class="col-md-3 col-sm-6 feature--item feature_item">
-									<div class="feature--icon">
-										<div class="vc-parent">
-											<div class="vc-child"> 
-												<img src="images/feature/1723431370_Truyền tải thông tin ngay lập tức.png" alt="" class="img-responsive center-block"> 
-											</div>
-										</div>
-									</div>
-									<div class="feature--content">
-										<h4>Truyền tải thông tin ngay lập tức</h4>
-										<p>CloudSms™ giúp doanh nghiệp có thể gửi thông tin CSKH, quảng cáo,... đến khách hàng nhanh chóng.</p></div>	
-								</div><div class="col-md-3 col-sm-6 feature--item feature_item">
-									<div class="feature--icon">
-										<div class="vc-parent">
-											<div class="vc-child"> 
-												<img src="images/feature/1723431392_nâng cao tốc độ phản hồi với khách hàng.png" alt="" class="img-responsive center-block"> 
-											</div>
-										</div>
-									</div>
-									<div class="feature--content">
-										<h4>Nâng cao tốc độ phản hồi với khách hàng</h4>
-										<p>Không cần đợi lâu như khi gọi hay gửi Email, khách hàng sẽ nhận được phản hồi nhanh chóng.</p></div>	
-								</div><div class="col-md-3 col-sm-6 feature--item feature_item">
-									<div class="feature--icon">
-										<div class="vc-parent">
-											<div class="vc-child"> 
-												<img src="images/feature/1723431403_Marketing không giới hạn.png" alt="" class="img-responsive center-block"> 
-											</div>
-										</div>
-									</div>
-									<div class="feature--content">
-										<h4>Marketing không giới hạn</h4>
-										<p>CloudSms™ sẽ giúp doanh nghiệp có thể gửi hàng loạt tin nhắn không giới hạn số lượng tin nhắn.</p></div>	
-								</div><div class="col-md-3 col-sm-6 feature--item feature_item">
-									<div class="feature--icon">
-										<div class="vc-parent">
-											<div class="vc-child"> 
-												<img src="images/feature/1723431416_Dễ dàng theo dõi, dễ dàng quản lý.png" alt="" class="img-responsive center-block"> 
-											</div>
-										</div>
-									</div>
-									<div class="feature--content">
-										<h4>Dễ dàng theo dõi, quản lý</h4>
-										<p>CloudSms™ sẽ giúp doanh nghiệp dễ dàng theo dõi và quản lý tất cả các cuộc trò chuyện với khách hàng.</p></div>	
-								</div><div class="col-md-3 col-sm-6 feature--item feature_item">
-									<div class="feature--icon">
-										<div class="vc-parent">
-											<div class="vc-child"> 
-												<img src="images/feature/1723431428_tạo mối quan hệ lâu dài.png" alt="" class="img-responsive center-block"> 
-											</div>
-										</div>
-									</div>
-									<div class="feature--content">
-										<h4>Tạo mối quan hệ lâu dài </h4>
-										<p>Dùng CloudSms™ để gửi tin nhắn đến khách hàng sẽ giúp tạo mối quan hệ lâu dài với khách hàng hiệu quả.</p></div>	
-								</div><div class="col-md-3 col-sm-6 feature--item feature_item">
-									<div class="feature--icon">
-										<div class="vc-parent">
-											<div class="vc-child"> 
-												<img src="images/feature/1723431439_không tốn chi phí bảo trì.png" alt="" class="img-responsive center-block"> 
-											</div>
-										</div>
-									</div>
-									<div class="feature--content">
-										<h4>Không tốn chi phí bảo trì</h4>
-										<p>Hệ thống của CloudSms™  luôn đảm bảo gửi tin nhắn đến khách hàng không bị sai sót nào.</p></div>	
-								</div></div>
-				
-			</div>
-		</div></div><div class="content-scroll" id="dich-vu-misms-cung-cap"><div id="" class="" style="padding: 30px 0;">
-		    <div class="container">
-		        <div class="section-title">
-		        	<h2>Dịch vụ CloudSms™ cung cấp các dạng tin nhắn</h2>						
-					<p class="text-center"></p>
-				</div>        
-		        <div class="features-tab--nav">
-		            <ul><li class=""><a href="#tab-feat-0128421741" class="btn btn-lg btn-custom" data-toggle="tab" aria-expanded="false">TIN NHẮN QUẢNG CÁO</a></li><li class=""><a href="#tab-feat-1128421741" class="btn btn-lg btn-custom" data-toggle="tab" aria-expanded="false">TIN NHẮN CHĂM SÓC KHÁCH HÀNG</a></li><li class=""><a href="#tab-feat-2128421741" class="btn btn-lg btn-custom" data-toggle="tab" aria-expanded="false">TIN NHẮN 2 CHIỀU</a></li><li class=""><a href="#tab-feat-3128421741" class="btn btn-lg btn-custom" data-toggle="tab" aria-expanded="false">API GỬI TIN NHẮN</a></li><li class="active"><a href="#tab-feat-4128421741" class="btn btn-lg btn-custom" data-toggle="tab" aria-expanded="true">TIN NHẮN THOẠI</a></li></ul>
-		        </div>
-		        <div class="features-tab--items tab-content"><div class="features-tab--item tab-pane fade" id="tab-feat-0128421741">
-				                <div class="row row-vc">
-				                    <div class="features-tab--content col-md-6">
-				                        <h3 style="margin:0">CloudSms™</h3>
-				                        <h3 style="color:#2dcb70">Gửi tin nhắn Quảng cáo</h3>
-				                        <p>Gửi tin nhắn Quảng cáo bao gồm các dạng:</p>
-				                        <ul><li><i class="fa fa-check"></i>Gửi tin nhắn thông tin khuyến mãi đến khách hàng.</li><li><i class="fa fa-check"></i>Gửi tin nhắn thông tin giảm giá.</li><li><i class="fa fa-check"></i>Gửi tin nhắn giới thiệu sản phẩm, dịch vụ mới.</li></ul>
-				                        
-				                    </div>
-				                    <div class="features-tab--img col-md-6"> 
-				                    	<img src="images/tabs/1723430868_tin nhắn quảng cáo.png" alt="" class="img-responsive"> 
-				                	</div>
-				                </div>
-				            </div><div class="features-tab--item tab-pane fade" id="tab-feat-1128421741">
-				                <div class="row row-vc">
-				                    <div class="features-tab--img col-md-6"> 
-				                    	<img src="images/tabs/1723430838_tin nhắn CSKH.png" alt="" class="img-responsive"> 
-				                	</div>
-				                    <div class="features-tab--content col-md-6">
-			                         	<h3 style="margin:0">CloudSms™</h3>
-				                        <h3 style="color:#2dcb70">Gửi tin nhắn Chăm sóc khách hàng</h3>
-				                        <p>Gửi tin nhắn Chăm sóc khách hàng bao gồm các dạng:</p>
-				                        <ul><li><i class="fa fa-check"></i>Gửi tin nhắn chúc mừng sinh nhật khách hàng.</li><li><i class="fa fa-check"></i>Gửi tin nhắn xác nhận đơn hàng.</li><li><i class="fa fa-check"></i>Gửi tin nhắn kích hoạt tài khoản.</li></ul>
-				                        
-				                    </div>
-				                </div>
-				            </div><div class="features-tab--item tab-pane fade" id="tab-feat-2128421741">
-				                <div class="row row-vc">
-				                    <div class="features-tab--content col-md-6">
-				                        <h3 style="margin:0">CloudSms™</h3>
-				                        <h3 style="color:#2dcb70">Gửi tin nhắn 2 chiều</h3>
-				                        <p>Gửi tin nhắn 2 chiều là cơ chế giao tiếp 2 chiều thông qua SMS. Với mỗi tin nhắn SMS:</p>
-				                        <ul><li><i class="fa fa-check"></i>Khi nhận được tin nhắn, khách hàng có thể trả lời lại tin nhắn.</li><li><i class="fa fa-check"></i>Doanh nghiệp có thể xem lại được các nội dung trả lời.</li></ul>
-				                        
-				                    </div>
-				                    <div class="features-tab--img col-md-6"> 
-				                    	<img src="images/tabs/1723430827_Tin nhắn 2 chiều.png" alt="" class="img-responsive"> 
-				                	</div>
-				                </div>
-				            </div><div class="features-tab--item tab-pane fade" id="tab-feat-3128421741">
-				                <div class="row row-vc">
-				                    <div class="features-tab--img col-md-6"> 
-				                    	<img src="images/tabs/1723430813_API gửi tin nhắn.png" alt="" class="img-responsive"> 
-				                	</div>
-				                    <div class="features-tab--content col-md-6">
-			                         	<h3 style="margin:0">CloudSms™</h3>
-				                        <h3 style="color:#2dcb70">Cung cấp API cho lập trình viên</h3>
-				                        <p></p>
-				                        <ul><li><i class="fa fa-check"></i>Lập trình viên có thể tích hợp API vào hệ thống riêng.</li><li><i class="fa fa-check"></i>Tích hợp dịch vụ gửi tin vào bất kỳ hệ thống phần mềm nào.</li></ul>
-				                        
-				                    </div>
-				                </div>
-				            </div><div class="features-tab--item tab-pane fade active in" id="tab-feat-4128421741">
-				                <div class="row row-vc">
-				                    <div class="features-tab--img col-md-6"> 
-				                    	<img src="images/tabs/1723430723_tin nhắn thoại.png" alt="" class="img-responsive"> 
-				                	</div>
-				                    <div class="features-tab--content col-md-6">
-			                         	<h3 style="margin:0">CloudSms™</h3>
-				                        <h3 style="color:#2dcb70">Gửi tin nhắn thoại đến khách hàng</h3>
-				                        <p>Là các dạng tin nhắn thoại dùng để:</p>
-				                        <ul><li><i class="fa fa-check"></i>Phát cuộc gọi đến khách hàng thay vì nhắn tin.</li><li><i class="fa fa-check"></i>Ứng dụng để đọc mã kích hoạt.</li><li><i class="fa fa-check"></i>Gọi điện nhắc nhở hàng loạt khách hàng.</li></ul>
-				                        
-				                    </div>
-				                </div>
-				            </div></div>
-		        
-		    </div>
-		</div></div><div class="content-scroll" id=""><div id="partner" class="bg--lightgray" style="padding: 30px 0;background:#FFFFFF">
-			<div class="container">
-				<div class="row">
-					<div class="section-title">
-						<h2>Khách hàng của CloudSms™</h2>	
-						<p class="text-center"></p>
-					</div>  
-					<div class="col-sm-12">
-						<div class="control-feedback-home">
-							<span class="partner-prev fa fa-angle-left fa-lg" style="position: absolute;left: 0;top: 38%;z-index: 99;cursor: pointer;background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%); box-shadow: 0 2px 8px rgba(2, 132, 199, 0.3);padding: 8px 12px;color: #fff;   border-radius: 3px;"></span>
-							<span class="partner-next fa fa-angle-right fa-lg" style="position: absolute;right: 0;top: 38%;z-index: 99;cursor: pointer;background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%); box-shadow: 0 2px 8px rgba(2, 132, 199, 0.3);padding: 8px 12px;color: #fff;   border-radius: 3px;"></span>
-						</div>
-						<div id="partner-slide" class="partner-slide"><div class="item" style="padding:10px 20px;">
-										<a href="https://talentnet.vn" target="_blank" rel="nofollow">
-											<img src="images/logo/1545035703_1507806701_talennet-250.jpg" alt="" style="width:100%">
-										</a>
-									</div><div class="item" style="padding:10px 20px;">
-										<a href="https://tesla.edu.vn/" target="_blank" rel="nofollow">
-											<img src="images/logo/1545035838_1507806859_tesla-250.jpg" alt="" style="width:100%">
-										</a>
-									</div><div class="item" style="padding:10px 20px;">
-										<a href="https://www.uef.edu.vn/" target="_blank" rel="nofollow">
-											<img src="images/logo/1708048630_Đại học kinh tế UEF.png" alt="" style="width:100%">
-										</a>
-									</div><div class="item" style="padding:10px 20px;">
-										<a href="https://www.vit24.vn/" target="_blank" rel="nofollow">
-											<img src="images/logo/1708048811_Vịt 24.png" alt="" style="width:100%">
-										</a>
-									</div><div class="item" style="padding:10px 20px;">
-										<a href="https://hellodoctors.vn/" target="_blank" rel="nofollow">
-											<img src="images/logo/1708049146_Hello Doctor.png" alt="" style="width:100%">
-										</a>
-									</div><div class="item" style="padding:10px 20px;">
-										<a href="https://yersin.edu.vn/" target="_blank" rel="nofollow">
-											<img src="images/logo/1708049867_Trường Đại Học Yersin Đà Lạt.png" alt="" style="width:100%">
-										</a>
-									</div><div class="item" style="padding:10px 20px;">
-										<a href="https://www.facebook.com/karaokeICool/" target="_blank" rel="nofollow">
-											<img src="images/logo/1545035677_1507806532_icool-250.jpg" alt="" style="width:100%">
-										</a>
-									</div><div class="item" style="padding:10px 20px;">
-										<a href="" target="_blank" rel="nofollow">
-											<img src="images/logo/1545035686_1507806643_pharysol-250.jpg" alt="" style="width:100%">
-										</a>
-									</div><div class="item" style="padding:10px 20px;">
-										<a href="https://warrior.vn/" target="_blank" rel="nofollow">
-											<img src="images/logo/1545035695_1507806663_warrior-250.jpg" alt="" style="width:100%">
-										</a>
-									</div><div class="item" style="padding:10px 20px;">
-										<a href="https://truongkieuxuan.com" target="_blank" rel="nofollow">
-											<img src="images/logo/1507806721_truongkieuxuan-250.jpg" alt="" style="width:100%">
-										</a>
-									</div><div class="item" style="padding:10px 20px;">
-										<a href="https://ghs.vn" target="_blank" rel="nofollow">
-											<img src="images/logo/1545035720_1507806752_traitimvang-250.jpg" alt="" style="width:100%">
-										</a>
-									</div><div class="item" style="padding:10px 20px;">
-										<a href="https://www.facebook.com/vanlocgass/" target="_blank" rel="nofollow">
-											<img src="images/logo/1545035732_1507806800_minhthy-250.jpg" alt="" style="width:100%">
-										</a>
-									</div><div class="item" style="padding:10px 20px;">
-										<a href="https://minhthyfurniture.com/" target="_blank" rel="nofollow">
-											<img src="images/logo/1545036081_1507806800_minhthy-250.png" alt="" style="width:100%">
-										</a>
-									</div><div class="item" style="padding:10px 20px;">
-										<a href="https://www.facebook.com/maylanhviet/" target="_blank" rel="nofollow">
-											<img src="images/logo/1545035758_1507806823_maylanhviet-250.jpg" alt="" style="width:100%">
-										</a>
-									</div><div class="item" style="padding:10px 20px;">
-										<a href="https://goitho.com/" target="_blank" rel="nofollow">
-											<img src="images/logo/1545035785_1507806840_goitho-250.jpg" alt="" style="width:100%">
-										</a>
-									</div><div class="item" style="padding:10px 20px;">
-										<a href="https://delap.vn/" target="_blank" rel="nofollow">
-											<img src="images/logo/1708047650_Công ty cổ phần Dược Phẩm DELAP.png" alt="" style="width:100%">
-										</a>
-									</div><div class="item" style="padding:10px 20px;">
-										<a href="https://www.tmmchealthcare.com/" target="_blank" rel="nofollow">
-											<img src="images/logo/1708048587_CÔNG TY CP Y KHOA TÂM TRÍ.png" alt="" style="width:100%">
-										</a>
-									</div><div class="item" style="padding:10px 20px;">
-										<a href="https://healthie.vn/" target="_blank" rel="nofollow">
-											<img src="images/logo/1708048718_Công ty TNHH Trudeli Technologies.png" alt="" style="width:100%">
-										</a>
-									</div><div class="item" style="padding:10px 20px;">
-										<a href="https://envimart.vn/" target="_blank" rel="nofollow">
-											<img src="images/logo/1708048946_Envimart JSC.png" alt="" style="width:100%">
-										</a>
-									</div><div class="item" style="padding:10px 20px;">
-										<a href="https://kafi.vn/" target="_blank" rel="nofollow">
-											<img src="images/logo/1708049662_CÔNG TY CỔ PHẦN CHỨNG KHOÁN KAFI.png" alt="" style="width:100%">
-										</a>
-									</div><div class="item" style="padding:10px 20px;">
-										<a href="https://hunufa.vn/" target="_blank" rel="nofollow">
-											<img src="images/logo/1708049706_CÔNG TY TNHH HUNUFA VIỆT NAM.png" alt="" style="width:100%">
-										</a>
-									</div><div class="item" style="padding:10px 20px;">
-										<a href="https://www.victoriahotels.asia/vi/diem-den/victoria-chau-doc-hotel/" target="_blank" rel="nofollow">
-											<img src="images/logo/1708049755_CÔNG TY TNHH MỘT THÀNH VIÊN KHÁCH SẠN VICTORIA HÀNG CHÂU (VCD).png" alt="" style="width:100%">
-										</a>
-									</div><div class="item" style="padding:10px 20px;">
-										<a href="https://www.facebook.com/TTLinBeauty?locale=vi_VN" target="_blank" rel="nofollow">
-											<img src="images/logo/1708050012_CÔNG TY TNHH TT LIN CENTER.png" alt="" style="width:100%">
-										</a>
-									</div><div class="item" style="padding:10px 20px;">
-										<a href="https://tuyetlights.com/" target="_blank" rel="nofollow">
-											<img src="images/logo/1708049911_Công ty TNHH Tuyết Lights.png" alt="" style="width:100%">
-										</a>
-									</div><div class="item" style="padding:10px 20px;">
-										<a href="https://www.facebook.com/pocpharma" target="_blank" rel="nofollow">
-											<img src="images/logo/1708049946_POC Pharma - Ứng dụng đặt hàng cho nhà thuốc.png" alt="" style="width:100%">
-										</a>
-									</div></div>
-					</div>
-				</div>
-				
-			</div>
-		</div></div><div class="content-scroll" id="nhung-cau-hoi-thuong-gap"><div id="faq" class="" style="padding: 30px 0;background:#EFEFEF">
-				<div class="container">
-					<div class="section-title">
-						<h2>Câu hỏi thường gặp</h2>	
-						<p class="text-center"></p>
-					</div>
-					<div class="faq-content">
-						<div class="panel-group accordion" id="accordion_new" role="tablist">
-							<div class="col-sm-6 pan"><div class="panel panel-default">
-											<div class="panel-heading" role="tab">
-												<a href="#accordion_a_0" class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion_new">
-													<h4 class="panel-title"><i class="fa fa-minus"></i> <div>SMS Brandname bao gồm những loại nào?</div></h4>
-												</a>
-											</div>
-											<div id="accordion_a_0" class="panel-collapse collapse" role="tabpanel">
-												<div class="panel-body">
-													<p>•	SMS Brandname quảng cáo: là tin nhắn để thông báo các chương trình khuyến mãi, giới thiệu sản phẩm dịch vụ mới
-•	SMS Brandname chăm sóc khách hàng: là tin nhắn không mang các thông tin khuyến mãi, ví dụ tin nhắn chúc mừng sinh nhật, thông báo điểm tích lũy, thông báo số dư tài khoản ngân hàng….</p>
-												</div>
-											</div>
-										</div><div class="panel panel-default">
-											<div class="panel-heading" role="tab">
-												<a href="#accordion_a_1" class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion_new">
-													<h4 class="panel-title"><i class="fa fa-minus"></i> <div>Có bao nhiêu giải pháp SMS Marketing?</div></h4>
-												</a>
-											</div>
-											<div id="accordion_a_1" class="panel-collapse collapse" role="tabpanel">
-												<div class="panel-body">
-													<p>Có 5 giải pháp SMS Marketing, đó là:
-1. SMS Brandname: Là dịch vụ tin nhắn quảng cáo mà tên thương hiệu của doanh nghiệp được hiển thị ở phần tên người gửi trong điện thoại của người nhận. (mặc dù người nhận chưa hề lưu tên người gửi). Đây là dịch vụ được ưu tiên sử dụng nhiều nhất trong các giải pháp SMS Marketing
-2. Đầu số 8xxx, 6xxx…: Là kênh tiếp thị có phí (thường là thuê đầu số hoặc thuê dịch vụ), cho phép người gửi gửi đi hàng loạt tin nhắn tới danh sách khách hàng đã có sẵn trước đó vào cùng một thời điểm tiếp thị. Phần người gửi (sender) hiển thị đầu số SMS 8xxx, 6xxx…
-3. Số ngẫu nhiên: Đây là các số điện thoại thường dùng để phục vụ mục đích spam tin nhắn, số dùng một vài lần rồi bỏ, hoặc là thuê dịch vụ nhắn tin từ các bên cung cấp dịch vụ.
-4. SMS Hotline: Đây là một số điện thoại cá nhân được lấy ra để sử dụng cho các mục đích công việc, không có các liên hệ cá nhân.
-5. SMS API: là giao thức kết nối để sử dụng các dịch vụ SMS thông qua API (giao diện lập trình ứng dụng). Nằm trên nền SMS Hosting, các kết nối từ SMS API sẽ giao tiếp với nền tảng SMS Hosting để triển khai các ứng dụng SMS. </p>
-												</div>
-											</div>
-										</div><div class="panel panel-default">
-											<div class="panel-heading" role="tab">
-												<a href="#accordion_a_2" class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion_new">
-													<h4 class="panel-title"><i class="fa fa-minus"></i> <div>SMS Brandname phù hợp với các đối tượng khách hàng nào?</div></h4>
-												</a>
-											</div>
-											<div id="accordion_a_2" class="panel-collapse collapse" role="tabpanel">
-												<div class="panel-body">
-													<p>•	Các siêu thị có nhu cầu gửi tin nhắn coupon quà tặng, khuyến mãi, giảm giá đến các khách hàng thân thiết,…
-•	Các ngân hàng gửi tin nhắn chúc mừng sinh nhật, thông báo số dư tài khoản của khách hàng, thông báo đến kỳ thanh toán lãi, thông báo nợ quá hạn, thông báo các gói dịch vụ mới,…
-•	Doanh nghiệp gửi thông báo đến hệ thống đại lý của mình,…
-•	Các doanh nghiệp kinh doanh điện lực, điện thoại, internet, nước,… có thể gửi thông báo cước, nhắn nợ cước cho khách hàng,…
-•	Các công ty bưu chính, chuyển phát nhanh báo phát, báo nhận bưu phẩm
-•	Các hãng Hàng không thông báo mã số ticket điện tử, báo trễ giờ bay,…
-•	Các trường học thông báo họp phụ huynh, khai giảng khoá học, thông báo điểm,…
-•	Các công ty du lịch, bảo hiểm nhắn tin chăm sóc khách hàng, thông báo tour du lịch mới, gia hạn hợp đồng,…
-•	…</p>
-												</div>
-											</div>
-										</div><div class="panel panel-default">
-											<div class="panel-heading" role="tab">
-												<a href="#accordion_a_3" class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion_new">
-													<h4 class="panel-title"><i class="fa fa-minus"></i> <div>Sử dụng SMS Brandname có lợi ích như thế nào cho doanh nghiệp?</div></h4>
-												</a>
-											</div>
-											<div id="accordion_a_3" class="panel-collapse collapse" role="tabpanel">
-												<div class="panel-body">
-													<p>•	Tăng mức độ nhận biết nhãn hàng đến khách hàng.
-•	Tăng mức độ trung thành của khách hàng đối với nhãn hiệu
-•	Giảm tình trạng spam SMS và tin nhắn lừa đảo, tạo sự tin tưởng cho khách hàng.
-•	Thông tin được truyền tải nhanh nhất, ngắn nhất và tập trung nhất.
-•	Tăng mức độ tin cậy của khách hàng đối với thương hiệu.
-•	Nâng cao tính chuyên nghiệp trong dịch vụ hỗ trợ và chăm sóc khách hàng.
-•	Chi phí thấp, thời gian gửi nhanh, thông điệp truyền trực tiếp tới đối tượng khách hàng mục tiêu.
-•	Tỉ lệ khách hàng đọc tin nhắn rất cao.
-•	SMS Brandname là một hình thức Mobile Marketing chuyên nghiệp và hiệu quả.</p>
-												</div>
-											</div>
-										</div><div class="panel panel-default">
-											<div class="panel-heading" role="tab">
-												<a href="lien-he.html" class="collapsed" role="button" data-parent="#accordion_new">
-													<h4 class="panel-title"><i class="fa fa-minus"></i> <div>Đối tượng được đăng ký Brandname và thủ tục đăng ký như thế nào?</div></h4>
-												</a>
-											</div>
-											<div id="accordion_a_4" class="panel-collapse collapse" role="tabpanel">
-												<div class="panel-body">
-													<p>Để có thể biết đối tượng được đăng ký Brandname và thủ tục đăng ký như thế nào, quý doanh nghiệp hãy xem thêm thông tin chi tiết xem tại link: http://cloudsms.vn/dang-ky-va-quy-dinh-su-dung-sms</p>
-												</div>
-											</div>
-										</div><div class="panel panel-default">
-											<div class="panel-heading" role="tab">
-												<a href="#accordion_a_5" class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion_new">
-													<h4 class="panel-title"><i class="fa fa-minus"></i> <div>Các chi phí phải trả khi sử dụng dịch vụ SMS Brandname như thế nào?</div></h4>
-												</a>
-											</div>
-											<div id="accordion_a_5" class="panel-collapse collapse" role="tabpanel">
-												<div class="panel-body">
-													<p>Khi sử dụng dịch vụ SMS Brandname, doanh nghiệp chỉ cần trả các khoản phí như sau:
--  Phí duy trì Brandname (thanh toán cho nhà Mạng Viettel, Mobifone, Vina)
-- Phí dịch vụ hàng tháng cho nhà cung cấp
--	Chi phí SMS gửi đi của khách hàng (Nạp tiền trước qua cổng VNPay và sử dụng, số tiền sẽ giảm dần theo số tin nhắn gửi đi của khách hàng mà không cần liên hệ với nhà cung cấp để thanh toán, thao tác sẽ nhanh chóng và đơn giản hơn chỉ  khi sử dụng dịch vụ CloudSms: http://cloudsms.vn/huong-dan-su-dung-misms</p>
-												</div>
-											</div>
-										</div></div>
-							<div class="col-sm-6 pan"><div class="panel panel-default">
-										<div class="panel-heading" role="tab">
-											<a href="#accordion_b_0" class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion_new">
-												<h4 class="panel-title"><i class="fa fa-minus"></i> <div>Quy định về cách đặt tên thương hiệu SMS Brandname như thế nào?</div></h4>
-											</a>
-										</div>
-										<div id="accordion_b_0" class="panel-collapse collapse" role="tabpanel">
-											<div class="panel-body">
-												<p>Để có thể biết thêm về quy định cách đặt tên thương hiệu SMS Brandname như thế nào, quý doanh nghiệp có thể xem thông tin chi tiết tại đường link: http://cloudsms.vn/dang-ky-va-quy-dinh-su-dung-sms</p>
-											</div>
-										</div>
-									</div><div class="panel panel-default">
-										<div class="panel-heading" role="tab">
-											<a href="#accordion_b_1" class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion_new">
-												<h4 class="panel-title"><i class="fa fa-minus"></i> <div>Thông thường, khi Khách hàng nhận được tin nhắn SMS Brandname, tỷ lệ phản hồi tin nhắn chiếm bao nhiêu %?</div></h4>
-											</a>
-										</div>
-										<div id="accordion_b_1" class="panel-collapse collapse" role="tabpanel">
-											<div class="panel-body">
-												<p>Có thể thấy, dựa theo như cầu của khách hàng, thì tỷ lệ phản hồi sẽ chiếm tỷ lệ cao lên đến 70%</p>
-											</div>
-										</div>
-									</div><div class="panel panel-default">
-										<div class="panel-heading" role="tab">
-											<a href="#accordion_b_2" class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion_new">
-												<h4 class="panel-title"><i class="fa fa-minus"></i> <div>Quy định đối với nội dung tin nhắn khi sử dụng là như thế nào?</div></h4>
-											</a>
-										</div>
-										<div id="accordion_b_2" class="panel-collapse collapse" role="tabpanel">
-											<div class="panel-body">
-												<p>o	Đối với tin nhắn quảng cáo:
-•	Nội dung tin nhắn 122 ký tự /SMS đầu tiên, 160 ký tự cho các SMS tiếp theo.
-•	Ký tự đặt biệt được tính là 2 ký tự.
-•	Thời gian gửi tin trước 16h30 các ngày từ thứ Hai đến thứ Sáu trong tuần. Nếu quý khách muốn gửi tin vào ngày thứ 7 và Chủ Nhật, vui lòng gửi trước 16h30 ngày thứ 6.
-•	Tất cả các tin quảng cáo sẽ được kiểm duyệt nội dung trước khi gửi đi, thời gian kiểm duyệt từ 2 - 3 giờ. Vì vậy bạn phải đăng ký nội dung trước với các nhà viễn thông di động.
-•	Sau khi gửi tin, tin đã gửi sẽ được chuyển sang trạng thái chờ báo cáo, thời gian chờ báo cáo chi tiết là 1 - 2 ngày.
-•	Đối với tin nhắn này, bạn phải gửi Danh sách SĐT của KH, nội dung tin nhắn và thời gian gửi qua nhà mạng mà mình đã đăng ký sử dụng dịch vụ. Không được tự động gửi riêng lẻ.
-o	Đối với tin nhắn Chăm sóc khách hàng:
-•	Nội dung tin nhắn 160 ký tự cho tất cả các SMS.
-•	Tin chăm sóc khách hàng sẽ không phải chờ duyệt.
-•	Đối với loại tin nhắn này, nhà mạng sẽ cung cấp cho bạn một Tools. Bạn chủ động nạp tiền vào tài khoản và có thể chủ động gửi nó bất cứ lúc nào với số lượng tùy chỉnh. </p>
-											</div>
-										</div>
-									</div><div class="panel panel-default">
-										<div class="panel-heading" role="tab">
-											<a href="#accordion_b_3" class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion_new">
-												<h4 class="panel-title"><i class="fa fa-minus"></i> <div>CloudSms cung cấp SMS Brandname cho bao nhiêu nhà mạng?</div></h4>
-											</a>
-										</div>
-										<div id="accordion_b_3" class="panel-collapse collapse" role="tabpanel">
-											<div class="panel-body">
-												<p>CloudSms cung cấp SMS Brandname cho 3 nhà mạng chính, đó là: Viettel, Mobiphone, Vinaphone.</p>
-											</div>
-										</div>
-									</div><div class="panel panel-default">
-										<div class="panel-heading" role="tab">
-											<a href="lien-he.html" class="collapsed" role="button" data-parent="#accordion_new">
-												<h4 class="panel-title"><i class="fa fa-minus"></i> <div>Quy trình đăng ký dịch vụ SMS Brandname – SMS Marketing của CloudSms là như thế nào?</div></h4>
-											</a>
-										</div>
-										<div id="accordion_b_4" class="panel-collapse collapse" role="tabpanel">
-											<div class="panel-body">
-												<p>Để biết thêm về quy trình đăng ký dịch vụ SMS Brandname – SMS Marketing của CloudSms, quý doanh nghiệp có thể xem chi tiết tại đường link: http://cloudsms.vn/dang-ky-va-quy-dinh-su-dung-sms</p>
-											</div>
-										</div>
-									</div></div>
-						</div>
-					</div>
-					
-				</div>
-			</div></div>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div id="spy_scroll_box" class="hidden-xs" data-eid="109">
+        <div id="spy_scroll" class="navbar_scroll_tss" data-eid="110">
+            <ul id="ul_spu_scroll" class="nav" data-eid="111">
+                <li class="active" data-eid="112">
+                    <a class="scrollspy" href="#gioi-thieu-dich-vu-misms" data-eid="113">
+                            <img
+                                src="images/upload/1497907475_Artboard_1.png"
+                                data-src="images/upload/1497907475_Artboard_1.png"
+                                class="lazy"
+                                data-eid="114"
+                            />
+                            <span data-eid="115">Giới thiệu dịch vụ CloudSms™</span>
+                        </a>
+                </li>
+                <li class="" data-eid="116">
+                    <a class="scrollspy" href="#loi-ich-su-dung-misms" data-eid="117">
+                            <img
+                                src="images/upload/Cloud-icon.png"
+                                data-src="images/upload/Cloud-icon.png"
+                                class="lazy"
+                                data-eid="118"
+                            />
+                            <span data-eid="119">Lợi ích sử dụng CloudSms™</span>
+                        </a>
+                </li>
+                <li class="" data-eid="120">
+                    <a class="scrollspy" href="#dich-vu-misms-cung-cap" data-eid="121">
+                            <img
+                                src="images/upload/LCD-Monitor-icon.png"
+                                data-src="images/upload/LCD-Monitor-icon.png"
+                                class="lazy"
+                                data-eid="122"
+                            />
+                            <span data-eid="123">Dịch vụ CloudSms™ cung cấp</span>
+                        </a>
+                </li>
+                <li class="" data-eid="124">
+                    <a class="scrollspy" href="#nhung-cau-hoi-thuong-gap" data-eid="125">
+                            <img
+                                src="images/upload/tongdaiao-pbx-cloud-mipbx.png"
+                                data-src="images/upload/tongdaiao-pbx-cloud-mipbx.png"
+                                class="lazy"
+                                data-eid="126"
+                            />
+                            <span data-eid="127">Những câu hỏi thường gặp</span>
+                        </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="content-scroll" id="gioi-thieu-dich-vu-misms" data-eid="128">
+        <div id="" class="" style="padding: 30px 0" data-eid="129">
+            <div class="container" data-eid="130">
+                <div class="section-title" data-eid="131">
+                    <h2 data-eid="132">Giới thiệu dịch vụ CloudSms™</h2>
+                    <p class="text-center" data-eid="133"></p>
+                </div>
+                <div class="row" data-eid="134">
+                    <div class="col-sm-12" data-eid="135">
+                        <p data-eid="136">
+                            <strong data-eid="137">CloudSms™</strong> là dịch vụ cung cấp giải pháp chăm sóc khách
+                            hàng qua tin nhắn&nbsp;SMS Brandname, Zalo ZNS.&nbsp;Hệ thống của
+                            CloudSms™&nbsp;sẽ&nbsp;gửi tin nhắn SMS/ ZNS đến&nbsp;điện thoại người dùng,&nbsp;giúp
+                            các cửa hàng, doanh nghiệp vừa và nhỏ thực hiện các chương trình chăm sóc khách hàng,
+                            tiếp thị một cách hiệu quả nhất, tiết kiệm thời gian nhất và đặc biệt là tinh&nbsp;tế và
+                            dễ dàng sử dụng.﻿
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="content-scroll" id="loi-ich-su-dung-misms" data-eid="138">
+        <div id="partner" class="bg--lightgray" style="padding: 30px 0" data-eid="139">
+            <div class="container" data-eid="140">
+                <div class="section-title" data-eid="141">
+                    <h2 data-eid="142">CloudSms™ mang đến những lợi ích cho doanh nghiệp</h2>
+                    <p class="text-center" data-eid="143"></p>
+                </div>
+                <div class="row" data-eid="144">
+                    <div class="col-md-3 col-sm-6 feature--item feature_item" data-eid="145">
+                        <div class="feature--icon" data-eid="146">
+                            <div class="vc-parent" data-eid="147">
+                                <div class="vc-child" data-eid="148">
+                                    <img src="images/feature/1723431715_tỷ lệ khách hàng mở tin nhắn.png" alt="" class="img-responsive center-block"
+                                        data-eid="149" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="feature--content" data-eid="150">
+                            <h4 data-eid="151">Tỷ lệ khách hàng mở tin nhắn cao</h4>
+                            <p data-eid="152">
+                                Tin nhắn cho phép khách hàng và doanh nghiệp tương tác một cách linh hoạt và tiện
+                                lợi.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6 feature--item feature_item" data-eid="153">
+                        <div class="feature--icon" data-eid="154">
+                            <div class="vc-parent" data-eid="155">
+                                <div class="vc-child" data-eid="156">
+                                    <img src="images/feature/1723431354_Tiết kiệm thời gian và công sức.png" alt="" class="img-responsive center-block"
+                                        data-eid="157" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="feature--content" data-eid="158">
+                            <h4 data-eid="159">Tiết kiệm thời gian và công sức</h4>
+                            <p data-eid="160">
+                                Giao tiếp qua tin nhắn giúp nhân viên CSKH tiếp cận nhiều khách hàng cùng lúc .
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6 feature--item feature_item" data-eid="161">
+                        <div class="feature--icon" data-eid="162">
+                            <div class="vc-parent" data-eid="163">
+                                <div class="vc-child" data-eid="164">
+                                    <img src="images/feature/1723431370_Truyền tải thông tin ngay lập tức.png" alt="" class="img-responsive center-block"
+                                        data-eid="165" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="feature--content" data-eid="166">
+                            <h4 data-eid="167">Truyền tải thông tin ngay lập tức</h4>
+                            <p data-eid="168">
+                                CloudSms™ giúp doanh nghiệp có thể gửi thông tin CSKH, quảng cáo,... đến khách hàng
+                                nhanh chóng.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6 feature--item feature_item" data-eid="169">
+                        <div class="feature--icon" data-eid="170">
+                            <div class="vc-parent" data-eid="171">
+                                <div class="vc-child" data-eid="172">
+                                    <img src="images/feature/1723431392_nâng cao tốc độ phản hồi với khách hàng.png" alt="" class="img-responsive center-block"
+                                        data-eid="173" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="feature--content" data-eid="174">
+                            <h4 data-eid="175">Nâng cao tốc độ phản hồi với khách hàng</h4>
+                            <p data-eid="176">
+                                Không cần đợi lâu như khi gọi hay gửi Email, khách hàng sẽ nhận được phản hồi nhanh
+                                chóng.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6 feature--item feature_item" data-eid="177">
+                        <div class="feature--icon" data-eid="178">
+                            <div class="vc-parent" data-eid="179">
+                                <div class="vc-child" data-eid="180">
+                                    <img src="images/feature/1723431403_Marketing không giới hạn.png" alt="" class="img-responsive center-block"
+                                        data-eid="181" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="feature--content" data-eid="182">
+                            <h4 data-eid="183">Marketing không giới hạn</h4>
+                            <p data-eid="184">
+                                CloudSms™ sẽ giúp doanh nghiệp có thể gửi hàng loạt tin nhắn không giới hạn số lượng
+                                tin nhắn.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6 feature--item feature_item" data-eid="185">
+                        <div class="feature--icon" data-eid="186">
+                            <div class="vc-parent" data-eid="187">
+                                <div class="vc-child" data-eid="188">
+                                    <img src="images/feature/1723431416_Dễ dàng theo dõi, dễ dàng quản lý.png" alt="" class="img-responsive center-block"
+                                        data-eid="189" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="feature--content" data-eid="190">
+                            <h4 data-eid="191">Dễ dàng theo dõi, quản lý</h4>
+                            <p data-eid="192">
+                                CloudSms™ sẽ giúp doanh nghiệp dễ dàng theo dõi và quản lý tất cả các cuộc trò
+                                chuyện với khách hàng.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6 feature--item feature_item" data-eid="193">
+                        <div class="feature--icon" data-eid="194">
+                            <div class="vc-parent" data-eid="195">
+                                <div class="vc-child" data-eid="196">
+                                    <img src="images/feature/1723431428_tạo mối quan hệ lâu dài.png" alt="" class="img-responsive center-block"
+                                        data-eid="197" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="feature--content" data-eid="198">
+                            <h4 data-eid="199">Tạo mối quan hệ lâu dài</h4>
+                            <p data-eid="200">
+                                Dùng CloudSms™ để gửi tin nhắn đến khách hàng sẽ giúp tạo mối quan hệ lâu dài với
+                                khách hàng hiệu quả.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6 feature--item feature_item" data-eid="201">
+                        <div class="feature--icon" data-eid="202">
+                            <div class="vc-parent" data-eid="203">
+                                <div class="vc-child" data-eid="204">
+                                    <img src="images/feature/1723431439_không tốn chi phí bảo trì.png" alt="" class="img-responsive center-block"
+                                        data-eid="205" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="feature--content" data-eid="206">
+                            <h4 data-eid="207">Không tốn chi phí bảo trì</h4>
+                            <p data-eid="208">
+                                Hệ thống của CloudSms™ luôn đảm bảo gửi tin nhắn đến khách hàng không bị sai sót
+                                nào.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="content-scroll" id="dich-vu-misms-cung-cap" data-eid="209">
+        <div id="" class="" style="padding: 30px 0" data-eid="210">
+            <div class="container" data-eid="211">
+                <div class="section-title" data-eid="212">
+                    <h2 data-eid="213">Dịch vụ CloudSms™ cung cấp các dạng tin nhắn</h2>
+                    <p class="text-center" data-eid="214"></p>
+                </div>
+                <div class="features-tab--nav" data-eid="215">
+                    <ul data-eid="216">
+                        <li class="" data-eid="217">
+                            <a
+                                    href="#tab-feat-0128421741"
+                                    class="btn btn-lg btn-custom"
+                                    data-toggle="tab"
+                                    aria-expanded="false"
+                                    data-eid="218"
+                                    >TIN NHẮN QUẢNG CÁO</a>
+                        </li>
+                        <li class="" data-eid="219">
+                            <a
+                                    href="#tab-feat-1128421741"
+                                    class="btn btn-lg btn-custom"
+                                    data-toggle="tab"
+                                    aria-expanded="false"
+                                    data-eid="220"
+                                    >TIN NHẮN CHĂM SÓC KHÁCH HÀNG</a>
+                        </li>
+                        <li class="" data-eid="221">
+                            <a
+                                    href="#tab-feat-2128421741"
+                                    class="btn btn-lg btn-custom"
+                                    data-toggle="tab"
+                                    aria-expanded="false"
+                                    data-eid="222"
+                                    >TIN NHẮN 2 CHIỀU</a>
+                        </li>
+                        <li class="" data-eid="223">
+                            <a
+                                    href="#tab-feat-3128421741"
+                                    class="btn btn-lg btn-custom"
+                                    data-toggle="tab"
+                                    aria-expanded="false"
+                                    data-eid="224"
+                                    >API GỬI TIN NHẮN</a>
+                        </li>
+                        <li class="active" data-eid="225">
+                            <a
+                                    href="#tab-feat-4128421741"
+                                    class="btn btn-lg btn-custom"
+                                    data-toggle="tab"
+                                    aria-expanded="true"
+                                    data-eid="226"
+                                    >TIN NHẮN THOẠI</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="features-tab--items tab-content" data-eid="227">
+                    <div class="features-tab--item tab-pane fade" id="tab-feat-0128421741" data-eid="228">
+                        <div class="row row-vc" data-eid="229">
+                            <div class="features-tab--content col-md-6" data-eid="230">
+                                <h3 style="margin: 0" data-eid="231">CloudSms™</h3>
+                                <h3 style="color: #2dcb70" data-eid="232">Gửi tin nhắn Quảng cáo</h3>
+                                <p data-eid="233">Gửi tin nhắn Quảng cáo bao gồm các dạng:</p>
+                                <ul data-eid="234">
+                                    <li data-eid="235">
+                                        <i class="fa fa-check" data-eid="236"></i>Gửi tin nhắn thông tin khuyến mãi
+                                        đến khách hàng.
+                                    </li>
+                                    <li data-eid="237">
+                                        <i class="fa fa-check" data-eid="238"></i>Gửi tin nhắn thông tin giảm giá.
+                                    </li>
+                                    <li data-eid="239">
+                                        <i class="fa fa-check" data-eid="240"></i>Gửi tin nhắn giới thiệu sản phẩm,
+                                        dịch vụ mới.
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="features-tab--img col-md-6" data-eid="241">
+                                <img src="images/tabs/1723430868_tin nhắn quảng cáo.png" alt="" class="img-responsive" data-eid="242" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="features-tab--item tab-pane fade" id="tab-feat-1128421741" data-eid="243">
+                        <div class="row row-vc" data-eid="244">
+                            <div class="features-tab--img col-md-6" data-eid="245">
+                                <img src="images/tabs/1723430838_tin nhắn CSKH.png" alt="" class="img-responsive" data-eid="246" />
+                            </div>
+                            <div class="features-tab--content col-md-6" data-eid="247">
+                                <h3 style="margin: 0" data-eid="248">CloudSms™</h3>
+                                <h3 style="color: #2dcb70" data-eid="249">Gửi tin nhắn Chăm sóc khách hàng</h3>
+                                <p data-eid="250">Gửi tin nhắn Chăm sóc khách hàng bao gồm các dạng:</p>
+                                <ul data-eid="251">
+                                    <li data-eid="252">
+                                        <i class="fa fa-check" data-eid="253"></i>Gửi tin nhắn chúc mừng sinh nhật
+                                        khách hàng.
+                                    </li>
+                                    <li data-eid="254">
+                                        <i class="fa fa-check" data-eid="255"></i>Gửi tin nhắn xác nhận đơn hàng.
+                                    </li>
+                                    <li data-eid="256">
+                                        <i class="fa fa-check" data-eid="257"></i>Gửi tin nhắn kích hoạt tài khoản.
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="features-tab--item tab-pane fade" id="tab-feat-2128421741" data-eid="258">
+                        <div class="row row-vc" data-eid="259">
+                            <div class="features-tab--content col-md-6" data-eid="260">
+                                <h3 style="margin: 0" data-eid="261">CloudSms™</h3>
+                                <h3 style="color: #2dcb70" data-eid="262">Gửi tin nhắn 2 chiều</h3>
+                                <p data-eid="263">
+                                    Gửi tin nhắn 2 chiều là cơ chế giao tiếp 2 chiều thông qua SMS. Với mỗi tin nhắn
+                                    SMS:
+                                </p>
+                                <ul data-eid="264">
+                                    <li data-eid="265">
+                                        <i class="fa fa-check" data-eid="266"></i>Khi nhận được tin nhắn, khách hàng
+                                        có thể trả lời lại tin nhắn.
+                                    </li>
+                                    <li data-eid="267">
+                                        <i class="fa fa-check" data-eid="268"></i>Doanh nghiệp có thể xem lại được
+                                        các nội dung trả lời.
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="features-tab--img col-md-6" data-eid="269">
+                                <img src="images/tabs/1723430827_Tin nhắn 2 chiều.png" alt="" class="img-responsive" data-eid="270" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="features-tab--item tab-pane fade" id="tab-feat-3128421741" data-eid="271">
+                        <div class="row row-vc" data-eid="272">
+                            <div class="features-tab--img col-md-6" data-eid="273">
+                                <img src="images/tabs/1723430813_API gửi tin nhắn.png" alt="" class="img-responsive" data-eid="274" />
+                            </div>
+                            <div class="features-tab--content col-md-6" data-eid="275">
+                                <h3 style="margin: 0" data-eid="276">CloudSms™</h3>
+                                <h3 style="color: #2dcb70" data-eid="277">Cung cấp API cho lập trình viên</h3>
+                                <p data-eid="278"></p>
+                                <ul data-eid="279">
+                                    <li data-eid="280">
+                                        <i class="fa fa-check" data-eid="281"></i>Lập trình viên có thể tích hợp API
+                                        vào hệ thống riêng.
+                                    </li>
+                                    <li data-eid="282">
+                                        <i class="fa fa-check" data-eid="283"></i>Tích hợp dịch vụ gửi tin vào bất
+                                        kỳ hệ thống phần mềm nào.
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="features-tab--item tab-pane fade active in" id="tab-feat-4128421741" data-eid="284">
+                        <div class="row row-vc" data-eid="285">
+                            <div class="features-tab--img col-md-6" data-eid="286">
+                                <img src="images/tabs/1723430723_tin nhắn thoại.png" alt="" class="img-responsive" data-eid="287" />
+                            </div>
+                            <div class="features-tab--content col-md-6" data-eid="288">
+                                <h3 style="margin: 0" data-eid="289">CloudSms™</h3>
+                                <h3 style="color: #2dcb70" data-eid="290">Gửi tin nhắn thoại đến khách hàng</h3>
+                                <p data-eid="291">Là các dạng tin nhắn thoại dùng để:</p>
+                                <ul data-eid="292">
+                                    <li data-eid="293">
+                                        <i class="fa fa-check" data-eid="294"></i>Phát cuộc gọi đến khách hàng thay
+                                        vì nhắn tin.
+                                    </li>
+                                    <li data-eid="295">
+                                        <i class="fa fa-check" data-eid="296"></i>Ứng dụng để đọc mã kích hoạt.
+                                    </li>
+                                    <li data-eid="297">
+                                        <i class="fa fa-check" data-eid="298"></i>Gọi điện nhắc nhở hàng loạt khách
+                                        hàng.
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="content-scroll" id="" data-eid="299">
+        <div id="partner" class="bg--lightgray" style="padding: 30px 0; background: #ffffff" data-eid="300">
+            <div class="container" data-eid="301">
+                <div class="row" data-eid="302">
+                    <div class="section-title" data-eid="303">
+                        <h2 data-eid="304">Khách hàng của CloudSms™</h2>
+                        <p class="text-center" data-eid="305"></p>
+                    </div>
+                    <div class="col-sm-12" data-eid="306">
+                        <div class="control-feedback-home" data-eid="307">
+                            <span
+                                    class="partner-prev fa fa-angle-left fa-lg"
+                                    style="position: absolute; left: 0; top: 38%; z-index: 99; cursor: pointer; background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%); box-shadow: 0 2px 8px rgba(2, 132, 199, 0.3); padding: 8px 12px; color: #fff; border-radius: 3px;"
+                                    data-eid="308"
+                                ></span>
+                            <span
+                                    class="partner-next fa fa-angle-right fa-lg"
+                                    style="position: absolute; right: 0; top: 38%; z-index: 99; cursor: pointer; background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%); box-shadow: 0 2px 8px rgba(2, 132, 199, 0.3); padding: 8px 12px; color: #fff; border-radius: 3px;"
+                                    data-eid="309"
+                                ></span>
+                        </div>
+                        <div id="partner-slide" class="partner-slide" data-eid="310">
+                            <div class="item" style="padding: 10px 20px" data-eid="311">
+                                <a href="https://talentnet.vn" target="_blank" rel="nofollow" data-eid="312">
+                                        <img
+                                            src="images/logo/1545035703_1507806701_talennet-250.jpg"
+                                            alt=""
+                                            style="width: 100%"
+                                            data-eid="313"
+                                        />
+                                    </a>
+                            </div>
+                            <div class="item" style="padding: 10px 20px" data-eid="314">
+                                <a href="https://tesla.edu.vn/" target="_blank" rel="nofollow" data-eid="315">
+                                        <img
+                                            src="images/logo/1545035838_1507806859_tesla-250.jpg"
+                                            alt=""
+                                            style="width: 100%"
+                                            data-eid="316"
+                                        />
+                                    </a>
+                            </div>
+                            <div class="item" style="padding: 10px 20px" data-eid="317">
+                                <a href="https://www.uef.edu.vn/" target="_blank" rel="nofollow" data-eid="318">
+                                        <img
+                                            src="images/logo/1708048630_Đại học kinh tế UEF.png"
+                                            alt=""
+                                            style="width: 100%"
+                                            data-eid="319"
+                                        />
+                                    </a>
+                            </div>
+                            <div class="item" style="padding: 10px 20px" data-eid="320">
+                                <a href="https://www.vit24.vn/" target="_blank" rel="nofollow" data-eid="321">
+                                        <img
+                                            src="images/logo/1708048811_Vịt 24.png"
+                                            alt=""
+                                            style="width: 100%"
+                                            data-eid="322"
+                                        />
+                                    </a>
+                            </div>
+                            <div class="item" style="padding: 10px 20px" data-eid="323">
+                                <a href="https://hellodoctors.vn/" target="_blank" rel="nofollow" data-eid="324">
+                                        <img
+                                            src="images/logo/1708049146_Hello Doctor.png"
+                                            alt=""
+                                            style="width: 100%"
+                                            data-eid="325"
+                                        />
+                                    </a>
+                            </div>
+                            <div class="item" style="padding: 10px 20px" data-eid="326">
+                                <a href="https://yersin.edu.vn/" target="_blank" rel="nofollow" data-eid="327">
+                                        <img
+                                            src="images/logo/1708049867_Trường Đại Học Yersin Đà Lạt.png"
+                                            alt=""
+                                            style="width: 100%"
+                                            data-eid="328"
+                                        />
+                                    </a>
+                            </div>
+                            <div class="item" style="padding: 10px 20px" data-eid="329">
+                                <a
+                                        href="https://www.facebook.com/karaokeICool/"
+                                        target="_blank"
+                                        rel="nofollow"
+                                        data-eid="330"
+                                    >
+                                        <img
+                                            src="images/logo/1545035677_1507806532_icool-250.jpg"
+                                            alt=""
+                                            style="width: 100%"
+                                            data-eid="331"
+                                        />
+                                    </a>
+                            </div>
+                            <div class="item" style="padding: 10px 20px" data-eid="332">
+                                <a href="" target="_blank" rel="nofollow" data-eid="333">
+                                        <img
+                                            src="images/logo/1545035686_1507806643_pharysol-250.jpg"
+                                            alt=""
+                                            style="width: 100%"
+                                            data-eid="334"
+                                        />
+                                    </a>
+                            </div>
+                            <div class="item" style="padding: 10px 20px" data-eid="335">
+                                <a href="https://warrior.vn/" target="_blank" rel="nofollow" data-eid="336">
+                                        <img
+                                            src="images/logo/1545035695_1507806663_warrior-250.jpg"
+                                            alt=""
+                                            style="width: 100%"
+                                            data-eid="337"
+                                        />
+                                    </a>
+                            </div>
+                            <div class="item" style="padding: 10px 20px" data-eid="338">
+                                <a href="https://truongkieuxuan.com" target="_blank" rel="nofollow" data-eid="339">
+                                        <img
+                                            src="images/logo/1507806721_truongkieuxuan-250.jpg"
+                                            alt=""
+                                            style="width: 100%"
+                                            data-eid="340"
+                                        />
+                                    </a>
+                            </div>
+                            <div class="item" style="padding: 10px 20px" data-eid="341">
+                                <a href="https://ghs.vn" target="_blank" rel="nofollow" data-eid="342">
+                                        <img
+                                            src="images/logo/1545035720_1507806752_traitimvang-250.jpg"
+                                            alt=""
+                                            style="width: 100%"
+                                            data-eid="343"
+                                        />
+                                    </a>
+                            </div>
+                            <div class="item" style="padding: 10px 20px" data-eid="344">
+                                <a
+                                        href="https://www.facebook.com/vanlocgass/"
+                                        target="_blank"
+                                        rel="nofollow"
+                                        data-eid="345"
+                                    >
+                                        <img
+                                            src="images/logo/1545035732_1507806800_minhthy-250.jpg"
+                                            alt=""
+                                            style="width: 100%"
+                                            data-eid="346"
+                                        />
+                                    </a>
+                            </div>
+                            <div class="item" style="padding: 10px 20px" data-eid="347">
+                                <a
+                                        href="https://minhthyfurniture.com/"
+                                        target="_blank"
+                                        rel="nofollow"
+                                        data-eid="348"
+                                    >
+                                        <img
+                                            src="images/logo/1545036081_1507806800_minhthy-250.png"
+                                            alt=""
+                                            style="width: 100%"
+                                            data-eid="349"
+                                        />
+                                    </a>
+                            </div>
+                            <div class="item" style="padding: 10px 20px" data-eid="350">
+                                <a
+                                        href="https://www.facebook.com/maylanhviet/"
+                                        target="_blank"
+                                        rel="nofollow"
+                                        data-eid="351"
+                                    >
+                                        <img
+                                            src="images/logo/1545035758_1507806823_maylanhviet-250.jpg"
+                                            alt=""
+                                            style="width: 100%"
+                                            data-eid="352"
+                                        />
+                                    </a>
+                            </div>
+                            <div class="item" style="padding: 10px 20px" data-eid="353">
+                                <a href="https://goitho.com/" target="_blank" rel="nofollow" data-eid="354">
+                                        <img
+                                            src="images/logo/1545035785_1507806840_goitho-250.jpg"
+                                            alt=""
+                                            style="width: 100%"
+                                            data-eid="355"
+                                        />
+                                    </a>
+                            </div>
+                            <div class="item" style="padding: 10px 20px" data-eid="356">
+                                <a href="https://delap.vn/" target="_blank" rel="nofollow" data-eid="357">
+                                        <img
+                                            src="images/logo/1708047650_Công ty cổ phần Dược Phẩm DELAP.png"
+                                            alt=""
+                                            style="width: 100%"
+                                            data-eid="358"
+                                        />
+                                    </a>
+                            </div>
+                            <div class="item" style="padding: 10px 20px" data-eid="359">
+                                <a
+                                        href="https://www.tmmchealthcare.com/"
+                                        target="_blank"
+                                        rel="nofollow"
+                                        data-eid="360"
+                                    >
+                                        <img
+                                            src="images/logo/1708048587_CÔNG TY CP Y KHOA TÂM TRÍ.png"
+                                            alt=""
+                                            style="width: 100%"
+                                            data-eid="361"
+                                        />
+                                    </a>
+                            </div>
+                            <div class="item" style="padding: 10px 20px" data-eid="362">
+                                <a href="https://healthie.vn/" target="_blank" rel="nofollow" data-eid="363">
+                                        <img
+                                            src="images/logo/1708048718_Công ty TNHH Trudeli Technologies.png"
+                                            alt=""
+                                            style="width: 100%"
+                                            data-eid="364"
+                                        />
+                                    </a>
+                            </div>
+                            <div class="item" style="padding: 10px 20px" data-eid="365">
+                                <a href="https://envimart.vn/" target="_blank" rel="nofollow" data-eid="366">
+                                        <img
+                                            src="images/logo/1708048946_Envimart JSC.png"
+                                            alt=""
+                                            style="width: 100%"
+                                            data-eid="367"
+                                        />
+                                    </a>
+                            </div>
+                            <div class="item" style="padding: 10px 20px" data-eid="368">
+                                <a href="https://kafi.vn/" target="_blank" rel="nofollow" data-eid="369">
+                                        <img
+                                            src="images/logo/1708049662_CÔNG TY CỔ PHẦN CHỨNG KHOÁN KAFI.png"
+                                            alt=""
+                                            style="width: 100%"
+                                            data-eid="370"
+                                        />
+                                    </a>
+                            </div>
+                            <div class="item" style="padding: 10px 20px" data-eid="371">
+                                <a href="https://hunufa.vn/" target="_blank" rel="nofollow" data-eid="372">
+                                        <img
+                                            src="images/logo/1708049706_CÔNG TY TNHH HUNUFA VIỆT NAM.png"
+                                            alt=""
+                                            style="width: 100%"
+                                            data-eid="373"
+                                        />
+                                    </a>
+                            </div>
+                            <div class="item" style="padding: 10px 20px" data-eid="374">
+                                <a
+                                        href="https://www.victoriahotels.asia/vi/diem-den/victoria-chau-doc-hotel/"
+                                        target="_blank"
+                                        rel="nofollow"
+                                        data-eid="375"
+                                    >
+                                        <img
+                                            src="images/logo/1708049755_CÔNG TY TNHH MỘT THÀNH VIÊN KHÁCH SẠN VICTORIA HÀNG CHÂU (VCD).png"
+                                            alt=""
+                                            style="width: 100%"
+                                            data-eid="376"
+                                        />
+                                    </a>
+                            </div>
+                            <div class="item" style="padding: 10px 20px" data-eid="377">
+                                <a
+                                        href="https://www.facebook.com/TTLinBeauty?locale=vi_VN"
+                                        target="_blank"
+                                        rel="nofollow"
+                                        data-eid="378"
+                                    >
+                                        <img
+                                            src="images/logo/1708050012_CÔNG TY TNHH TT LIN CENTER.png"
+                                            alt=""
+                                            style="width: 100%"
+                                            data-eid="379"
+                                        />
+                                    </a>
+                            </div>
+                            <div class="item" style="padding: 10px 20px" data-eid="380">
+                                <a href="https://tuyetlights.com/" target="_blank" rel="nofollow" data-eid="381">
+                                        <img
+                                            src="images/logo/1708049911_Công ty TNHH Tuyết Lights.png"
+                                            alt=""
+                                            style="width: 100%"
+                                            data-eid="382"
+                                        />
+                                    </a>
+                            </div>
+                            <div class="item" style="padding: 10px 20px" data-eid="383">
+                                <a
+                                        href="https://www.facebook.com/pocpharma"
+                                        target="_blank"
+                                        rel="nofollow"
+                                        data-eid="384"
+                                    >
+                                        <img
+                                            src="images/logo/1708049946_POC Pharma - Ứng dụng đặt hàng cho nhà thuốc.png"
+                                            alt=""
+                                            style="width: 100%"
+                                            data-eid="385"
+                                        />
+                                    </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="content-scroll" id="nhung-cau-hoi-thuong-gap" data-eid="386">
+        <div id="faq" class="" style="padding: 30px 0; background: #efefef" data-eid="387">
+            <div class="container" data-eid="388">
+                <div class="section-title" data-eid="389">
+                    <h2 data-eid="390">Câu hỏi thường gặp</h2>
+                    <p class="text-center" data-eid="391"></p>
+                </div>
+                <div class="faq-content" data-eid="392">
+                    <div class="panel-group accordion" id="accordion_new" role="tablist" data-eid="393">
+                        <div class="col-sm-6 pan" data-eid="394">
+                            <div class="panel panel-default" data-eid="395">
+                                <div class="panel-heading" role="tab" data-eid="396">
+                                    <a
+                                            href="#accordion_a_0"
+                                            class="collapsed"
+                                            role="button"
+                                            data-toggle="collapse"
+                                            data-parent="#accordion_new"
+                                            data-eid="397"
+                                        >
+                                            <h4 class="panel-title" data-eid="398">
+                                                <i class="fa fa-minus" data-eid="399"></i>
+                                                <div data-eid="400">SMS Brandname bao gồm những loại nào?</div>
+                                            </h4>
+                                        </a>
+                                </div>
+                                <div id="accordion_a_0" class="panel-collapse collapse" role="tabpanel" data-eid="401">
+                                    <div class="panel-body" data-eid="402">
+                                        <p data-eid="403">
+                                            • SMS Brandname quảng cáo: là tin nhắn để thông báo các chương trình
+                                            khuyến mãi, giới thiệu sản phẩm dịch vụ mới • SMS Brandname chăm sóc
+                                            khách hàng: là tin nhắn không mang các thông tin khuyến mãi, ví dụ tin
+                                            nhắn chúc mừng sinh nhật, thông báo điểm tích lũy, thông báo số dư tài
+                                            khoản ngân hàng….
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default" data-eid="404">
+                                <div class="panel-heading" role="tab" data-eid="405">
+                                    <a
+                                            href="#accordion_a_1"
+                                            class="collapsed"
+                                            role="button"
+                                            data-toggle="collapse"
+                                            data-parent="#accordion_new"
+                                            data-eid="406"
+                                        >
+                                            <h4 class="panel-title" data-eid="407">
+                                                <i class="fa fa-minus" data-eid="408"></i>
+                                                <div data-eid="409">Có bao nhiêu giải pháp SMS Marketing?</div>
+                                            </h4>
+                                        </a>
+                                </div>
+                                <div id="accordion_a_1" class="panel-collapse collapse" role="tabpanel" data-eid="410">
+                                    <div class="panel-body" data-eid="411">
+                                        <p data-eid="412">
+                                            Có 5 giải pháp SMS Marketing, đó là: 1. SMS Brandname: Là dịch vụ tin
+                                            nhắn quảng cáo mà tên thương hiệu của doanh nghiệp được hiển thị ở phần
+                                            tên người gửi trong điện thoại của người nhận. (mặc dù người nhận chưa
+                                            hề lưu tên người gửi). Đây là dịch vụ được ưu tiên sử dụng nhiều nhất
+                                            trong các giải pháp SMS Marketing 2. Đầu số 8xxx, 6xxx…: Là kênh tiếp
+                                            thị có phí (thường là thuê đầu số hoặc thuê dịch vụ), cho phép người gửi
+                                            gửi đi hàng loạt tin nhắn tới danh sách khách hàng đã có sẵn trước đó
+                                            vào cùng một thời điểm tiếp thị. Phần người gửi (sender) hiển thị đầu số
+                                            SMS 8xxx, 6xxx… 3. Số ngẫu nhiên: Đây là các số điện thoại thường dùng
+                                            để phục vụ mục đích spam tin nhắn, số dùng một vài lần rồi bỏ, hoặc là
+                                            thuê dịch vụ nhắn tin từ các bên cung cấp dịch vụ. 4. SMS Hotline: Đây
+                                            là một số điện thoại cá nhân được lấy ra để sử dụng cho các mục đích
+                                            công việc, không có các liên hệ cá nhân. 5. SMS API: là giao thức kết
+                                            nối để sử dụng các dịch vụ SMS thông qua API (giao diện lập trình ứng
+                                            dụng). Nằm trên nền SMS Hosting, các kết nối từ SMS API sẽ giao tiếp với
+                                            nền tảng SMS Hosting để triển khai các ứng dụng SMS.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default" data-eid="413">
+                                <div class="panel-heading" role="tab" data-eid="414">
+                                    <a
+                                            href="#accordion_a_2"
+                                            class="collapsed"
+                                            role="button"
+                                            data-toggle="collapse"
+                                            data-parent="#accordion_new"
+                                            data-eid="415"
+                                        >
+                                            <h4 class="panel-title" data-eid="416">
+                                                <i class="fa fa-minus" data-eid="417"></i>
+                                                <div data-eid="418">
+                                                    SMS Brandname phù hợp với các đối tượng khách hàng nào?
+                                                </div>
+                                            </h4>
+                                        </a>
+                                </div>
+                                <div id="accordion_a_2" class="panel-collapse collapse" role="tabpanel" data-eid="419">
+                                    <div class="panel-body" data-eid="420">
+                                        <p data-eid="421">
+                                            • Các siêu thị có nhu cầu gửi tin nhắn coupon quà tặng, khuyến mãi, giảm
+                                            giá đến các khách hàng thân thiết,… • Các ngân hàng gửi tin nhắn chúc
+                                            mừng sinh nhật, thông báo số dư tài khoản của khách hàng, thông báo đến
+                                            kỳ thanh toán lãi, thông báo nợ quá hạn, thông báo các gói dịch vụ mới,…
+                                            • Doanh nghiệp gửi thông báo đến hệ thống đại lý của mình,… • Các doanh
+                                            nghiệp kinh doanh điện lực, điện thoại, internet, nước,… có thể gửi
+                                            thông báo cước, nhắn nợ cước cho khách hàng,… • Các công ty bưu chính,
+                                            chuyển phát nhanh báo phát, báo nhận bưu phẩm • Các hãng Hàng không
+                                            thông báo mã số ticket điện tử, báo trễ giờ bay,… • Các trường học thông
+                                            báo họp phụ huynh, khai giảng khoá học, thông báo điểm,… • Các công ty
+                                            du lịch, bảo hiểm nhắn tin chăm sóc khách hàng, thông báo tour du lịch
+                                            mới, gia hạn hợp đồng,… • …
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default" data-eid="422">
+                                <div class="panel-heading" role="tab" data-eid="423">
+                                    <a
+                                            href="#accordion_a_3"
+                                            class="collapsed"
+                                            role="button"
+                                            data-toggle="collapse"
+                                            data-parent="#accordion_new"
+                                            data-eid="424"
+                                        >
+                                            <h4 class="panel-title" data-eid="425">
+                                                <i class="fa fa-minus" data-eid="426"></i>
+                                                <div data-eid="427">
+                                                    Sử dụng SMS Brandname có lợi ích như thế nào cho doanh nghiệp?
+                                                </div>
+                                            </h4>
+                                        </a>
+                                </div>
+                                <div id="accordion_a_3" class="panel-collapse collapse" role="tabpanel" data-eid="428">
+                                    <div class="panel-body" data-eid="429">
+                                        <p data-eid="430">
+                                            • Tăng mức độ nhận biết nhãn hàng đến khách hàng. • Tăng mức độ trung
+                                            thành của khách hàng đối với nhãn hiệu • Giảm tình trạng spam SMS và tin
+                                            nhắn lừa đảo, tạo sự tin tưởng cho khách hàng. • Thông tin được truyền
+                                            tải nhanh nhất, ngắn nhất và tập trung nhất. • Tăng mức độ tin cậy của
+                                            khách hàng đối với thương hiệu. • Nâng cao tính chuyên nghiệp trong dịch
+                                            vụ hỗ trợ và chăm sóc khách hàng. • Chi phí thấp, thời gian gửi nhanh,
+                                            thông điệp truyền trực tiếp tới đối tượng khách hàng mục tiêu. • Tỉ lệ
+                                            khách hàng đọc tin nhắn rất cao. • SMS Brandname là một hình thức Mobile
+                                            Marketing chuyên nghiệp và hiệu quả.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default" data-eid="431">
+                                <div class="panel-heading" role="tab" data-eid="432">
+                                    <a
+                                            href="lien-he.html"
+                                            class="collapsed"
+                                            role="button"
+                                            data-parent="#accordion_new"
+                                            data-eid="433"
+                                        >
+                                            <h4 class="panel-title" data-eid="434">
+                                                <i class="fa fa-minus" data-eid="435"></i>
+                                                <div data-eid="436">
+                                                    Đối tượng được đăng ký Brandname và thủ tục đăng ký như thế nào?
+                                                </div>
+                                            </h4>
+                                        </a>
+                                </div>
+                                <div id="accordion_a_4" class="panel-collapse collapse" role="tabpanel" data-eid="437">
+                                    <div class="panel-body" data-eid="438">
+                                        <p data-eid="439">
+                                            Để có thể biết đối tượng được đăng ký Brandname và thủ tục đăng ký như
+                                            thế nào, quý doanh nghiệp hãy xem thêm thông tin chi tiết xem tại link:
+                                            http://cloudsms.vn/dang-ky-va-quy-dinh-su-dung-sms
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default" data-eid="440">
+                                <div class="panel-heading" role="tab" data-eid="441">
+                                    <a
+                                            href="#accordion_a_5"
+                                            class="collapsed"
+                                            role="button"
+                                            data-toggle="collapse"
+                                            data-parent="#accordion_new"
+                                            data-eid="442"
+                                        >
+                                            <h4 class="panel-title" data-eid="443">
+                                                <i class="fa fa-minus" data-eid="444"></i>
+                                                <div data-eid="445">
+                                                    Các chi phí phải trả khi sử dụng dịch vụ SMS Brandname như thế nào?
+                                                </div>
+                                            </h4>
+                                        </a>
+                                </div>
+                                <div id="accordion_a_5" class="panel-collapse collapse" role="tabpanel" data-eid="446">
+                                    <div class="panel-body" data-eid="447">
+                                        <p data-eid="448">
+                                            Khi sử dụng dịch vụ SMS Brandname, doanh nghiệp chỉ cần trả các khoản
+                                            phí như sau: - Phí duy trì Brandname (thanh toán cho nhà Mạng Viettel,
+                                            Mobifone, Vina) - Phí dịch vụ hàng tháng cho nhà cung cấp - Chi phí SMS
+                                            gửi đi của khách hàng (Nạp tiền trước qua cổng VNPay và sử dụng, số tiền
+                                            sẽ giảm dần theo số tin nhắn gửi đi của khách hàng mà không cần liên hệ
+                                            với nhà cung cấp để thanh toán, thao tác sẽ nhanh chóng và đơn giản hơn
+                                            chỉ khi sử dụng dịch vụ CloudSms:
+                                            http://cloudsms.vn/huong-dan-su-dung-misms
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 pan" data-eid="449">
+                            <div class="panel panel-default" data-eid="450">
+                                <div class="panel-heading" role="tab" data-eid="451">
+                                    <a
+                                            href="#accordion_b_0"
+                                            class="collapsed"
+                                            role="button"
+                                            data-toggle="collapse"
+                                            data-parent="#accordion_new"
+                                            data-eid="452"
+                                        >
+                                            <h4 class="panel-title" data-eid="453">
+                                                <i class="fa fa-minus" data-eid="454"></i>
+                                                <div data-eid="455">
+                                                    Quy định về cách đặt tên thương hiệu SMS Brandname như thế nào?
+                                                </div>
+                                            </h4>
+                                        </a>
+                                </div>
+                                <div id="accordion_b_0" class="panel-collapse collapse" role="tabpanel" data-eid="456">
+                                    <div class="panel-body" data-eid="457">
+                                        <p data-eid="458">
+                                            Để có thể biết thêm về quy định cách đặt tên thương hiệu SMS Brandname
+                                            như thế nào, quý doanh nghiệp có thể xem thông tin chi tiết tại đường
+                                            link: http://cloudsms.vn/dang-ky-va-quy-dinh-su-dung-sms
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default" data-eid="459">
+                                <div class="panel-heading" role="tab" data-eid="460">
+                                    <a
+                                            href="#accordion_b_1"
+                                            class="collapsed"
+                                            role="button"
+                                            data-toggle="collapse"
+                                            data-parent="#accordion_new"
+                                            data-eid="461"
+                                        >
+                                            <h4 class="panel-title" data-eid="462">
+                                                <i class="fa fa-minus" data-eid="463"></i>
+                                                <div data-eid="464">
+                                                    Thông thường, khi Khách hàng nhận được tin nhắn SMS Brandname, tỷ lệ
+                                                    phản hồi tin nhắn chiếm bao nhiêu %?
+                                                </div>
+                                            </h4>
+                                        </a>
+                                </div>
+                                <div id="accordion_b_1" class="panel-collapse collapse" role="tabpanel" data-eid="465">
+                                    <div class="panel-body" data-eid="466">
+                                        <p data-eid="467">
+                                            Có thể thấy, dựa theo như cầu của khách hàng, thì tỷ lệ phản hồi sẽ
+                                            chiếm tỷ lệ cao lên đến 70%
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default" data-eid="468">
+                                <div class="panel-heading" role="tab" data-eid="469">
+                                    <a
+                                            href="#accordion_b_2"
+                                            class="collapsed"
+                                            role="button"
+                                            data-toggle="collapse"
+                                            data-parent="#accordion_new"
+                                            data-eid="470"
+                                        >
+                                            <h4 class="panel-title" data-eid="471">
+                                                <i class="fa fa-minus" data-eid="472"></i>
+                                                <div data-eid="473">
+                                                    Quy định đối với nội dung tin nhắn khi sử dụng là như thế nào?
+                                                </div>
+                                            </h4>
+                                        </a>
+                                </div>
+                                <div id="accordion_b_2" class="panel-collapse collapse" role="tabpanel" data-eid="474">
+                                    <div class="panel-body" data-eid="475">
+                                        <p data-eid="476">
+                                            o Đối với tin nhắn quảng cáo: • Nội dung tin nhắn 122 ký tự /SMS đầu
+                                            tiên, 160 ký tự cho các SMS tiếp theo. • Ký tự đặt biệt được tính là 2
+                                            ký tự. • Thời gian gửi tin trước 16h30 các ngày từ thứ Hai đến thứ Sáu
+                                            trong tuần. Nếu quý khách muốn gửi tin vào ngày thứ 7 và Chủ Nhật, vui
+                                            lòng gửi trước 16h30 ngày thứ 6. • Tất cả các tin quảng cáo sẽ được kiểm
+                                            duyệt nội dung trước khi gửi đi, thời gian kiểm duyệt từ 2 - 3 giờ. Vì
+                                            vậy bạn phải đăng ký nội dung trước với các nhà viễn thông di động. •
+                                            Sau khi gửi tin, tin đã gửi sẽ được chuyển sang trạng thái chờ báo cáo,
+                                            thời gian chờ báo cáo chi tiết là 1 - 2 ngày. • Đối với tin nhắn này,
+                                            bạn phải gửi Danh sách SĐT của KH, nội dung tin nhắn và thời gian gửi
+                                            qua nhà mạng mà mình đã đăng ký sử dụng dịch vụ. Không được tự động gửi
+                                            riêng lẻ. o Đối với tin nhắn Chăm sóc khách hàng: • Nội dung tin nhắn
+                                            160 ký tự cho tất cả các SMS. • Tin chăm sóc khách hàng sẽ không phải
+                                            chờ duyệt. • Đối với loại tin nhắn này, nhà mạng sẽ cung cấp cho bạn một
+                                            Tools. Bạn chủ động nạp tiền vào tài khoản và có thể chủ động gửi nó bất
+                                            cứ lúc nào với số lượng tùy chỉnh.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default" data-eid="477">
+                                <div class="panel-heading" role="tab" data-eid="478">
+                                    <a
+                                            href="#accordion_b_3"
+                                            class="collapsed"
+                                            role="button"
+                                            data-toggle="collapse"
+                                            data-parent="#accordion_new"
+                                            data-eid="479"
+                                        >
+                                            <h4 class="panel-title" data-eid="480">
+                                                <i class="fa fa-minus" data-eid="481"></i>
+                                                <div data-eid="482">
+                                                    CloudSms cung cấp SMS Brandname cho bao nhiêu nhà mạng?
+                                                </div>
+                                            </h4>
+                                        </a>
+                                </div>
+                                <div id="accordion_b_3" class="panel-collapse collapse" role="tabpanel" data-eid="483">
+                                    <div class="panel-body" data-eid="484">
+                                        <p data-eid="485">
+                                            CloudSms cung cấp SMS Brandname cho 3 nhà mạng chính, đó là: Viettel,
+                                            Mobiphone, Vinaphone.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-default" data-eid="486">
+                                <div class="panel-heading" role="tab" data-eid="487">
+                                    <a
+                                            href="lien-he.html"
+                                            class="collapsed"
+                                            role="button"
+                                            data-parent="#accordion_new"
+                                            data-eid="488"
+                                        >
+                                            <h4 class="panel-title" data-eid="489">
+                                                <i class="fa fa-minus" data-eid="490"></i>
+                                                <div data-eid="491">
+                                                    Quy trình đăng ký dịch vụ SMS Brandname – SMS Marketing của CloudSms
+                                                    là như thế nào?
+                                                </div>
+                                            </h4>
+                                        </a>
+                                </div>
+                                <div id="accordion_b_4" class="panel-collapse collapse" role="tabpanel" data-eid="492">
+                                    <div class="panel-body" data-eid="493">
+                                        <p data-eid="494">
+                                            Để biết thêm về quy trình đăng ký dịch vụ SMS Brandname – SMS Marketing
+                                            của CloudSms, quý doanh nghiệp có thể xem chi tiết tại đường link:
+                                            http://cloudsms.vn/dang-ky-va-quy-dinh-su-dung-sms
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-	
-		<div id="footer" class="footer">
-			<div class="container">
-				<div class="row">
-										<div class="col-md-3 col-sm-6 footer-widget">
-						<h4>Giới thiệu</h4>
-												<div class="img">
-							<img src="images/upload/logo.png" alt="" class="img-responsive lazy" style="float: left;margin-right: 10px;object-fit: cover;object-position: 0 50%;margin-top: 25px;">
-						</div>
-						<div class="title" style="color: #ffffff;text-align: justify;font-size: 14px;    margin-top: 20px;">
-							CloudSms là sản phẩm được nghiên cứu và phát triển bởi  TRUNG TÂM ĐIỆN TOÁN ĐÁM MÂY – CÔNG TY CLOUDSMS giúp các cửa hàng, doanh nghiệp vừa và nhỏ thực hiện các chương trình quảng cáo, tiếp thị một cách hiệu quả nhất, tiết kiệm thời gian nhất và đặc biệt là dễ dàng nhất.﻿						</div>
-					</div>
-					
-					<div class="col-md-3 col-sm-6 footer-widget">
-						<h4>Sản phẩm khác của CloudSms</h4>
-						<ul>
-							<li><a href="#">Hệ thống thoại CSKH, bán hàng</a></li><li><a href="#">Tổng đài doanh nghiệp</a></li><li><a href="#">Hỗ trợ bán hàng Omnichannel</a></li><li><a href="#">Quản lý Live chat, Fanpage</a></li>
-						</ul>
-					</div>
+    <div id="footer" class="footer" data-eid="495">
+        <div class="container" data-eid="496">
+            <div class="row" data-eid="497">
+                <div class="col-md-3 col-sm-6 footer-widget" data-eid="498">
+                    <h4 data-eid="499">Giới thiệu</h4>
+                    <div class="img" data-eid="500">
+                        <img src="images/upload/logo.png" alt="" class="img-responsive lazy"
+                            style="float: left; margin-right: 10px; object-fit: cover; object-position: 0 50%; margin-top: 25px;" data-eid="501" />
+                    </div>
+                    <div class="title" style="color: #ffffff; text-align: justify; font-size: 14px; margin-top: 20px" data-eid="502">
+                        CloudSms là sản phẩm được nghiên cứu và phát triển bởi TRUNG TÂM ĐIỆN TOÁN ĐÁM MÂY – CÔNG TY
+                        CLOUDSMS giúp các cửa hàng, doanh nghiệp vừa và nhỏ thực hiện các chương trình quảng cáo,
+                        tiếp thị một cách hiệu quả nhất, tiết kiệm thời gian nhất và đặc biệt là dễ dàng nhất.﻿
+                    </div>
+                </div>
 
-					<div class="col-md-3 col-sm-6 footer-widget">
-						<h4>ĐĂNG KÝ</h4>
-						<div class="footer--subscribe-widget" data-form-validation="true">
-							<form action="#" method="post">
-								<input type="email" name="EMAIL" placeholder="Nhập địa chỉ email" class="form-control" required="" fdprocessedid="5fkf24">
-								<input type="submit" value="ĐĂNG KÝ" class="btn btn-custom-reverse" fdprocessedid="v588yq">
-							</form>
-						</div>
+                <div class="col-md-3 col-sm-6 footer-widget" data-eid="503">
+                    <h4 data-eid="504">Sản phẩm khác của CloudSms</h4>
+                    <ul data-eid="505">
+                        <li data-eid="506"><a href="#" data-eid="507">Hệ thống thoại CSKH, bán hàng</a></li>
+                        <li data-eid="508"><a href="#" data-eid="509">Tổng đài doanh nghiệp</a></li>
+                        <li data-eid="510"><a href="#" data-eid="511">Hỗ trợ bán hàng Omnichannel</a></li>
+                        <li data-eid="512"><a href="#" data-eid="513">Quản lý Live chat, Fanpage</a></li>
+                    </ul>
+                </div>
 
-						<div class="footer--social-widget" style="margin-top: 15px;">
-							<div class="col-md-6" style="padding:0;">
-								<a href="" target="_blank" rel="nofollow" style="    min-width: 120px;">
-									<img src="images/icon_store/QR_mifone.png">
-								</a>
-							</div>
+                <div class="col-md-3 col-sm-6 footer-widget" data-eid="514">
+                    <h4 data-eid="515">ĐĂNG KÝ</h4>
+                    <div class="footer--subscribe-widget" data-form-validation="true" data-eid="516">
+                        <form action="#" method="post" data-eid="517">
+                            <input type="email" name="EMAIL" placeholder="Nhập địa chỉ email" class="form-control" required="" data-eid="518" />
+                            <input type="submit" value="ĐĂNG KÝ" class="btn btn-custom-reverse" data-eid="519" />
+                        </form>
+                    </div>
 
-							<div class="col-md-6" style="padding:0;">
-								<ul>
-									<li>
-										<a href="" target="_blank" rel="nofollow" style="min-width: 135px;display: inline-block;padding: 6px 0;">
-											<img src="images/icon_store/app_store.png" style="float: left;width: 20%;margin-left: 5%;">
-											<span style="float: left;width: 70%;line-height: 15px;">
-												<p style="margin-bottom: 0;font-size: 9px;">Download on the</p>
-												<span>App Store</span>
-											</span>
-										</a>
-									</li>
-									<li>
-										<a href="" target="_blank" rel="nofollow" style="min-width: 135px;display: inline-block;padding: 6px 0;">
-											<img src="images/icon_store/play-store.png" style="float: left;width: 20%;margin-left: 5%;">
-											<span style="float: left;width: 70%;line-height: 15px;">
-												<p style="margin-bottom: 0;font-size: 8px;">GET IT ON</p>
-												<span>Google Play</span>
-											</span>
-										</a>
-									</li>
-								</ul>
-							</div>
-							<div style="clear: both;"></div>
-						</div>
+                    <div class="footer--social-widget" style="margin-top: 15px" data-eid="520">
+                        <div class="col-md-6" style="padding: 0" data-eid="521">
+                            <a href="" target="_blank" rel="nofollow" style="min-width: 120px" data-eid="522">
+                                    <img src="images/icon_store/QR_mifone.png" data-eid="523" />
+                                </a>
+                        </div>
 
+                        <div class="col-md-6" style="padding: 0" data-eid="524">
+                            <ul data-eid="525">
+                                <li data-eid="526">
+                                    <a
+                                            href=""
+                                            target="_blank"
+                                            rel="nofollow"
+                                            style="min-width: 135px; display: inline-block; padding: 6px 0"
+                                            data-eid="527"
+                                        >
+                                            <img
+                                                src="images/icon_store/app_store.png"
+                                                style="float: left; width: 20%; margin-left: 5%"
+                                                data-eid="528"
+                                            />
+                                            <span style="float: left; width: 70%; line-height: 15px" data-eid="529">
+                                                <p style="margin-bottom: 0; font-size: 9px" data-eid="530">
+                                                    Download on the
+                                                </p>
+                                                <span data-eid="531">App Store</span>
+                                            </span>
+                                        </a>
+                                </li>
+                                <li data-eid="532">
+                                    <a
+                                            href=""
+                                            target="_blank"
+                                            rel="nofollow"
+                                            style="min-width: 135px; display: inline-block; padding: 6px 0"
+                                            data-eid="533"
+                                        >
+                                            <img
+                                                src="images/icon_store/play-store.png"
+                                                style="float: left; width: 20%; margin-left: 5%"
+                                                data-eid="534"
+                                            />
+                                            <span style="float: left; width: 70%; line-height: 15px" data-eid="535">
+                                                <p style="margin-bottom: 0; font-size: 8px" data-eid="536">GET IT ON</p>
+                                                <span data-eid="537">Google Play</span>
+                                            </span>
+                                        </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div style="clear: both" data-eid="538"></div>
+                    </div>
 
+                    <div class="footer--social-widget" style="margin-top: 15px" data-eid="539">
+                        <p data-eid="540">THEO DÕI:</p>
+                        <ul data-eid="541">
+                            <li data-eid="542">
+                                <a
+                                        href="https://www.facebook.com/CloudSms.vn/"
+                                        target="_blank"
+                                        rel="nofollow"
+                                        data-eid="543"
+                                    >
+                                        <i class="fa fa-facebook" data-eid="544"></i
+                                    ></a>
+                            </li>
+                            <li data-eid="545">
+                                <a
+                                        href="https://www.youtube.com/channel/UC_GUS6PQA981lzvKG9NPz7Q"
+                                        target="_blank"
+                                        rel="nofollow"
+                                        data-eid="546"
+                                        ><i class="fa fa-youtube" data-eid="547"></i
+                                    ></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-						<div class="footer--social-widget" style="margin-top: 15px;">
-							<p>THEO DÕI:</p>
-							<ul>
-								<li><a href="https://www.facebook.com/CloudSms.vn/" target="_blank" rel="nofollow">
-										<i class="fa fa-facebook"></i></a></li>
-								<li><a href="https://www.youtube.com/channel/UC_GUS6PQA981lzvKG9NPz7Q" target="_blank" rel="nofollow"><i class="fa fa-youtube"></i></a></li>
-							</ul>
-						</div>
+    <div id="copyright" data-eid="548">
+        <div class="wrap-copy-right" style="font-size: 11px" data-eid="549">
+            <p style="color: #c5c5c5; height: 20px; display: inline-block" data-eid="550">
+                © 2021. © 2021. CloudSms Vietnam
+            </p>
+            <p data-eid="551">
+                <a href="chinh-sach-bao-mat" style="color: #d8d8d8; margin-top: 0" data-eid="552"
+                        >Chính sách bảo mật và hoàn tiền </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a
+                        href="dieu-khoan-su-dung"
+                        style="color: #d8d8d8; margin-top: 0"
+                        data-eid="553"
+                        >Điều khoản sử dụng dịch vụ</a>
+            </p>
+        </div>
+    </div>
 
+    <div id="backToTop" data-eid="554">
+        <a href="#" data-eid="555">
+                <i class="fa fa-angle-up" data-eid="556"></i>
+            </a>
+    </div>
+    <div style="height: 44px; background: #191e29" data-eid="557"></div>
 
-					</div>
-				</div>
-			</div>
-		</div>
+    <div id="fixed-bottom" class="hidden-xs" style="display: none" data-eid="558">
+        <div class="container" data-eid="559">
+            <div class="row" data-eid="560">
+                <div class="col-sm-3" data-eid="561">
+                    <a href="#" class="a-bottom" data-eid="562">
+                            <i class="fa fa-pencil-square" data-eid="563"></i>
+                            <span data-eid="564">Hỗ trợ 24/7</span>
+                        </a>
+                </div>
+                <div class="col-sm-3" data-eid="565">
+                    <a href="huong-dan-dang-ky.html" class="a-bottom" data-eid="566">
+                            <i class="fa fa-envelope-o" data-eid="567"></i>
+                            <span data-eid="568">Hướng dẫn đăng ký</span>
+                        </a>
+                </div>
+                <div class="col-sm-3" data-eid="569">
+                    <a href="bao-gia.html" class="a-bottom" data-eid="570">
+                            <i class="fa fa-shopping-cart" data-eid="571"></i>
+                            <span data-eid="572">Xem báo giá triển khai CloudSms</span>
+                        </a>
+                </div>
+                <div class="col-sm-3 active-hover-footer" data-eid="573">
+                    <a href="lien-he.html" class="a-bottom" data-eid="574">
+                            <i class="glyphicon glyphicon-earphone" data-eid="575"></i>
+                            <span data-eid="576">Gọi tư vấn: +84 969800618 </span>
+                        </a>
+                </div>
+            </div>
+        </div>
+        <div id="hover-footer" class="hover-footer" data-eid="577"></div>
+    </div>
 
-	
-	<div id="copyright">
-		<div class="wrap-copy-right" style="font-size:11px;">
-					<p style="color:#c5c5c5;height:20px;display:inline-block;">© 2021. © 2021. CloudSms Vietnam</p>
-					<p><a href="chinh-sach-bao-mat" style="color:#d8d8d8;margin-top:0;">Chính sách bảo mật và hoàn tiền </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="dieu-khoan-su-dung" style="color:#d8d8d8;margin-top:0;">Điều khoản sử dụng dịch vụ</a></p>
-				</div>
-	</div>
+    <div id="fix-left" class="hidden-xs" data-eid="578">
+        <div class="control" data-eid="579">
+            <div id="register-fixed" class="div-control hidden" data-eid="580">
+                <img src="images/upload/fix-register.png" style="height: 31px; display: block; margin: 0 auto; margin-bottom: 3px" data-eid="581" />
+                <span data-eid="582">Đăng ký demo</span>
+            </div>
+        </div>
+        <div class="content" data-eid="583">
+            <div id="box-register-fixed" class="box-all-fixed" data-eid="584">
+                <div class="closed-box" data-eid="585">
+                    <i class="fa fa-remove" data-eid="586"></i>
+                </div>
+                <div style="padding: 10px 25px" data-eid="587">
+                    <div class="title" data-eid="588">
+                        <label data-eid="589">ĐĂNG KÝ DEMO</label>
+                        <span data-eid="590">(Vui lòng để lại thông tin, chúng tôi sẽ liên hệ với bạn)</span>
+                    </div>
+                    <form action="" method="POST" class="form-horizontal text-center" role="form" onsubmit="submitFormRegister(this); return false;"
+                        data-eid="591">
+                        <input name="company" class="form-control input-sm" required="required" placeholder="Tên công ty" data-eid="592" />
+                        <input name="name" class="form-control input-sm" required="required" placeholder="Người liên hệ" data-eid="593" />
+                        <input name="phone" class="form-control input-sm" required="required" placeholder="Số điện thoại" data-eid="594" />
+                        <input name="email" class="form-control input-sm" required="required" placeholder="Email" type="email" data-eid="595" />
+                        <select name="location" id="input" class="form-control input-sm" data-eid="596">
+                            <option value="" data-eid="597">Khu vực hiện tại</option>
+                            <option value="Hồ Chí Minh" data-eid="598">Hồ Chí Minh</option>
+                            <option value="Hà Nội" data-eid="599">Hà Nội</option>
+                            <option value="Khác" data-eid="600">Khác</option>
+                        </select>
 
-	<div id="backToTop">
-		<a href="#">
-			<i class="fa fa-angle-up"></i>
-		</a>
-	</div>
-	<div style="height: 44px;background: #191e29"></div>
-
-			<div id="fixed-bottom" class="hidden-xs" style="display: none;">
-			<div class="container">
-				<div class="row">
-					<div class="col-sm-3 ">
-						<a href="#" class="a-bottom">
-							<i class="fa  fa-pencil-square"></i>
-							<span>Hỗ trợ 24/7</span>
-						</a>
-					</div><div class="col-sm-3 ">
-						<a href="huong-dan-dang-ky.html" class="a-bottom">
-							<i class="fa  fa-envelope-o"></i>
-							<span>Hướng dẫn đăng ký</span>
-						</a>
-					</div><div class="col-sm-3 ">
-						<a href="bao-gia.html" class="a-bottom">
-							<i class="fa  fa-shopping-cart"></i>
-							<span>Xem báo giá triển khai CloudSms</span>
-						</a>
-					</div><div class="col-sm-3 active-hover-footer">
-						<a href="lien-he.html" class="a-bottom">
-							<i class="glyphicon glyphicon-earphone"></i>
-							<span>Gọi tư vấn: +84 969800618 </span>
-						</a>
-					</div>
-				</div>
-			</div>
-			<div id="hover-footer" class="hover-footer">
-			</div>
-		</div>
-
-		<div id="fix-left" class="hidden-xs">
-			<div class="control">
-
-				<div id="register-fixed" class="div-control hidden">
-					<img src="images/upload/fix-register.png" style="height: 31px;display: block;margin: 0 auto;margin-bottom: 3px;">
-					<span>Đăng ký demo</span>
-				</div>
-			</div>
-			<div class="content">
-								<div id="box-register-fixed" class="box-all-fixed">
-					<div class="closed-box">
-						<i class="fa fa-remove"></i>
-					</div>
-					<div style="padding: 10px 25px">
-						<div class="title">
-							<label>ĐĂNG KÝ DEMO</label>
-							<span>(Vui lòng để lại thông tin, chúng tôi sẽ liên hệ với bạn)</span>
-						</div>
-						<form action="" method="POST" class="form-horizontal text-center" role="form" onsubmit="submitFormRegister(this);return false;">
-
-							<input name="company" class="form-control input-sm" required="required" placeholder="Tên công ty">
-							<input name="name" class="form-control input-sm" required="required" placeholder="Người liên hệ">
-							<input name="phone" class="form-control input-sm" required="required" placeholder="Số điện thoại">
-							<input name="email" class="form-control input-sm" required="required" placeholder="Email" type="email">
-							<select name="location" id="input" class="form-control input-sm">
-								<option value="">Khu vực hiện tại</option>
-								<option value="Hồ Chí Minh">Hồ Chí Minh</option>
-								<option value="Hà Nội">Hà Nội</option>
-								<option value="Khác">Khác</option>
-							</select>
-
-							<button name="submit" type="submit" class="btn btn-success btn-sm">Đăng ký</button>
-							<!-- <input name='submit' type="submit" class="btn btn-success btn-sm" value="Đăng ký"> -->
-
-						</form>
-					</div>
-				</div>
-				<div id="box-staff_online" class="box-all-fixed">
-					<div class="closed-box">
-						<i class="fa fa-remove"></i>
-					</div>
-					<!-- <div class='title text-center' style='margin: 20px 25px 10px'>
+                        <button name="submit" type="submit" class="btn btn-success btn-sm" data-eid="601">
+                            Đăng ký
+                        </button>
+                        <!-- <input name='submit' type="submit" class="btn btn-success btn-sm" value="Đăng ký"> -->
+                    </form>
+                </div>
+            </div>
+            <div id="box-staff_online" class="box-all-fixed" data-eid="602">
+                <div class="closed-box" data-eid="603">
+                    <i class="fa fa-remove" data-eid="604"></i>
+                </div>
+                <!-- <div class='title text-center' style='margin: 20px 25px 10px'>
 					<label style='margin: 0'>NHÂN VIÊN HỖ TRỢ</label>
 					<span>(Hãy gọi cho nhân viên hỗ trợ để được tư vấn nhanh nhất)</span>
 				</div> -->
-					<div style="padding: 5px 10px;">
-						<!-- <ul>
+                <div style="padding: 5px 10px" data-eid="605">
+                    <!-- <ul>
 						
 					</ul>
 					<hr> -->
-						<div class="title text-center call-us">
-							<label style="margin: 0">CHĂM SÓC KHÁCH HÀNG</label>
-							<span>(Mọi thắc mắc cần hỗ trợ xin gọi 19001238)</span>
-						</div>
+                    <div class="title text-center call-us" data-eid="606">
+                        <label style="margin: 0" data-eid="607">CHĂM SÓC KHÁCH HÀNG</label>
+                        <span data-eid="608">(Mọi thắc mắc cần hỗ trợ xin gọi 19001238)</span>
+                    </div>
 
-						<form action="" method="POST" class="form-horizontal text-center" role="form" onsubmit="submitFormSupport(this);return false;">
+                    <form action="" method="POST" class="form-horizontal text-center" role="form" onsubmit="submitFormSupport(this); return false;"
+                        data-eid="609">
 
+                    </form>
 
-							<!-- <script type="text/javascript" id="src8a6dbf554746d73e62de6e21509b6ee24a0f84dd91471107bf6a1dfce1d62fc0">var xhttpctfmd=new XMLHttpRequest();xhttpctfmd.timeout=5000;xhttpctfmd.onreadystatechange=function(){if(this.readyState==4&&this.status==200){(function(d){var p=d.createElement("script");p.type="text/javascript";p.src = "https://cskh.midesk.vn/embed-form/8a6dbf554746d73e62de6e21509b6ee2/4a0f84dd91471107bf6a1dfce1d62fc0";var c = document.getElementById("src8a6dbf554746d73e62de6e21509b6ee24a0f84dd91471107bf6a1dfce1d62fc0");c.parentNode.insertBefore(p,c)}(document))}};xhttpctfmd.ontimeout=function(e){console.log("Request Timeout")};xhttpctfmd.open("GET","https://cskh.midesk.vn/checkConnect",!0);xhttpctfmd.send()</script> -->
+                    <a
+                            href="https://m.me/mitek.vn"
+                            target="_blank"
+                            style="color: #333; position: relative; margin-top: 10px; display: table"
+                            data-eid="610"
+                        >
+                            <i
+                                class="fa fa-facebook-square fa-2x"
+                                aria-hidden="true"
+                                style="color: #155e90; font-size: 23px; margin-right: 5px"
+                                data-eid="611"
+                            ></i>
+                            <span style="position: relative; top: -3px; color: #326c9e" data-eid="612"
+                                >Inbox facebook</span
+                            >
+                        </a>
+                </div>
+            </div>
+            <div id="box-visibled-fixed" class="box-all-fixed" data-eid="613"></div>
+        </div>
+    </div>
 
+    <!-- Core Script Libraries in Correct Order -->
+    <script src="js/jquery-3.7.0.min.js" data-eid="614"></script>
+    <script src="js/bootstrap.min.js" data-eid="615"></script>
+    <script src="js/jquery-ui.min.js" data-eid="616"></script>
+    <script src="js/owl.carousel.min.js" data-eid="617"></script>
+    <script src="js/jquery.magnific-popup.min.js" data-eid="618"></script>
+    <script src="js/main.js" data-eid="619"></script>
+    <script src="js/custom-js.js" data-eid="620"></script>
 
-						</form>
+    <!-- Carousel & Interactive Components Initializer -->
+    <script data-eid="621">
+        (function($) {
+            $(document).ready(function() {
+                // 1. Banner Slider Init
+                var $banner = $(".banner-slider");
+                if ($banner.length && $.fn.owlCarousel) {
+                    if (!$banner.data("owlCarousel")) {
+                        $banner.owlCarousel({
+                            slideSpeed: 800,
+                            paginationSpeed: 800,
+                            singleItem: true,
+                            autoPlay: 6000,
+                            stopOnHover: true,
+                            addClassActive: true,
+                            pagination: true,
+                            navigation: false,
+                        });
+                    }
+                }
+                // 2. Partner Carousel Init
+                var $partner = $("#partner-slide, .partner-slide");
+                if ($partner.length && $.fn.owlCarousel) {
+                    if (!$partner.data("owlCarousel")) {
+                        $partner.owlCarousel({
+                            items: 6,
+                            itemsDesktop: [1199, 5],
+                            itemsDesktopSmall: [991, 4],
+                            itemsTablet: [768, 3],
+                            itemsMobile: [479, 2],
+                            autoPlay: 3500,
+                            slideSpeed: 600,
+                            paginationSpeed: 600,
+                            pagination: false,
+                            navigation: false,
+                            stopOnHover: true,
+                        });
+                    }
+                    $(".partner-next")
+                        .off("click")
+                        .on("click", function(e) {
+                            e.preventDefault();
+                            $partner.trigger("owl.next");
+                        });
+                    $(".partner-prev")
+                        .off("click")
+                        .on("click", function(e) {
+                            e.preventDefault();
+                            $partner.trigger("owl.prev");
+                        });
+                }
+                // Tab Click Navigation
+                $('.features-tab--nav a[data-toggle="tab"]').on("click", function(e) {
+                    e.preventDefault();
+                    $(this).tab("show");
+                    $(this).closest("ul").find("li").removeClass("active");
+                    $(this).parent("li").addClass("active");
+                });
+            });
+        })(jQuery);
 
-						<a href="https://m.me/mitek.vn" target="_blank" style="color: #333;position:relative;    margin-top: 10px;display: table;">
-							<i class="fa fa-facebook-square fa-2x" aria-hidden="true" style="color: #155e90;font-size: 23px;margin-right: 5px;"></i>
-							<span style="position: relative;top: -3px;color: #326c9e;">Inbox facebook</span>
-						</a>
-					</div>
-				</div>
-				<div id="box-visibled-fixed" class="box-all-fixed"></div>
-			</div>
-		</div>
-	
-	
+    </script>
 
-	<!-- Plugin FB - Zalo -->
-		<!-- Plugin FB - Zalo -->
+    <div id="pricing_all" data-eid="622">
+        <div class="content" data-eid="623">
+            <div class="box-head" data-eid="624">
+                <span class="title" data-eid="625">BẢNG BÁO GIÁ DỊCH VỤ MIPBX</span>
+                <div class="pull-right" onclick="hidePricingAll(this)" data-eid="626">
+                    <i class="fa fa-remove" data-eid="627"></i>
+                </div>
+            </div>
+            <div class="box-body" data-eid="628"></div>
+            <div class="box-foot" data-eid="629"></div>
+        </div>
+    </div>
 
+    <style data-eid="630">
+        .box-backdrop {
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 1040;
+            background-color: #000;
+        }
 
+        .box-backdrop.in {
+            opacity: 0.5;
+        }
 
-	<!-- Plugin Video -->
-		<!-- Plugin Video -->
+    </style>
 
+    <div class="box-backdrop fade" data-eid="631"></div>
 
+    <!-- EXTENSION -->
+    <div id="addExtension" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false" style="z-index: 9999" data-eid="632">
+        <div class="modal-dialog" data-eid="633">
+            <div class="modal-content" data-eid="634">
+                <form action="https://cloudsms.vn/them-ipphone" method="POST" onsubmit="addExtension(this); return false;" data-eid="635">
+                    <div class="modal-header" data-eid="636">
+                        <button type="button" class="close" data-dismiss="modal" data-eid="637">×</button>
+                        <h4 class="modal-title" data-eid="638">Chọn thiết bị đầu cuối IP Phone cần triển khai</h4>
+                    </div>
+                    <div class="modal-body" style="display: table" data-eid="639">
+                        <div class="form-group" data-eid="640">
+                            <label class="col-sm-12" data-eid="641">Điện thoại IP Phone</label>
+                            <div class="col-sm-12" data-eid="642">
+                                <select name="ipphone" id="input" class="form-control" data-eid="643">
+                                    <option value="17" data-eid="644">Điện Thoại IP PHONE GXP1610 (900.000 đ/máy)</option>
+                                    <option value="18" data-eid="645">Điện thoại IP PHONE T20P (1.544.000 đ/máy)</option>
+                                    <option value="19" data-eid="646">Điện thoại Yealink T19 E2 (1.100.000 đ/máy)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group" data-eid="647">
+                            <label class="col-sm-12" data-eid="648">Số lượng</label>
+                            <div class="col-sm-12" data-eid="649">
+                                <select name="qty" id="input" class="form-control" data-eid="650">
+                                    <option value="1" data-eid="651">1 máy</option>
+                                    <option value="2" data-eid="652">2 máy</option>
+                                    <option value="3" data-eid="653">3 máy</option>
+                                    <option value="4" data-eid="654">4 máy</option>
+                                    <option value="5" data-eid="655">5 máy</option>
+                                    <option value="6" data-eid="656">6 máy</option>
+                                    <option value="7" data-eid="657">7 máy</option>
+                                    <option value="8" data-eid="658">8 máy</option>
+                                    <option value="9" data-eid="659">9 máy</option>
+                                    <option value="10" data-eid="660">10 máy</option>
+                                    <option value="11" data-eid="661">11 máy</option>
+                                    <option value="12" data-eid="662">12 máy</option>
+                                    <option value="13" data-eid="663">13 máy</option>
+                                    <option value="14" data-eid="664">14 máy</option>
+                                    <option value="15" data-eid="665">15 máy</option>
+                                    <option value="16" data-eid="666">16 máy</option>
+                                    <option value="17" data-eid="667">17 máy</option>
+                                    <option value="18" data-eid="668">18 máy</option>
+                                    <option value="19" data-eid="669">19 máy</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div style="font-size: 13px; color: #464646; font-style: italic; padding-top: 5px; display: table;" data-eid="670">
+                            <small data-eid="671"
+                                    >(*) Nhấn "<b data-eid="672">Bỏ qua</b>" nếu bạn đã có thiết bị đầu cuối</small>
+                        </div>
+                    </div>
 
-	
-	
+                    <div class="modal-footer text-center" style="text-align: center" data-eid="673">
+                        <button type="button" class="btn btn-success btn-sm" onclick="nextModuleServer(this)" data-eid="674">
+                            Bỏ qua
+                        </button>
+                        <input type="submit" name="add-ext" class="btn btn-success btn-sm" value="Tiếp theo" data-eid="675" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
-<!-- Core Script Libraries in Correct Order -->
-	<script src="js/jquery-3.7.0.min.js"></script>
-	<script src="js/bootstrap.min.js"></script>
-	<script src="js/jquery-ui.min.js"></script>
-	<script src="js/owl.carousel.min.js"></script>
-	<script src="js/jquery.magnific-popup.min.js"></script>
-	<script src="js/main.js"></script>
-	<script src="js/custom-js.js"></script>
+    <!-- MODULE SERVICE -->
+    <div id="addModuleService" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false" style="z-index: 9999" data-eid="676">
+        <div class="modal-dialog" data-eid="677">
+            <div class="modal-content" data-eid="678">
+                <form action="https://cloudsms.vn/them-ipphone" method="POST" onsubmit="addExtension(this); return false;" data-eid="679">
+                    <div class="modal-header" data-eid="680">
+                        <button type="button" class="close" data-dismiss="modal" data-eid="681">×</button>
+                        <h4 class="modal-title" data-eid="682">
+                                Chọn Module tiện ích quản lý &amp; tích hợp cộng thêm (nếu có)
+                            </h4>
+                    </div>
+                    <div class="modal-body" data-eid="683">
+                        <ul class="module-ul" data-eid="684"></ul>
+                        <div style="font-size: 13px; color: #464646; font-style: italic; padding-top: 5px; display: table;" data-eid="685">
+                            <small data-eid="686">(*) "<b data-eid="687">Module</b>" tùy chọn không bắt buộc</small>
+                        </div>
+                    </div>
+                    <div class="modal-footer text-center" style="text-align: center" data-eid="688">
+                        <button type="button" class="btn btn-success btn-sm" data-dismiss="modal" onclick="showPricingAll()" data-eid="689">
+                            Xem báo giá
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
-	<!-- Carousel & Interactive Components Initializer -->
-	<script>
-		(function($) {
-			$(document).ready(function() {
-				// 1. Banner Slider Init
-				var $banner = $('.banner-slider');
-				if ($banner.length && $.fn.owlCarousel) {
-					if (!$banner.data('owlCarousel')) {
-						$banner.owlCarousel({
-							slideSpeed: 800,
-							paginationSpeed: 800,
-							singleItem: true,
-							autoPlay: 6000,
-							stopOnHover: true,
-							addClassActive: true,
-							pagination: true,
-							navigation: false
-						});
-					}
-				}
+    <!-- RECEIVE PRICING -->
+    <div id="receivePricing" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false" style="z-index: 9999" data-eid="690">
+        <div class="modal-dialog" data-eid="691">
+            <div class="modal-content" data-eid="692">
+                <div class="modal-content" data-eid="693">
+                    <form action="" method="POST" onsubmit="receivePricingSubmit(this); return false;" data-eid="694">
+                        <div class="modal-header" data-eid="695">
+                            <button type="button" class="close" data-dismiss="modal" data-eid="696">×</button>
+                            <h4 class="modal-title" data-eid="697">Thông tin hỗ trợ tư vấn</h4>
+                        </div>
+                        <div class="modal-body" style="display: table; width: 100%" data-eid="698">
+                            <div class="copy-support" style="display: table; width: 100%" data-eid="699">
+                                <div class="title text-center call-us" style="margin: 0 0 10px" data-eid="700">
+                                    <label style="margin: 0; font-family: &quot;Roboto&quot;, sans-serif" data-eid="701">NHÂN VIÊN HỖ
+                                        TRỢ</label>
+                                </div>
+                                <ul data-eid="702"></ul>
+                            </div>
 
-				// 2. Partner Carousel Init
-				var $partner = $('#partner-slide, .partner-slide');
-				if ($partner.length && $.fn.owlCarousel) {
-					if (!$partner.data('owlCarousel')) {
-						$partner.owlCarousel({
-							items: 6,
-							itemsDesktop: [1199, 5],
-							itemsDesktopSmall: [991, 4],
-							itemsTablet: [768, 3],
-							itemsMobile: [479, 2],
-							autoPlay: 3500,
-							slideSpeed: 600,
-							paginationSpeed: 600,
-							pagination: false,
-							navigation: false,
-							stopOnHover: true
-						});
-					}
+                            <hr style="margin-top: 15px; margin-bottom: 10px" data-eid="703" />
 
-					$('.partner-next').off('click').on('click', function(e) {
-						e.preventDefault();
-						$partner.trigger('owl.next');
-					});
-					$('.partner-prev').off('click').on('click', function(e) {
-						e.preventDefault();
-						$partner.trigger('owl.prev');
-					});
-				}
+                            <div class="" style="margin: 0; padding: 0" data-eid="704">
+                                <div class="title text-center call-us" style="margin: 0 0 10px" data-eid="705">
+                                    <label style="margin: 0; font-family: &quot;Roboto&quot;, sans-serif" data-eid="706">THÔNG TIN NHẬN BÁO
+                                        GIÁ</label>
+                                </div>
+                                <div class="col-sm-4" data-eid="707">
+                                    <input type="name" name="name" class="form-control input-sm" required="required" placeholder="Tên của tôi" data-eid="708" />
+                                </div>
+                                <div class="col-sm-4" data-eid="709">
+                                    <input type="email" name="email" class="form-control input-sm" required="required" placeholder="Email của tôi"
+                                        data-eid="710" />
+                                </div>
+                                <div class="col-sm-4" data-eid="711">
+                                    <input type="phone" name="phone" class="form-control input-sm" required="required" placeholder="Điện thoại của tôi"
+                                        data-eid="712" />
+                                </div>
+                                <div class="col-sm-12 text-center" style="margin: 10px" data-eid="713">
+                                    <button name="submit" type="submit" class="btn btn-success btn-sm" data-eid="714">
+                                        Gửi cho tôi
+                                    </button>
+                                </div>
 
-				// Tab Click Navigation
-				$('.features-tab--nav a[data-toggle="tab"]').on('click', function(e) {
-					e.preventDefault();
-					$(this).tab('show');
-					$(this).closest('ul').find('li').removeClass('active');
-					$(this).parent('li').addClass('active');
-				});
-			});
-		})(jQuery);
-	</script>
+                                <div class="col-sm-12" style="font-size: 13px; color: #464646; font-style: italic; padding-top: 5px; line-height: 13px;"
+                                    data-eid="715">
+                                    <small data-eid="716">
+                                            (*) Bán sẽ nhận được "<b data-eid="717">Bảng báo giá</b>" trong thời gian
+                                            sớm nhất
+                                        </small>
+                                </div>
+                            </div>
+                        </div>
 
-
-
-			
-		<div id="pricing_all">
-			<div class="content">
-				<div class="box-head">
-					<span class="title">BẢNG BÁO GIÁ DỊCH VỤ MIPBX</span>
-					<div class="pull-right" onclick="hidePricingAll(this)"><i class="fa fa-remove"></i></div>
-				</div>
-				<div class="box-body">
-
-				</div>
-				<div class="box-foot"></div>
-			</div>
-		</div>
-
-		<style>
-			.box-backdrop {
-				top: 0;
-				right: 0;
-				bottom: 0;
-				left: 0;
-				z-index: 1040;
-				background-color: #000;
-			}
-
-			.box-backdrop.in {
-				opacity: .5;
-			}
-		</style>
-
-		<div class="box-backdrop fade"></div>
-
-
-		<!-- EXTENSION -->
-		<div id="addExtension" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false" style="z-index: 9999">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<form action="https://cloudsms.vn/them-ipphone" method="POST" onsubmit="addExtension(this);return false;">
-						<div class="modal-header">
-							<button type="button" class="close" data-dismiss="modal">×</button>
-							<h4 class="modal-title">Chọn thiết bị đầu cuối IP Phone cần triển khai</h4>
-						</div>
-						<div class="modal-body" style="display: table;">
-							<div class="form-group">
-								<label class="col-sm-12">Điện thoại IP Phone</label>
-								<div class="col-sm-12">
-									<select name="ipphone" id="input" class="form-control">
-										<option value="17">Điện Thoại IP PHONE GXP1610 (900.000 đ/máy)</option><option value="18">Điện thoại IP PHONE T20P (1.544.000 đ/máy)</option><option value="19">Điện thoại Yealink T19 E2 (1.100.000 đ/máy)</option>									</select>
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-sm-12">Số lượng</label>
-								<div class="col-sm-12">
-									<select name="qty" id="input" class="form-control">
-										<option value="1">1 máy</option><option value="2">2 máy</option><option value="3">3 máy</option><option value="4">4 máy</option><option value="5">5 máy</option><option value="6">6 máy</option><option value="7">7 máy</option><option value="8">8 máy</option><option value="9">9 máy</option><option value="10">10 máy</option><option value="11">11 máy</option><option value="12">12 máy</option><option value="13">13 máy</option><option value="14">14 máy</option><option value="15">15 máy</option><option value="16">16 máy</option><option value="17">17 máy</option><option value="18">18 máy</option><option value="19">19 máy</option>									</select>
-								</div>
-							</div>
-							<div style="font-size: 13px;color: #464646;font-style: italic;    padding-top: 5px;    display: table;">
-								<small>(*) Nhấn "<b>Bỏ qua</b>" nếu bạn đã có thiết bị đầu cuối</small>
-							</div>
-						</div>
-
-						<div class="modal-footer  text-center" style="text-align: center;">
-							<button type="button" class="btn btn-success btn-sm" onclick="nextModuleServer(this)">Bỏ qua</button>
-							<input type="submit" name="add-ext" class="btn btn-success btn-sm" value="Tiếp theo">
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
-
-
-		<!-- MODULE SERVICE -->
-		<div id="addModuleService" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false" style="z-index: 9999">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<form action="https://cloudsms.vn/them-ipphone" method="POST" onsubmit="addExtension(this);return false;">
-						<div class="modal-header">
-							<button type="button" class="close" data-dismiss="modal">×</button>
-							<h4 class="modal-title">Chọn Module tiện ích quản lý &amp; tích hợp cộng thêm (nếu có)</h4>
-						</div>
-						<div class="modal-body">
-							<ul class="module-ul">
-							</ul>
-							<div style="font-size: 13px;color: #464646;font-style: italic;    padding-top: 5px;    display: table;">
-								<small>(*) "<b>Module</b>" tùy chọn không bắt buộc</small>
-							</div>
-						</div>
-						<div class="modal-footer  text-center" style="text-align: center;">
-							<button type="button" class="btn btn-success btn-sm" data-dismiss="modal" onclick="showPricingAll()">Xem báo giá</button>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
-
-		<!-- RECEIVE PRICING -->
-		<div id="receivePricing" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false" style="z-index: 9999">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-content">
-						<form action="" method="POST" onsubmit="receivePricingSubmit(this);return false;">
-							<div class="modal-header">
-								<button type="button" class="close" data-dismiss="modal">×</button>
-								<h4 class="modal-title">Thông tin hỗ trợ tư vấn</h4>
-							</div>
-							<div class="modal-body" style="display: table;width: 100%">
-								<div class="copy-support" style="display: table;width: 100%">
-									<div class="title text-center call-us" style="margin: 0 0 10px;">
-										<label style="margin: 0;font-family: &quot;Roboto&quot;,sans-serif;">NHÂN VIÊN HỖ TRỢ</label>
-									</div>
-									<ul>
-																			</ul>
-
-								</div>
-
-								<hr style="margin-top: 15px;margin-bottom: 10px;">
-
-								<div class="" style="margin: 0; padding: 0">
-									<div class="title text-center call-us" style="margin: 0 0 10px">
-										<label style="margin: 0;font-family: &quot;Roboto&quot;,sans-serif;">THÔNG TIN NHẬN BÁO GIÁ</label>
-									</div>
-									<div class="col-sm-4">
-										<input type="name" name="name" class="form-control input-sm" required="required" placeholder="Tên của tôi">
-									</div>
-									<div class="col-sm-4">
-										<input type="email" name="email" class="form-control input-sm" required="required" placeholder="Email của tôi">
-									</div>
-									<div class="col-sm-4">
-										<input type="phone" name="phone" class="form-control input-sm" required="required" placeholder="Điện thoại của tôi">
-									</div>
-									<div class="col-sm-12 text-center" style="margin: 10px;">
-										<button name="submit" type="submit" class="btn btn-success btn-sm">Gửi cho tôi</button>
-									</div>
-
-									<div class="col-sm-12" style="font-size: 13px;color: #464646;font-style: italic;    padding-top: 5px;    line-height: 13px;">
-										<small>
-											(*) Bán sẽ nhận được "<b>Bảng báo giá</b>" trong thời gian sớm nhất
-										</small>
-									</div>
-
-
-
-								</div>
-							</div>
-
-							<!--  <div class="modal-footer text-center" style='text-align: center;'>
+                        <!--  <div class="modal-footer text-center" style='text-align: center;'>
                 	
                 </div> -->
-						</form>
-					</div>
-				</div>
-			</div>
-		</div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
-	
+    <script data-eid="718">
+        $(window).on("scroll load resize", function() {
+            if ($(window).scrollTop() > 530) {
+                $("#scrollspy_slide").addClass("scrollspy_slide-fix");
+            } else $("#scrollspy_slide").removeClass("scrollspy_slide-fix");
+            if ($("#spy_scroll_box").length > 0) {
+                if ($(window).scrollTop() >= $("#spy_scroll_box").offset().top && $(window).scrollTop() > 120) {
+                    $("#spy_scroll").addClass("spy_scroll-fixed");
+                } else $("#spy_scroll").removeClass("spy_scroll-fixed");
+            }
+        });
+        $(".scrollspy").click(function(event) {
+            var height = $("#spy_scroll").innerHeight();
+            if ($(this).parent().is(":first-child")) {
+                if ($("#spy_scroll").hasClass("spy_scroll-fixed"))
+                    $("html, body").animate({
+                        scrollTop: $($(this).attr("href")).offset().top
+                    }, 500);
+                else $("html, body").animate({
+                    scrollTop: $($(this).attr("href")).offset().top - height
+                }, 500);
+            } else {
+                if ($("#spy_scroll").hasClass("spy_scroll-fixed"))
+                    $("html, body").animate({
+                        scrollTop: $($(this).attr("href")).offset().top - height + 10
+                    }, 500);
+                else
+                    $("html, body").animate({
+                            scrollTop: $($(this).attr("href")).offset().top - height - height + 10
+                        },
+                        500,
+                    );
+            }
+        });
+        var offset_height = $("#spy_scroll").innerHeight();
+        $("body").scrollspy({
+            target: ".navbar_scroll_tss",
+            offset: offset_height
+        });
 
-	<script type="text/javascript">
-		function webcallback(itme) {
-			let phone = $(itme).find('input[name=phone]').val();
+    </script>
+</body>
 
-			if (phone.length != 10) {
-				alert("Vui lòng nhập đúng số di động của bạn");
-				return false;
-			}
-			var check_phone = phone.substring(0, 2);
-
-			if (["09", "08", "07", "05", "03"].includes(check_phone) == false) {
-				alert("Vui lòng nhập đúng số di động của bạn !");
-				return false;
-			}
-
-			$.ajax({
-				url: "https://callcenter-07ami.midesk.vn/callQueues/" + phone,
-				type: "GET",
-				success: function(data) {
-					if (data.status == 'true') {
-						alert("Sau khi để lại số điện thoại, tư vấn viên của chúng tôi sẽ gọi lại ngay cho bạn. Xin cảm ơn !");
-					} else {
-						alert(data.message);
-					}
-					$('#modal-webcallback').modal('hide');
-					$(itme).find('input[name=phone]').val('');
-					$(itme).find('button[type=submit]').removeAttr('disabled').find('i').remove();
-
-				},
-				beforeSend: function(data) {
-					$(itme).find('button[type=submit]').append('<i class="fa fa-spinner fa-pulse" style="margin-left: 5px !important;font-size: 12px;"></i>').attr('disabled', 'disabled');
-				},
-				complete: function(data) {}
-			});
-
-		}
-	</script>
-	<style>
-		#modal-webcallback .modal-dialog {
-			width: 500px;
-			margin-top: 10%;
-		}
-
-		#modal-webcallback .modal-body {
-			padding-top: 0;
-		}
-
-		#modal-webcallback .modal-body.noted {
-			padding-top: 0;
-			font-size: 14px;
-		}
-
-		#modal-webcallback .modal-body input.input-phone {
-			width: calc(100% - 110px);
-			float: left;
-		}
-
-		#modal-webcallback .modal-body button.btn-phone {
-			width: 100px;
-			float: left;
-			margin-left: 10px;
-		}
-
-		.webcallback {
-			position: fixed;
-			left: 30px;
-			bottom: 160px;
-			z-index: 999;
-		}
-
-		.webcallback .contain {
-			color: #fff;
-			font-size: 20px;
-			background: #25ab5e;
-			width: 45px;
-			height: 45px;
-			text-align: center;
-			line-height: 45px;
-			border-radius: 50%;
-			cursor: pointer;
-		}
-
-		.webcallback .contain:before {
-			content: '';
-			background: rgb(21, 123, 65);
-			width: 30px;
-			height: 30px;
-			color: #fff;
-			z-index: 9;
-			border-radius: 50%;
-			display: table;
-			position: absolute;
-			top: 7px;
-			left: 7px;
-			-webkit-animation: popover-dot-animation 1.5s infinite;
-			animation: popover-dot-animation 1.5s infinite;
-			-webkit-animation-fill-mode: forwards;
-			animation-fill-mode: forwards;
-		}
-	</style>
-<script>
-			$(window).on('scroll load resize', function() {
-
-				if($(window).scrollTop() > 530){
-					$('#scrollspy_slide').addClass('scrollspy_slide-fix');
-				}else $('#scrollspy_slide').removeClass('scrollspy_slide-fix');
-
-
-				if($('#spy_scroll_box').length > 0){
-					if($(window).scrollTop() >= $('#spy_scroll_box').offset().top && $(window).scrollTop() > 120 ){
-						$('#spy_scroll').addClass('spy_scroll-fixed');
-					}else $('#spy_scroll').removeClass('spy_scroll-fixed');
-				}
-				
-			})
-
-			$('.scrollspy').click(function(event) {
-				var height = $('#spy_scroll').innerHeight();
-				
-				if($(this).parent().is(':first-child')){
-					if($('#spy_scroll').hasClass('spy_scroll-fixed')) $('html, body').animate({ scrollTop: ($($(this).attr('href')).offset().top) }, 500);
-					else $('html, body').animate({ scrollTop: ($($(this).attr('href')).offset().top - height) }, 500);
-					
-				}else{
-					if($('#spy_scroll').hasClass('spy_scroll-fixed')) $('html, body').animate({ scrollTop: ($($(this).attr('href')).offset().top - height + 10) }, 500);
-					else $('html, body').animate({ scrollTop: ($($(this).attr('href')).offset().top - height - height + 10) }, 500);
-					
-				}
-
-			});
-
-
-
-			var offset_height = $('#spy_scroll').innerHeight();
-			$('body').scrollspy({ target: '.navbar_scroll_tss', 'offset' : offset_height })
-
-			
-	</script><!-- Global site tag (gtag.js) - Google Analytics -->
-
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-42777526-6');
-</script>
-
-<script>
-!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
-n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
-document,'script','https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '1392953297426301'); // Insert your pixel ID here.
-fbq('track', 'PageView');
-</script>
-<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1392953297426301&ev=PageView&noscript=1"/></noscript>
-
-<!-- Google Code dành cho Thẻ tiếp thị lại -->
-<!--------------------------------------------------
-Không thể liên kết thẻ tiếp thị lại với thông tin nhận dạng cá nhân hay đặt thẻ tiếp thị lại trên các trang có liên quan đến danh mục nhạy cảm. Xem thêm thông tin và hướng dẫn về cách thiết lập thẻ trên: http://google.com/ads/remarketingsetup
---------------------------------------------------->
-<script type="text/javascript">
-/* <![CDATA[ */
-var google_conversion_id = 984019665;
-var google_custom_params = window.google_tag_params;
-var google_remarketing_only = true;
-/* ]]> */
-</script>
-
-<noscript>
-<div style="display:inline;">
-<img height="1" width="1" style="border-style:none;" alt="" src="//googleads.g.doubleclick.net/pagead/viewthroughconversion/984019665/?guid=ON&amp;script=0"/>
-</div>
-</noscript>
-
-<!-- Facebook Pixel Code -->
-<script>
-!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
-n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
-document,'script','https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '487802998225947'); // Insert your pixel ID here.
-fbq('track', 'PageView');
-</script>
-<noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=487802998225947&ev=PageView&noscript=1"
-/></noscript>
-<!-- DO NOT MODIFY -->
-<!-- End Facebook Pixel Code -->
-
-</body></html>
+</html>
