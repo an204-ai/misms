@@ -6,8 +6,8 @@ services:
     container_name: misms-app
     restart: unless-stopped
     ports:
-      # Tự động đồng bộ theo PORT trong file .env (mặc định 5000 nếu không khai báo)
-      - "5000:5000"
+      # Tự động đồng bộ theo PORT trong file .env (mặc định 3000 nếu không khai báo)
+      - "${PORT:-3000}:${PORT:-3000}"
     env_file:
       - ./backend/.env
     volumes:

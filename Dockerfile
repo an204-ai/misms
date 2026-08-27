@@ -19,10 +19,10 @@ COPY frontend ./frontend
 
 # Default environment variables
 ENV NODE_ENV=production
-ENV PORT=5000
+ENV PORT=3000
 
 # Expose backend port
-EXPOSE 5000
+EXPOSE 3000
 
 # Set default execution directory to backend
 WORKDIR /app/backend
