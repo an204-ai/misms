@@ -1556,13 +1556,7 @@ ul.primary-social-menu-links li:last-child .line {
 }
 
 .hover-footer {
-	position: fixed;
-	bottom: 44px;
-	left: 0;
-	right: 0;
-	min-height: 200px;
-	background: red;
-	display: none;
+	display: none !important;
 }
 
 #addExtension .modal-content .modal-footer .btn {

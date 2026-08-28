@@ -599,38 +599,9 @@ function hidePricingAll(a) {
 
 
 
-var timeout;
-$(".active-hover-footer").mouseover(function () {
-	if ($('#hover-footer #footer').length == 0) {
-		var a = $('#footer').clone();
-		var b = $('#copyright').clone();
-
-		$('#hover-footer').html(a);
-		// $('#hover-footer').append(b);
-	}
-	clearTimeout(timeout);
-	$('#hover-footer').fadeIn();
-}).mouseout(function () {
-	timeout = setTimeout(function () {
-		$('#hover-footer').fadeOut();
-	}, 500)
-
-});
-
-$(document).on({
-	mouseover: function (event) {
-		clearTimeout(timeout);
-	},
-	mouseout: function (event) {
-		var ev = event.toElement || event.relatedTarget;
-
-		if ($(ev).closest('div#hover-footer').length) {
-			return false;
-		}
-
-		$('#hover-footer').fadeOut();
-	}
-}, "#hover-footer"); //pass the element as an argument to .on
+// Duplicate hover-footer disabled
+// var timeout;
+// $(".active-hover-footer").mouseover(function () { ... });
 
 
 // var timeout;
